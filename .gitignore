@@ -1,0 +1,30 @@
+### Bower ###
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
+
+# Optional npm cache directory
+.npm
+
+# Dependency directory
+# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
+node_modules
+
+### Windows ###
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Thumbnails
+._*
+
+# Folder config file
+Desktop.ini
+
+# Windows shortcuts
+*.lnk
+
+### Code ###
+# Brackets file
+.brackets.json

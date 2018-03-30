@@ -1,0 +1,228 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GOTE Advanced Plugin App\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-29 20:32+0000\n"
+"PO-Revision-Date: 2018-03-29 20:36+0000\n"
+"Last-Translator: WP_Admin <seweryngrynfelder@gmail.com>\n"
+"Language-Team: German\n"
+"Language: de-DE\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: includes/admin_js.php:70
+msgid "Experts"
+msgstr "Auszüge"
+
+#: includes/admin_js.php:71
+msgid "Actions"
+msgstr "Aktionen"
+
+#: includes/admin_js.php:72
+msgid "Details"
+msgstr "Details"
+
+#: includes/admin_js.php:73
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: includes/admin_js.php:74
+msgid "Close"
+msgstr "Schließen"
+
+#: includes/admin_js.php:76
+msgid "Posts"
+msgstr "Beträge"
+
+#: includes/admin_js.php:77
+msgid "Pages"
+msgstr "Seiten"
+
+#: includes/admin_js.php:78
+msgid "Post details"
+msgstr "Betragsdetails"
+
+#: includes/admin_js.php:79
+msgid "Page details"
+msgstr "Seitendetails"
+
+#: includes/admin_js.php:83
+msgid "Upps! No thing found."
+msgstr "Upps! Nichts gefunden."
+
+#: includes/admin_js.php:84
+msgid "Maybe your search filter does not match any post/ page?"
+msgstr "Vielleicht trifft Deine Suche auf keinen Beitrag bzw. Seite zu?"
+
+#: includes/admin_js.php:85
+msgid "If nothing helps, reset the GOTE Advanced Plugin App"
+msgstr "Falls nichts mehr gehen solle, resete die GOTE Advanced Plugin App."
+
+#: includes/admin_js.php:86
+msgid "reset GOTE Adv. Plugin App"
+msgstr "resete GOTE Adv. Plugin App"
+
+#: includes/admin_js.php:87
+msgid "Do not worry! Your data will not be lost."
+msgstr "Keine Sorge! Deine Daten bleiben erhalten."
+
+#: includes/admin_js.php:88
+msgid "Type in at least 3 letters."
+msgstr "Gebe mindestens 3 Buchstaben ein."
+
+#: includes/admin_js.php:35
+msgid "Draft"
+msgstr "Entwurf"
+
+#: includes/admin_js.php:36
+msgid "Pending"
+msgstr "Ausstehend"
+
+#: includes/admin_js.php:37
+msgid "Future"
+msgstr "Geplant"
+
+#: includes/admin_js.php:38
+msgid "Publish"
+msgstr "Veröffentlicht"
+
+#: includes/admin_js.php:39
+msgid "Private"
+msgstr "Privat"
+
+#: includes/admin_js.php:40
+msgid "Trash"
+msgstr "Papierkorb"
+
+#: includes/admin_js.php:44
+msgid "accept"
+msgstr "zulassen"
+
+#: includes/admin_js.php:45
+msgid "refuse"
+msgstr "ablehnen"
+
+#: includes/admin_js.php:48
+msgid "Filter"
+msgstr "Filter"
+
+#: includes/admin_js.php:49
+msgid "Posts per page"
+msgstr "Posts pro Seite"
+
+#: includes/admin_js.php:50
+msgid "Total items"
+msgstr "Gesamtposten"
+
+#: includes/admin_js.php:51
+msgid "filtered"
+msgstr "gefiltert"
+
+#: includes/admin_js.php:52
+msgid "search in title and content"
+msgstr "suche im Titel und im Inhalt"
+
+#: includes/admin_js.php:53
+msgid "type in at least 3 letters"
+msgstr "geben mindestens 3 Buchstaben ein."
+
+#: includes/admin_js.php:54
+msgid "Hit enter to start searching"
+msgstr "Drücke Enter um die Suche zu beginnen"
+
+#: includes/admin_js.php:55
+msgid "filter by category"
+msgstr "filtern nach Kategorie"
+
+#: includes/admin_js.php:56
+msgid "filter by tag"
+msgstr "filtern nach Schlagwort"
+
+#: includes/admin_js.php:57
+msgid "filter by author"
+msgstr "filtern nach Author"
+
+#: includes/admin_js.php:58
+msgid "filter by status"
+msgstr "filtern nach Status"
+
+#: includes/admin_js.php:59
+msgid "reset filter"
+msgstr "Filter zurücksetzten"
+
+#: includes/admin_js.php:62
+msgid "Media"
+msgstr "Bilder"
+
+#: includes/admin_js.php:63
+msgid "Featured media"
+msgstr "Galeriebild "
+
+#: includes/admin_js.php:64
+msgid "Title"
+msgstr "Titel"
+
+#: includes/admin_js.php:65
+msgid "Categories"
+msgstr "Kategorien"
+
+#: includes/admin_js.php:66
+msgid "No categories"
+msgstr "Keine Kategorien"
+
+#: includes/admin_js.php:67
+msgid "Tags"
+msgstr "Schlagworte"
+
+#: includes/admin_js.php:68
+msgid "No tags"
+msgstr "Keine Schlagworte"
+
+#: includes/admin_js.php:69
+msgid "Expert"
+msgstr "Auszug"
+
+#: includes/admin_js.php:89
+msgid "Hit enter to start searching."
+msgstr "Drücke Enter um mit der Suche zu beginnen."
+
+#: includes/admin_js.php:90
+msgid "search by category"
+msgstr "Kategoriefilter"
+
+#: includes/admin_js.php:91
+msgid "search by tag"
+msgstr "Schlagwortfilter"
+
+#: includes/admin_js.php:92
+msgid "search by author"
+msgstr "Authorfilter"
+
+#: includes/admin_js.php:93
+msgid "search by status"
+msgstr "Statusfilter"
+
+#. Name of the plugin
+msgid "GOTE Advanced Plugin App"
+msgstr "GOTE Advanced Plugin App"
+
+#. Description of the plugin
+msgid ""
+"Optimate your workflow. Search through, Create, Read, Update & Delete your "
+"Posts and Pages was never so easy. Until now! Test GOTE Advanced! G-ood O-ld "
+"T-ext E-ditor Advanced."
+msgstr ""
+"Optimieren Deinen Workflow! Suchen, erstellen, lesen, aktualisieren und "
+"löschen deiner Beiträge und Seiten war noch nie so einfach. Bis jetzt! Teste "
+"Sie GOTE Advanced!"
+
+#. Author of the plugin
+msgid "JanQuery"
+msgstr "JanQuery"
+
+#. Author URI of the plugin
+msgid "http://www.janquery.com"
+msgstr "http://www.janquery.com"

@@ -1,0 +1,33 @@
+<div class="info-box">
+    <p>Status:&nbsp;
+       <span>
+            <select ng-options="key as value for (key, value) in postStatusOptions" 
+                                    ng-model="postStatus"
+                                    ng-change="selectedPostStatus( postStatus )">
+            </select>
+        </span>
+        <br>
+        <span ng-if="statusFutureActive">
+            Publish on:&nbsp;<input type="date" ng-model="post.date" ng-change="selectedDateTime( post.date )" required>
+        <br>
+            Publish at:&nbsp;<input type="time" ng-model="post.time" ng-change="selectedDateTime( post.time )" required>
+        </span>
+    </p>
+    <p>Visibility:&nbsp;
+       <span>
+            <select ng-options="key as value for (key, value) in postVisibilityOptions" 
+                                    ng-model="postVisibility"
+                                    ng-change="selectedPostStatus( postVisibility )">
+                            </select>
+        </span>
+    </p>
+    <hr>
+    <p>Accept comments&nbsp;
+        <span>
+            <select ng-options="key as value for (key, value) in postCommentStatusOptions" 
+                                    ng-model="postCommentStatus"
+                                    ng-change="selectedPostCommentStatus( postCommentStatus )">
+            </select>
+        </span>
+    </p>
+</div>

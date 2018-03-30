@@ -1,0 +1,17 @@
+<nav id="main-navigation">
+
+    <ul>
+     
+      <li><a ui-sref="main" ui-sref-active="active">Posts</a></li>
+      
+      <li><a ui-sref="pages" ui-sref-active="active">Pages</a></li>
+      
+      <li style="float: right;">
+          <a id="reveal-trigger" class="pointer" reveal-handler reveal-id="reveal" trigger-id="reveal-trigger" ng-click="onRevealOpen()" ng-class="{ active: filtersAreActive }">filter&nbsp;</a>
+      </li>
+      
+      <li style="float: right;"><a class="pointer" ng-click="getPosts()" ng-if="laodMorePost">load more posts</a></li>
+      
+    </ul>
+
+</nav><!-- ./ #main-navigation -->

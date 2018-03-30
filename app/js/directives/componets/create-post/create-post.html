@@ -1,0 +1,53 @@
+<form name="post" novalidate>
+
+    <div class="main-content">
+
+
+        <a ui-sref="main">&larr;{{::wpTranslation_back}}</a>
+        
+        <h2 ng-if="!post.title || !post.content">{{::wpTranslation_create_new_post}}</h2>
+        
+        <h3 style="width: auto; float: left;" ng-show="post.title">{{::wpTranslation_title}}: {{post.title}}</h3>
+
+        <div style="clear: both;"></div>
+        
+        <br>
+        <br>
+
+        <input id="post_title" type="text" ng-model="post.title" style="width: 100%;" placeholder="Title" required>
+
+        <br>
+        <br>
+
+        <textarea ui-tinymce="tinymceOptions" type="text" ng-model="post.content" fullscreen-tiny-mce-bug-fix ng-if="tinymceOptions" required></textarea>
+
+    </div><!-- ./ .main-content -->
+
+    <div class="aside-content">
+      
+            <div class="info-box">
+
+                <p><b><em>{{::wpTranslation_publish_new_post}}</em></b></p>
+                
+                <button class="button" onclick="window.location.reload();">{{::wpTranslation_reset_changes}}</button>
+                
+                <button class="button" ng-disabled="post.$invalid" ng-click="saveNewPost(post)">{{::wpTranslation_publish_new_post}}</button>
+
+                <p ng-if="!statusFutureActive && !post.$valid"><em>{{::wpTranslation_title_n_post_content_required}}</em></p>
+                <p ng-if="statusFutureActive && !post.$valid"><em>{{::wpTranslation_on_status_date_n_time_required}}</em></p>
+
+            </div><!-- ./ .info-box -->
+
+            <div static-include="/includes/post-details-edit.html"></div>
+
+            <br>
+            <div static-include="/includes/featured-media-create.html"></div>
+
+            <br>
+            <div static-include="/includes/categories-create.html"></div>
+
+            <br>
+            <div static-include="/includes/tags-create.html"></div>
+
+    </div><!-- ./ .aside-content -->
+</form><!-- ./ name="post" -->

@@ -1,0 +1,62 @@
+<form name="post" novalidate>
+
+    <div class="main-content">
+
+
+        <a ui-sref="pages">&larr; back</a>
+        <br>
+        
+        <h1 style="width: auto; float: left;">Edit: {{post.title.rendered | removePrivatString}}</h1>
+
+        <button style="margin-left: 20px;" class="icon-button button" onclick="jQuery('input#post_title').toggle('show');">
+           
+            <img ng-src="{{image_directory}}/edit-icon-32x32.png">
+            
+        </button>
+        
+        <div style="clear: both;"></div>
+        
+        <br>
+        <br>
+
+        <input id="post_title" class="edit-hide" type="text" ng-model="post.title.rendered" ng-trim="false" remove-privat-string-from-input ng-change="formChanged = true" style="width: 100%;" >
+
+
+        <br>
+        <br>
+
+
+
+        <textarea ui-tinymce="tinymceOptions" type="text" ng-model="post.content.rendered" fullscreen-tiny-mce-bug-fix ng-if="tinymceOptions" ng-change="changesInTextarea()"></textarea>
+
+    </div><!-- ./ .main-content -->
+
+    <div class="aside-content">
+
+        <div ng-if="formChanged" class="info-box">
+
+            <p><b><em>Changes made to the page</em></b></p>
+
+            <button class="button" onclick="window.location.reload();">reset changes</button>
+            <button class="button" ng-disabled="!formChanged" ng-click="updatePost(post)">Update page</button>
+
+        </div><!-- ./ .info-box -->
+
+        <br>
+        <h2>Page Details</h2>
+        <div static-include="/includes/post-details.html"></div>
+
+       <h2>Page Details Edit</h2>
+        <div static-include="/includes/post-details-edit.html"></div>
+
+
+
+        <br>
+
+        <div static-include="/includes/featured-media-edit.html"></div>
+
+
+
+    </div><!-- ./ .aside-content -->
+    
+</form>

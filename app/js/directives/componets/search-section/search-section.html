@@ -1,0 +1,206 @@
+
+<div id="search-section" style="width: 100%;">
+
+    <div id="reveal" class="info-box">
+
+        <table id="reveal-table">
+
+            <tr>
+
+                <td>
+                    <input id="search" type="text" name="search" ng-model="search" ng-minlength="3" placeholder="search in title and content" style="width: 85%; float: left;"/>
+                    
+                    <button class="button" ng-click="resetSearchFilter()" ng-if="search">&times;</button>
+                    
+                    <div style="clear: both"></div>
+                    
+                    <br>
+                    <span ng-if="!search"><em>{{::wpTranslation_type_at_least_txt}}</em></span>
+                    
+                    <br>
+                    <span ng-if="!search"><em>{{::wpTranslation_hit_enter_txt}}</em></span>
+
+                </td>
+                <td ng-class="{hide: ifPostOrPage == 'page'}">
+                    <div class="dropdown">
+
+                        <button class="dropbtn button" onclick="jQuery('div#dropdown-content-in-category-search').toggle('show');">{{::wpTranslation_search_by_cat}}</button>
+
+                        <p ng-if="categoryFilterName">{{categoryFilterName}} <button class="button" ng-click="resetCategoryFilter()">&times;</button></p>
+
+
+                      <div id="dropdown-content-in-category-search" class="dropdown-content">
+                        
+
+                        <div id="select-category-wrapper">
+                           
+
+                           <div id="select-category-preloader" style="text-align: center;">
+                               
+                                <img ng-src="{{::preloader}}" ng-if="preloader">
+                                
+                                <br>
+                                
+                           </div><!-- ./ #select-category-preloader -->
+                            
+
+                            <script type="text/ng-template" id="select_category_nodes_renderer.html">
+                                <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;" ng-click="categoryFilterFx( node.id, node.name )">
+                                    &nbsp;{{::node.name}}
+
+                                </div>
+                                <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
+                                    <li ng-repeat="node in node.child" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" repeat-done="repeatInSelectCategoryDone()">
+                                    </li>
+                                </ol>
+                            </script>
+
+                            <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" style="cursor: default;">
+                               
+                                <ol ui-tree-nodes="" ng-model="categoriesData" id="tree-root-categories">
+                                   
+                                    <li ng-repeat="node in categoriesData" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" collapsed="false"></li>
+                                    
+                                </ol>
+                                
+                            </div><!-- ./ #select-category-tree -->
+
+                            <div id="select-category-tree-no-category" class="edit-hide">
+
+                                <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="categoriesData.length == 0" style="cursor: default;">
+                                   
+                                    <ol class="angular-ui-tree-nodes">
+                                       
+                                        <li class="angular-ui-tree-node"><em>{{::wpTranslation_no_categories}}</em></li>
+                                        
+                                    </ol>
+                                    
+                                </div><!-- ./ .tree-node tree-node-content -->
+
+                            </div><!-- ./ #select-category-tree-no-category -->
+                                                        
+                            
+                        </div><!-- ./ #select-category-wrapper -->
+                        
+                      </div><!-- ./ #dropdown-content-in-category-search -->
+                      
+                    </div><!-- ./ .dropdown -->
+                    
+                </td>
+                <td ng-class="{hide: ifPostOrPage == 'page'}">
+                    <div class="dropdown">
+
+                        <button class="dropbtn button" onclick="jQuery('div#dropdown-content-in-tag-search').toggle('show');">{{::wpTranslation_search_by_tag}}</button>
+
+                        <p ng-if="tagFilterName">{{tagFilterName}} <button class="button" ng-click="resetTagFilter()">&times;</button></p>
+
+
+                      <div id="dropdown-content-in-tag-search" class="dropdown-content">
+
+                        <div id="select-tag-wrapper">
+
+                           <div id="select-tag-preloader" style="text-align: center;">
+                               
+                                <img ng-src="{{::preloader}}" ng-if="preloader">
+                                <br>
+                                
+                           </div><!-- ./ #select-tag-preloader -->
+                           
+
+                            <script type="text/ng-template" id="select_tag_nodes_renderer.html">
+                                <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;" ng-click="tagFilterFx( node.id, node.name )">
+                                    &nbsp;{{::node.name}}
+
+                                </div>
+                                <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
+                                    <li ng-repeat="node in node.child" ui-tree-node data-nodrag ng-include="'select_tag_nodes_renderer.html'">
+                                    </li>
+                                </ol>
+                            </script>
+
+                            <div id="select-tag-tree" ui-tree="" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="tagsData.length !== 0" style="cursor: default;">
+                               
+                                <ol ui-tree-nodes="" ng-model="tagsData" id="tree-root-categories">
+                                   
+                                    <li ng-repeat="node in tagsData" ui-tree-node data-nodrag ng-include="'select_tag_nodes_renderer.html'" collapsed="false" repeat-done="repeatInSelectTagDone()"></li>
+                                    
+                                </ol>
+                                
+                            </div><!-- ./ #select-tag-tree -->
+
+                            <div id="select-tag-tree-no-category" class="edit-hide">
+
+                                <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="tagsData.length == 0" style="cursor: default;">
+                                   
+                                    <ol class="angular-ui-tree-nodes">
+                                       
+                                        <li class="angular-ui-tree-node"><em>{{::wpTranslation_no_categories}}</em></li>
+                                        
+                                    </ol>
+                                    
+                                </div>          
+
+                            </div><!-- ./ #select-tag-tree-no-category -->
+
+                        </div><!-- ./ #select-tag-wrapper -->
+                        
+                      </div><!-- ./ #dropdown-content-in-tag-search -->
+
+                    </div><!-- ./ .dropdown -->
+                </td>
+                <td>
+                    <div class="dropdown">
+
+                        <button class="dropbtn button" onclick="jQuery('div#dropdown-content-in-author-filter').toggle('show');">{{::wpTranslation_search_by_author}}</button>
+
+                        <p ng-if="selectedUserName">{{selectedUserName}} <button class="button" ng-click="resetUserFilter()">&times;</button></p>
+
+                        <div id="dropdown-content-in-author-filter" class="dropdown-content">
+                           
+                            <select ng-options="user.name for user in users" 
+                                    ng-model="selectedUserFilterTerm"
+                                    ng-change="userFilterFx()">
+                            </select>
+                            
+                        </div><!-- ./ #dropdown-content-in-author-filter -->
+
+                    </div><!-- ./ .dropdown -->
+                    
+                </td>
+                <td>
+                   
+                    <div class="dropdown">
+
+                        <button class="dropbtn button" onclick="jQuery('div#dropdown-content-in-status-filter').toggle('show');">{{::wpTranslation_search_by_status}}</button>
+
+                        <p ng-if="selectedStatusName">{{selectedStatusName}} <button class="button" ng-click="resetStatusFilter()">&times;</button></p>
+                        
+
+                        <div id="dropdown-content-in-status-filter" class="dropdown-content">
+                           
+                            <select ng-options="key as value for (key, value) in postStatusOptions" 
+                                    ng-model="selectedStatusFilterTerm"
+                                    ng-change="statusFilterFx()">
+                            </select>
+                            
+                        </div><!-- ./ #dropdown-content-in-status-filter -->
+
+                    </div><!-- ./ .dropdown -->
+                    
+                </td>
+
+            </tr>
+
+        </table>
+
+        <br>
+        
+        <button class="button" ng-click="resetFilter()" ng-if="search || categoryFilterName || tagFilterName || selectedStatusName || selectedUserName" style="float: right;">{{::wpTranslation_reset_filter}}</button>
+        
+        <div style="clear: both"></div>  
+
+    </div><!-- ./ #reveal .info-box -->
+
+</div> <!-- ./ #search-section -->
+
+<div style="clear: both"></div>

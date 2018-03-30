@@ -99,7 +99,7 @@
 
                         <div id="select-tag-wrapper">
 
-                           <div id="select-tag-preloader" style="text-align: center;">
+                           <div id="select-tag-preloader" style="text-align: center;" ng-if="tagData">
                                
                                 <img ng-src="{{::preloader}}" ng-if="preloader">
                                 <br>
@@ -128,13 +128,13 @@
                                 
                             </div><!-- ./ #select-tag-tree -->
 
-                            <div id="select-tag-tree-no-category" class="edit-hide">
+                            <div id="select-tag-tree-no-tags" ng-if="tagsData.length == 0">
 
-                                <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="tagsData.length == 0" style="cursor: default;">
+                                <div class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;">
                                    
                                     <ol class="angular-ui-tree-nodes">
                                        
-                                        <li class="angular-ui-tree-node"><em>{{::wpTranslation_no_categories}}</em></li>
+                                        <li class="angular-ui-tree-node"><em>{{::wpTranslation_no_tags}}</em></li>
                                         
                                     </ol>
                                     

@@ -58,6 +58,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                     });
                 
                 $rootScope.$broadcast('gettingNewData');
+                
+                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
 
             }
 
@@ -117,6 +119,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
             }
 
             var countRemoveItems = 0;
+            
 
             scope.movePostToTrash = function (post, index) {
 
@@ -125,6 +128,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                 if (countRemoveItems > 3) {
                     scope.laodMorePost = true;
                 }
+                
+                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;                
 
                 post.status = 'trash';
 
@@ -135,6 +140,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         // success callback
 
                         scope.posts.splice(index, 1);
+                        
 
                         SearchFilter.setTotalPublicItemsOfCurUser(SearchFilter.getTotalPublicItemsOfCurUser() - 1);
 
@@ -146,17 +152,17 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         console.log(response);
                     }
                 );
-
+                
             }
 
 
-            scope.deletePostForever = function (post, index) {
+            scope.deletePostPermanently = function (post, index) {
 
                 var deleteMessage = confirm("Are you sure you want to delete this post permanently?\n\nPost title:\n" + '"' + post.title.rendered + '"');
 
                 if (deleteMessage) {
 
-                    PostsSrvc.deleteForever({
+                    PostsSrvc.deleteParmantenly({
                         id: post.id
                     }, post).$promise.then(
                         function () {

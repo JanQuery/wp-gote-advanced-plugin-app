@@ -311,140 +311,9 @@ wp_gote_advanced_plugin_app.app.factory( 'PagesSrvc', function( $resource ){
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?:authorQuery:authorId:statusFilterQuery:statusFilterTerm:searchFilterQuery:searchFilterTerm:categoryFilterQuery:categoryFilterTerm:tagFilterQuery:tagFilterTerm:itemsPerPageQuery:itemsPerPage:curPageQuery:curPage'
         },
-        'querypagination':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                itemsPerPage: '@itemsPerPage',
-                curPage: '@curPage'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&per_page=:itemsPerPage&page=:curPage'
-        },
-        'querybyfilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterByString: '@filterByString',
-                filterId: '@filterId'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterByString:filterId'
-        },
-        'querybydoublefilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterTerm1: '@filterTerm1',
-                searchTermId1: '@searchTermId1',
-                filterTerm2: '@filterTerm2',
-                searchTermId2: '@searchTermId2'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterTerm1:searchTermId1&:filterTerm2:searchTermId2'
-        },
-        'get':{
-            method: 'GET',
-            isArray: false,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages/:id?author='+wp_gote_advanced_plugin_app_local.current_user_id
-        },
-        'private':{
-            method: 'GET',
-            isArray: true,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&status=private'
-        },
-        'privatepagination':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                itemsPerPage: '@itemsPerPage',
-                curPage: '@curPage'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&per_page=:itemsPerPage&page=:curPage&status=private&'
-        },
-        'privatebyfilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterByString: '@filterByString',
-                filterId: '@filterId'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterByString:filterId&status=private'
-        },
-        'privatebydoublefilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterTerm1: '@filterTerm1',
-                searchTermId1: '@searchTermId1',
-                filterTerm2: '@filterTerm2',
-                searchTermId2: '@searchTermId2'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterTerm1:searchTermId1&:filterTerm2:searchTermId2&status=private'
-        },
         'update':{
             method:'POST',
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages/:id',
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            }
-        },
-        'post':{
-            method:'POST',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             }
@@ -462,14 +331,7 @@ wp_gote_advanced_plugin_app.app.factory( 'PagesSrvc', function( $resource ){
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages/:id'
         },
-        'deleteForever':{
-            method:'DELETE',
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/pages/:id?force=true'
-        },
-        'deletePrivate':{
+        'deleteParmantenly':{
             method:'DELETE',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
@@ -526,140 +388,9 @@ wp_gote_advanced_plugin_app.app.factory( 'PostsSrvc', function( $resource ){
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?:authorQuery:authorId:statusFilterQuery:statusFilterTerm:searchFilterQuery:searchFilterTerm:categoryFilterQuery:categoryFilterTerm:tagFilterQuery:tagFilterTerm:itemsPerPageQuery:itemsPerPage:curPageQuery:curPage'
         },
-        'querypagination':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                itemsPerPage: '@itemsPerPage',
-                curPage: '@curPage'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?per_page=:itemsPerPage&page=:curPage'
-        },
-        'querybyfilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterByString: '@filterByString',
-                filterId: '@filterId'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterByString:filterId'
-        },
-        'querybydoublefilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterTerm1: '@filterTerm1',
-                searchTermId1: '@searchTermId1',
-                filterTerm2: '@filterTerm2',
-                searchTermId2: '@searchTermId2'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterTerm1:searchTermId1&:filterTerm2:searchTermId2'
-        },
-        'get':{
-            method: 'GET',
-            isArray: false,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id?author='+wp_gote_advanced_plugin_app_local.current_user_id
-        },
-        'private':{
-            method: 'GET',
-            isArray: true,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&status=private'
-        },
-        'privatepagination':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                itemsPerPage: '@itemsPerPage',
-                curPage: '@curPage'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&per_page=:itemsPerPage&page=:curPage&status=private&'
-        },
-        'privatebyfilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterByString: '@filterByString',
-                filterId: '@filterId'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterByString:filterId&status=private'
-        },
-        'privatebydoublefilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterTerm1: '@filterTerm1',
-                searchTermId1: '@searchTermId1',
-                filterTerm2: '@filterTerm2',
-                searchTermId2: '@searchTermId2'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterTerm1:searchTermId1&:filterTerm2:searchTermId2&status=private'
-        },
         'update':{
             method:'POST',
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id',
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            }
-        },
-        'post':{
-            method:'POST',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             }
@@ -677,14 +408,7 @@ wp_gote_advanced_plugin_app.app.factory( 'PostsSrvc', function( $resource ){
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id'
         },
-        'deleteForever':{
-            method:'DELETE',
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id?force=true'
-        },
-        'deletePrivate':{
+        'deleteParmantenly':{
             method:'DELETE',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
@@ -1358,7 +1082,7 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "tags":                                         wp_gote_advanced_plugin_app_local.wpTranslation_tags,
         "no_tags":                                      wp_gote_advanced_plugin_app_local.wpTranslation_no_tags,
         "expert":                                       wp_gote_advanced_plugin_app_local.wpTranslation_expert,
-        "experts":                                       wp_gote_advanced_plugin_app_local.wpTranslation_experts,
+        "experts":                                      wp_gote_advanced_plugin_app_local.wpTranslation_experts,
         "actions":                                      wp_gote_advanced_plugin_app_local.wpTranslation_actions,
         "details":                                      wp_gote_advanced_plugin_app_local.wpTranslation_details,
         "edit":                                         wp_gote_advanced_plugin_app_local.wpTranslation_edit,
@@ -1368,6 +1092,8 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "pages":                                        wp_gote_advanced_plugin_app_local.wpTranslation_pages,
         "post_details":                                 wp_gote_advanced_plugin_app_local.wpTranslation_post_details,
         "page_details":                                 wp_gote_advanced_plugin_app_local.wpTranslation_page_details,
+        "filter":                                       wp_gote_advanced_plugin_app_local.wpTranslation_filter,
+        "load_more":                                    wp_gote_advanced_plugin_app_local.wpTranslation_load_more,
         
         // Error handlinng
         "upps_nothing_found":                           wp_gote_advanced_plugin_app_local.wpTranslation_upps_nothing_found,
@@ -1377,9 +1103,9 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "no_data_lost_txt":                             wp_gote_advanced_plugin_app_local.wpTranslation_no_data_lost_txt,
         "type_at_least_txt":                            wp_gote_advanced_plugin_app_local.wpTranslation_type_at_least_txt,
         "hit_enter_txt":                                wp_gote_advanced_plugin_app_local.wpTranslation_hit_enter_txt,
-        
-        
         "back":                                         wp_gote_advanced_plugin_app_local.wpTranslation_back,
+        
+        // Editing post/ pages
         "create_new_post":                              wp_gote_advanced_plugin_app_local.wpTranslation_create_new_post,
         "create_new_page":                              wp_gote_advanced_plugin_app_local.wpTranslation_create_new_page,
         "edit_post":                                    wp_gote_advanced_plugin_app_local.wpTranslation_edit_post,
@@ -1397,10 +1123,8 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "on_status_date_n_time_required":     wp_gote_advanced_plugin_app_local.wpTranslation_on_status_date_n_time_required,
         
     }
-
-    var wpTranslation = {
-        
-        
+    
+    var wpTranslation = {        
         
         // Status Options
         getTranslation_draft: function () {
@@ -1533,6 +1257,12 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         getTranslation_page_details: function () {
             return data.page_details;
         },
+        getTranslation_filter: function () {
+            return data.filter;
+        },
+        getTranslation_load_more: function () {
+            return data.load_more;
+        },
         
         // Error handling
         getTranslation_upps_nothing_found: function () {
@@ -1556,10 +1286,6 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         getTranslation_hit_enter_txt: function () {
             return data.hit_enter_txt;
         },
-        
-        
-        
-        
         getTranslation_back: function () {
             return data.back;
         },
@@ -1821,7 +1547,8 @@ wp_gote_advanced_plugin_app.app.filter('removePrivatString', function () {
         
         SearchFilter.setStatus( '' );
         
-        scope.selectedStatusName   = '';
+        scope.selectedStatusName        = '';
+        scope.selectedStatusFilterTerm  = '';
         
         SearchFilter.setStatusFilterName( '' );
         SearchFilter.setStatusFilterQuery( '' );
@@ -1856,6 +1583,7 @@ wp_gote_advanced_plugin_app.app.filter('removePrivatString', function () {
         SearchFilter.getUser( '' );
         
         scope.selectedUserName   = '';
+        scope.selectedUserFilterTerm = '';
         
         SearchFilter.setUserFilterName( '' );
         SearchFilter.setAuthorQuery( '' );
@@ -1867,11 +1595,13 @@ wp_gote_advanced_plugin_app.app.filter('removePrivatString', function () {
     
     scope.resetFilter = function () {
         
-        scope.search                = '';
-        scope.categoryFilterName    = '';
-        scope.tagFilterName         = '';
-        scope.selectedUserName      = '';
-        scope.selectedStatusName    = '';
+        scope.search                    = '';
+        scope.categoryFilterName        = '';
+        scope.tagFilterName             = '';
+        scope.selectedUserName          = '';
+        scope.selectedUserFilterTerm    = '';
+        scope.selectedStatusName        = '';
+        scope.selectedStatusFilterTerm  = '';
         
         SearchFilter.reset();
         
@@ -2029,6 +1759,7 @@ wp_gote_advanced_plugin_app.app.filter('removePrivatString', function () {
             scope.wpTranslation_search_by_status                    = wpTranslation.getTranslation_search_by_status();
             scope.wpTranslation_no_categories                       = wpTranslation.getTranslation_no_categories();
             scope.wpTranslation_reset_filter                        = wpTranslation.getTranslation_reset_filter();
+            scope.wpTranslation_no_tags                             = wpTranslation.getTranslation_no_tags();
     
 
 
@@ -2036,7 +1767,7 @@ wp_gote_advanced_plugin_app.app.filter('removePrivatString', function () {
     }
 }])
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
-wp_gote_advanced_plugin_app.app.directive("navbar", [ '$rootScope', 'SearchFilter', function ( $rootScope, SearchFilter ) {
+wp_gote_advanced_plugin_app.app.directive("navbar", [ '$rootScope', 'SearchFilter', 'wpTranslation', function ( $rootScope, SearchFilter, wpTranslation ) {
     return {
         restrict: "E",
         templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/navbar/navbar.html',
@@ -2075,7 +1806,14 @@ wp_gote_advanced_plugin_app.app.directive("navbar", [ '$rootScope', 'SearchFilte
             
         });
             
-        }
+            
+        // Translatables
+        scope.wpTranslation_posts        = wpTranslation.getTranslation_posts();
+        scope.wpTranslation_pages        = wpTranslation.getTranslation_pages();
+        scope.wpTranslation_filter       = wpTranslation.getTranslation_filter();
+        scope.wpTranslation_load_more    = wpTranslation.getTranslation_load_more();
+            
+        } // :/ link: function () {...}
     }
 }])
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, console, setTimeout, jQuery */
@@ -2270,6 +2008,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                     });
                 
                 $rootScope.$broadcast('gettingNewData');
+                
+                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
 
             }
 
@@ -2329,6 +2069,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
             }
 
             var countRemoveItems = 0;
+            
 
             scope.movePostToTrash = function (post, index) {
 
@@ -2337,6 +2078,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                 if (countRemoveItems > 3) {
                     scope.laodMorePost = true;
                 }
+                
+                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;                
 
                 post.status = 'trash';
 
@@ -2347,6 +2090,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         // success callback
 
                         scope.posts.splice(index, 1);
+                        
 
                         SearchFilter.setTotalPublicItemsOfCurUser(SearchFilter.getTotalPublicItemsOfCurUser() - 1);
 
@@ -2358,17 +2102,17 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         console.log(response);
                     }
                 );
-
+                
             }
 
 
-            scope.deletePostForever = function (post, index) {
+            scope.deletePostPermanently = function (post, index) {
 
                 var deleteMessage = confirm("Are you sure you want to delete this post permanently?\n\nPost title:\n" + '"' + post.title.rendered + '"');
 
                 if (deleteMessage) {
 
-                    PostsSrvc.deleteForever({
+                    PostsSrvc.deleteParmantenly({
                         id: post.id
                     }, post).$promise.then(
                         function () {
@@ -2512,6 +2256,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
                console.log('failure callback: getPublicPosts');
                console.log( error );
            });   
+        
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
        
         $rootScope.$broadcast('gettingNewData');
     }
@@ -2574,6 +2320,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
             scope.laodMorePost = true;
         }
         
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;
+        
         post.status = 'trash';
         
         PagesSrvc.delete( { id: post.id }, post ).$promise.then(
@@ -2597,13 +2345,13 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
     }
     
     
-    scope.deletePostForever = function ( post, index ) {
+    scope.deletePostPermanently = function ( post, index ) {
 
     var deleteMessage = confirm("Are you sure you want to delete this page permanently?\n\nPage title:\n"  + '"' + post.title.rendered + '"' );
 
     if ( deleteMessage ) {
 
-        PostsSrvc.deleteForever( { id: post.id }, post ).$promise.then(
+        PagesSrvc.deleteParmantenly( { id: post.id }, post ).$promise.then(
                function(response){
                  // success callback
 
@@ -3420,6 +3168,7 @@ wp_gote_advanced_plugin_app.app.directive("editPost", [ '$state', '$stateParams'
     scope.wpTranslation_post_details                    = wpTranslation.getTranslation_post_details();
     scope.wpTranslation_title_n_post_content_required   = wpTranslation.getTranslation_title_n_post_content_required();
     scope.wpTranslation_on_status_date_n_time_required  = wpTranslation.getTranslation_on_status_date_n_time_required();
+
    
         
      } // ./ link: function () {...}

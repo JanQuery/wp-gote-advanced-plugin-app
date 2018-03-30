@@ -1,5 +1,5 @@
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
-wp_gote_advanced_plugin_app.app.directive("navbar", [ '$rootScope', 'SearchFilter', function ( $rootScope, SearchFilter ) {
+wp_gote_advanced_plugin_app.app.directive("navbar", [ '$rootScope', 'SearchFilter', 'wpTranslation', function ( $rootScope, SearchFilter, wpTranslation ) {
     return {
         restrict: "E",
         templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/navbar/navbar.html',
@@ -38,6 +38,13 @@ wp_gote_advanced_plugin_app.app.directive("navbar", [ '$rootScope', 'SearchFilte
             
         });
             
-        }
+            
+        // Translatables
+        scope.wpTranslation_posts        = wpTranslation.getTranslation_posts();
+        scope.wpTranslation_pages        = wpTranslation.getTranslation_pages();
+        scope.wpTranslation_filter       = wpTranslation.getTranslation_filter();
+        scope.wpTranslation_load_more    = wpTranslation.getTranslation_load_more();
+            
+        } // :/ link: function () {...}
     }
 }])

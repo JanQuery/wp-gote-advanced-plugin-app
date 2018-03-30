@@ -57,6 +57,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
                console.log('failure callback: getPublicPosts');
                console.log( error );
            });   
+        
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
        
         $rootScope.$broadcast('gettingNewData');
     }
@@ -119,6 +121,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
             scope.laodMorePost = true;
         }
         
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;
+        
         post.status = 'trash';
         
         PagesSrvc.delete( { id: post.id }, post ).$promise.then(
@@ -142,13 +146,13 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
     }
     
     
-    scope.deletePostForever = function ( post, index ) {
+    scope.deletePostPermanently = function ( post, index ) {
 
     var deleteMessage = confirm("Are you sure you want to delete this page permanently?\n\nPage title:\n"  + '"' + post.title.rendered + '"' );
 
     if ( deleteMessage ) {
 
-        PostsSrvc.deleteForever( { id: post.id }, post ).$promise.then(
+        PagesSrvc.deleteParmantenly( { id: post.id }, post ).$promise.then(
                function(response){
                  // success callback
 

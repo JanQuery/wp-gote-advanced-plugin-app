@@ -45,140 +45,9 @@ wp_gote_advanced_plugin_app.app.factory( 'PostsSrvc', function( $resource ){
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?:authorQuery:authorId:statusFilterQuery:statusFilterTerm:searchFilterQuery:searchFilterTerm:categoryFilterQuery:categoryFilterTerm:tagFilterQuery:tagFilterTerm:itemsPerPageQuery:itemsPerPage:curPageQuery:curPage'
         },
-        'querypagination':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                itemsPerPage: '@itemsPerPage',
-                curPage: '@curPage'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?per_page=:itemsPerPage&page=:curPage'
-        },
-        'querybyfilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterByString: '@filterByString',
-                filterId: '@filterId'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterByString:filterId'
-        },
-        'querybydoublefilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterTerm1: '@filterTerm1',
-                searchTermId1: '@searchTermId1',
-                filterTerm2: '@filterTerm2',
-                searchTermId2: '@searchTermId2'
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterTerm1:searchTermId1&:filterTerm2:searchTermId2'
-        },
-        'get':{
-            method: 'GET',
-            isArray: false,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id?author='+wp_gote_advanced_plugin_app_local.current_user_id
-        },
-        'private':{
-            method: 'GET',
-            isArray: true,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&status=private'
-        },
-        'privatepagination':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                itemsPerPage: '@itemsPerPage',
-                curPage: '@curPage'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&per_page=:itemsPerPage&page=:curPage&status=private&'
-        },
-        'privatebyfilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterByString: '@filterByString',
-                filterId: '@filterId'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterByString:filterId&status=private'
-        },
-        'privatebydoublefilter':{
-            method: 'GET',
-            isArray: true,
-            params: {
-                filterTerm1: '@filterTerm1',
-                searchTermId1: '@searchTermId1',
-                filterTerm2: '@filterTerm2',
-                searchTermId2: '@searchTermId2'
-            },
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            interceptor: {
-            response: function(response) {
-                  response.resource.$httpHeaders = response.headers;
-                  return response.resource;
-                }
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id+'&:filterTerm1:searchTermId1&:filterTerm2:searchTermId2&status=private'
-        },
         'update':{
             method:'POST',
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id',
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            }
-        },
-        'post':{
-            method:'POST',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             }
@@ -196,14 +65,7 @@ wp_gote_advanced_plugin_app.app.factory( 'PostsSrvc', function( $resource ){
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id'
         },
-        'deleteForever':{
-            method:'DELETE',
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
-            },
-            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id?force=true'
-        },
-        'deletePrivate':{
+        'deleteParmantenly':{
             method:'DELETE',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce

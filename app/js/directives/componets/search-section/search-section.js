@@ -187,7 +187,8 @@
         
         SearchFilter.setStatus( '' );
         
-        scope.selectedStatusName   = '';
+        scope.selectedStatusName        = '';
+        scope.selectedStatusFilterTerm  = '';
         
         SearchFilter.setStatusFilterName( '' );
         SearchFilter.setStatusFilterQuery( '' );
@@ -222,6 +223,7 @@
         SearchFilter.getUser( '' );
         
         scope.selectedUserName   = '';
+        scope.selectedUserFilterTerm = '';
         
         SearchFilter.setUserFilterName( '' );
         SearchFilter.setAuthorQuery( '' );
@@ -233,11 +235,13 @@
     
     scope.resetFilter = function () {
         
-        scope.search                = '';
-        scope.categoryFilterName    = '';
-        scope.tagFilterName         = '';
-        scope.selectedUserName      = '';
-        scope.selectedStatusName    = '';
+        scope.search                    = '';
+        scope.categoryFilterName        = '';
+        scope.tagFilterName             = '';
+        scope.selectedUserName          = '';
+        scope.selectedUserFilterTerm    = '';
+        scope.selectedStatusName        = '';
+        scope.selectedStatusFilterTerm  = '';
         
         SearchFilter.reset();
         
@@ -395,6 +399,7 @@
             scope.wpTranslation_search_by_status                    = wpTranslation.getTranslation_search_by_status();
             scope.wpTranslation_no_categories                       = wpTranslation.getTranslation_no_categories();
             scope.wpTranslation_reset_filter                        = wpTranslation.getTranslation_reset_filter();
+            scope.wpTranslation_no_tags                             = wpTranslation.getTranslation_no_tags();
     
 
 

@@ -8,7 +8,7 @@
         <th>{{::wpTranslation_actions}}</th>
     </tr>
 
-    <tr ng-repeat="post in posts">
+    <tr ng-repeat="post in posts" class="fadeIn fadeOut">
        
         <td ng-bind="::post.id"></td>
         
@@ -40,7 +40,7 @@
                 <img ng-src="{{::deleteIcon}}" width="24">
             </button>
             
-            <button class="button" ng-click="deletePostForever(post, $index)" ng-if="post.status == 'trash'">
+            <button class="button" ng-click="deletePostPermanently(post, $index)" ng-if="!hideDeleteParmantenlyButtonWhiltemovingPostToTrash && post.status == 'trash'">
                 <img ng-src="{{::deleteForeverIcon}}" width="21">
             </button>
 

@@ -42,7 +42,7 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "tags":                                         wp_gote_advanced_plugin_app_local.wpTranslation_tags,
         "no_tags":                                      wp_gote_advanced_plugin_app_local.wpTranslation_no_tags,
         "expert":                                       wp_gote_advanced_plugin_app_local.wpTranslation_expert,
-        "experts":                                       wp_gote_advanced_plugin_app_local.wpTranslation_experts,
+        "experts":                                      wp_gote_advanced_plugin_app_local.wpTranslation_experts,
         "actions":                                      wp_gote_advanced_plugin_app_local.wpTranslation_actions,
         "details":                                      wp_gote_advanced_plugin_app_local.wpTranslation_details,
         "edit":                                         wp_gote_advanced_plugin_app_local.wpTranslation_edit,
@@ -52,6 +52,8 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "pages":                                        wp_gote_advanced_plugin_app_local.wpTranslation_pages,
         "post_details":                                 wp_gote_advanced_plugin_app_local.wpTranslation_post_details,
         "page_details":                                 wp_gote_advanced_plugin_app_local.wpTranslation_page_details,
+        "filter":                                       wp_gote_advanced_plugin_app_local.wpTranslation_filter,
+        "load_more":                                    wp_gote_advanced_plugin_app_local.wpTranslation_load_more,
         
         // Error handlinng
         "upps_nothing_found":                           wp_gote_advanced_plugin_app_local.wpTranslation_upps_nothing_found,
@@ -61,9 +63,9 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "no_data_lost_txt":                             wp_gote_advanced_plugin_app_local.wpTranslation_no_data_lost_txt,
         "type_at_least_txt":                            wp_gote_advanced_plugin_app_local.wpTranslation_type_at_least_txt,
         "hit_enter_txt":                                wp_gote_advanced_plugin_app_local.wpTranslation_hit_enter_txt,
-        
-        
         "back":                                         wp_gote_advanced_plugin_app_local.wpTranslation_back,
+        
+        // Editing post/ pages
         "create_new_post":                              wp_gote_advanced_plugin_app_local.wpTranslation_create_new_post,
         "create_new_page":                              wp_gote_advanced_plugin_app_local.wpTranslation_create_new_page,
         "edit_post":                                    wp_gote_advanced_plugin_app_local.wpTranslation_edit_post,
@@ -81,10 +83,8 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "on_status_date_n_time_required":     wp_gote_advanced_plugin_app_local.wpTranslation_on_status_date_n_time_required,
         
     }
-
-    var wpTranslation = {
-        
-        
+    
+    var wpTranslation = {        
         
         // Status Options
         getTranslation_draft: function () {
@@ -217,6 +217,12 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         getTranslation_page_details: function () {
             return data.page_details;
         },
+        getTranslation_filter: function () {
+            return data.filter;
+        },
+        getTranslation_load_more: function () {
+            return data.load_more;
+        },
         
         // Error handling
         getTranslation_upps_nothing_found: function () {
@@ -240,10 +246,6 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         getTranslation_hit_enter_txt: function () {
             return data.hit_enter_txt;
         },
-        
-        
-        
-        
         getTranslation_back: function () {
             return data.back;
         },

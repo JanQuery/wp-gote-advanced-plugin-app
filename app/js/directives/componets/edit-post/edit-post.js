@@ -733,6 +733,7 @@ wp_gote_advanced_plugin_app.app.directive("editPost", [ '$state', '$stateParams'
     scope.wpTranslation_post_details                    = wpTranslation.getTranslation_post_details();
     scope.wpTranslation_title_n_post_content_required   = wpTranslation.getTranslation_title_n_post_content_required();
     scope.wpTranslation_on_status_date_n_time_required  = wpTranslation.getTranslation_on_status_date_n_time_required();
+
    
         
      } // ./ link: function () {...}

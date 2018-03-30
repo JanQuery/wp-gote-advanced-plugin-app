@@ -713,8 +713,29 @@ wp_gote_advanced_plugin_app.app.directive("editPost", [ '$state', '$stateParams'
             scope.repeatInMainTagDone();
             
         }, 3000);
+          
+         
+         
+    // Translateables
+    scope.wpTranslation_back                            = wpTranslation.getTranslation_back();
+    scope.wpTranslation_edit_post                       = wpTranslation.getTranslation_edit_post();
+    scope.wpTranslation_edit_post_details               = wpTranslation.getTranslation_edit_post_details();
+    scope.wpTranslation_media                           = wpTranslation.getTranslation_media();
+    scope.wpTranslation_featured_media                  = wpTranslation.getTranslation_featured_media();
+    scope.wpTranslation_title                           = wpTranslation.getTranslation_title();
+    scope.wpTranslation_categories                      = wpTranslation.getTranslation_categories();
+    scope.wpTranslation_no_categories                   = wpTranslation.getTranslation_no_categories();
+    scope.wpTranslation_tags                            = wpTranslation.getTranslation_tags();
+    scope.wpTranslation_no_tags                         = wpTranslation.getTranslation_no_tags();
+    scope.wpTranslation_changes_made                    = wpTranslation.getTranslation_changes_made();
+    scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
+    scope.wpTranslation_update_post                     = wpTranslation.getTranslation_update_post();
+    scope.wpTranslation_post_details                    = wpTranslation.getTranslation_post_details();
+    scope.wpTranslation_title_n_post_content_required   = wpTranslation.getTranslation_title_n_post_content_required();
+    scope.wpTranslation_on_status_date_n_time_required  = wpTranslation.getTranslation_on_status_date_n_time_required();
+   
         
-     }
+     } // ./ link: function () {...}
             
         }
 }])

@@ -3,10 +3,10 @@
     <div class="main-content">
 
 
-        <a ui-sref="pages">&larr; back</a>
+        <a ui-sref="pages">&larr; {{::wpTranslation_back}}</a>
         <br>
         
-        <h1 style="width: auto; float: left;">Edit: {{post.title.rendered | removePrivatString}}</h1>
+        <h1 style="width: auto; float: left;">{{::wpTranslation_edit_page}}: {{post.title.rendered | removePrivatString}}</h1>
 
         <button style="margin-left: 20px;" class="icon-button button" onclick="jQuery('input#post_title').toggle('show');">
            
@@ -35,18 +35,18 @@
 
         <div ng-if="formChanged" class="info-box">
 
-            <p><b><em>Changes made to the page</em></b></p>
+            <p><b><em>{{::wpTranslation_changes_made}}</em></b></p>
 
-            <button class="button" onclick="window.location.reload();">reset changes</button>
-            <button class="button" ng-disabled="!formChanged" ng-click="updatePost(post)">Update page</button>
+            <button class="button" onclick="window.location.reload();">{{::wpTranslation_reset_changes}}</button>
+            <button class="button" ng-disabled="!formChanged" ng-click="updatePost(post)">{{::wpTranslation_update_page}}</button>
 
         </div><!-- ./ .info-box -->
 
         <br>
-        <h2>Page Details</h2>
+        <h2>{{::wpTranslation_page_details}}</h2>
         <div static-include="/includes/post-details.html"></div>
 
-       <h2>Page Details Edit</h2>
+       <h2>{{::wpTranslation_edit_page_details}}</h2>
         <div static-include="/includes/post-details-edit.html"></div>
 
 

@@ -159,7 +159,7 @@ msgstr "Seiten"
 
 #: includes/admin_js.php:78
 msgid "Post details"
-msgstr "Betragsdetails"
+msgstr "Beitragsdetails"
 
 #: includes/admin_js.php:79
 msgid "Page details"

@@ -1382,9 +1382,16 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "back":                                         wp_gote_advanced_plugin_app_local.wpTranslation_back,
         "create_new_post":                              wp_gote_advanced_plugin_app_local.wpTranslation_create_new_post,
         "create_new_page":                              wp_gote_advanced_plugin_app_local.wpTranslation_create_new_page,
+        "edit_post":                                    wp_gote_advanced_plugin_app_local.wpTranslation_edit_post,
+        "edit_post_details":                            wp_gote_advanced_plugin_app_local.wpTranslation_edit_post_details,
+        "edit_page":                                    wp_gote_advanced_plugin_app_local.wpTranslation_edit_page,
+        "edit_page_details":                            wp_gote_advanced_plugin_app_local.wpTranslation_edit_page_details,
         "publish_new_post":                             wp_gote_advanced_plugin_app_local.wpTranslation_publish_new_post,
         "publish_new_page":                             wp_gote_advanced_plugin_app_local.wpTranslation_publish_new_page,
+        "changes_made":                                 wp_gote_advanced_plugin_app_local.wpTranslation_changes_made,
         "reset_changes":                                wp_gote_advanced_plugin_app_local.wpTranslation_reset_changes,
+        "update_post":                                  wp_gote_advanced_plugin_app_local.wpTranslation_update_post,
+        "update_page":                                  wp_gote_advanced_plugin_app_local.wpTranslation_update_page,
         "title_n_post_content_required":       wp_gote_advanced_plugin_app_local.wpTranslation_title_n_post_content_required,
         "title_n_page_content_required":       wp_gote_advanced_plugin_app_local.wpTranslation_title_n_page_content_required,
         "on_status_date_n_time_required":     wp_gote_advanced_plugin_app_local.wpTranslation_on_status_date_n_time_required,
@@ -1562,14 +1569,35 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         getTranslation_create_new_page: function () {
             return data.create_new_page;
         },
+        getTranslation_edit_post: function () {
+            return data.edit_post;
+        },
+        getTranslation_edit_post_details: function () {
+            return data.edit_post_details;
+        },
+        getTranslation_edit_page: function () {
+            return data.edit_page;
+        },
+        getTranslation_edit_page_details: function () {
+            return data.edit_page_details;
+        },
         getTranslation_publish_new_post: function () {
             return data.publish_new_post;
         },
         getTranslation_publish_new_page: function () {
             return data.publish_new_page;
         },
+        getTranslation_changes_made: function () {
+            return data.changes_made;
+        },
         getTranslation_reset_changes: function () {
             return data.reset_changes;
+        },
+        getTranslation_update_post: function () {
+            return data.update_post;
+        },
+        getTranslation_update_page: function () {
+            return data.update_page;
         },
         getTranslation_title_n_post_content_required: function () {
             return data.title_n_post_content_required;
@@ -3372,8 +3400,29 @@ wp_gote_advanced_plugin_app.app.directive("editPost", [ '$state', '$stateParams'
             scope.repeatInMainTagDone();
             
         }, 3000);
+          
+         
+         
+    // Translateables
+    scope.wpTranslation_back                            = wpTranslation.getTranslation_back();
+    scope.wpTranslation_edit_post                       = wpTranslation.getTranslation_edit_post();
+    scope.wpTranslation_edit_post_details               = wpTranslation.getTranslation_edit_post_details();
+    scope.wpTranslation_media                           = wpTranslation.getTranslation_media();
+    scope.wpTranslation_featured_media                  = wpTranslation.getTranslation_featured_media();
+    scope.wpTranslation_title                           = wpTranslation.getTranslation_title();
+    scope.wpTranslation_categories                      = wpTranslation.getTranslation_categories();
+    scope.wpTranslation_no_categories                   = wpTranslation.getTranslation_no_categories();
+    scope.wpTranslation_tags                            = wpTranslation.getTranslation_tags();
+    scope.wpTranslation_no_tags                         = wpTranslation.getTranslation_no_tags();
+    scope.wpTranslation_changes_made                    = wpTranslation.getTranslation_changes_made();
+    scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
+    scope.wpTranslation_update_post                     = wpTranslation.getTranslation_update_post();
+    scope.wpTranslation_post_details                    = wpTranslation.getTranslation_post_details();
+    scope.wpTranslation_title_n_post_content_required   = wpTranslation.getTranslation_title_n_post_content_required();
+    scope.wpTranslation_on_status_date_n_time_required  = wpTranslation.getTranslation_on_status_date_n_time_required();
+   
         
-     }
+     } // ./ link: function () {...}
             
         }
 }])
@@ -3714,12 +3763,24 @@ wp_gote_advanced_plugin_app.app.directive("editPage", [ '$state', '$stateParams'
              }
 
 
-         }
+         } // scope.updatePost = function () {...}
           
          
+         
+    // Translateables
+    scope.wpTranslation_back                            = wpTranslation.getTranslation_back();
+    scope.wpTranslation_edit_page                       = wpTranslation.getTranslation_edit_page();
+    scope.wpTranslation_edit_page_details               = wpTranslation.getTranslation_edit_page_details();
+    scope.wpTranslation_media                           = wpTranslation.getTranslation_media();
+    scope.wpTranslation_featured_media                  = wpTranslation.getTranslation_featured_media();
+    scope.wpTranslation_title                           = wpTranslation.getTranslation_title();
+    scope.wpTranslation_changes_made                    = wpTranslation.getTranslation_changes_made();
+    scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
+    scope.wpTranslation_update_page                     = wpTranslation.getTranslation_update_page();
+    scope.wpTranslation_page_details                    = wpTranslation.getTranslation_page_details();
    
         
-     }
+     } // ./ link: function () {...}
             
         }
 }])

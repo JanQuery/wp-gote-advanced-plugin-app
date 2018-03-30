@@ -335,12 +335,24 @@ wp_gote_advanced_plugin_app.app.directive("editPage", [ '$state', '$stateParams'
              }
 
 
-         }
+         } // scope.updatePost = function () {...}
           
          
+         
+    // Translateables
+    scope.wpTranslation_back                            = wpTranslation.getTranslation_back();
+    scope.wpTranslation_edit_page                       = wpTranslation.getTranslation_edit_page();
+    scope.wpTranslation_edit_page_details               = wpTranslation.getTranslation_edit_page_details();
+    scope.wpTranslation_media                           = wpTranslation.getTranslation_media();
+    scope.wpTranslation_featured_media                  = wpTranslation.getTranslation_featured_media();
+    scope.wpTranslation_title                           = wpTranslation.getTranslation_title();
+    scope.wpTranslation_changes_made                    = wpTranslation.getTranslation_changes_made();
+    scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
+    scope.wpTranslation_update_page                     = wpTranslation.getTranslation_update_page();
+    scope.wpTranslation_page_details                    = wpTranslation.getTranslation_page_details();
    
         
-     }
+     } // ./ link: function () {...}
             
         }
 }])

@@ -38,10 +38,6 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
             SearchFilter.setIsPageOrPost( 'page');
             
         }
-        
-        countRemoveItems = 0;
-
-        scope.loadMorePost = false;
                 
         scope.posts = PagesSrvc.queryComplex( data, function(res){
             
@@ -52,6 +48,10 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
             function(resource) {
 
                 totalPublicItemsOfCurUser = Number(resource.$httpHeaders('X-WP-Total'));
+                
+                scope.totatItemsPublic = totalPublicItemsOfCurUser;
+                
+                scope.itemsPerPage = SearchFilter.getItemsPerPage();
             
                 SearchFilter.setTotalPublicItemsOfCurUser( totalPublicItemsOfCurUser );
 
@@ -66,6 +66,12 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
         scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
        
         $rootScope.$broadcast('gettingNewData');
+        
+        countRemoveItems = 0;
+
+        scope.loadMorePost = false;
+        
+        
     }
                 
      
@@ -126,15 +132,12 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
         
         countRemoveItems ++;
         
-        console.log('countRemoveItems');
-        console.log(countRemoveItems);
-        
         if ( countRemoveItems > 3 ) {
+            
+            scope.totatItemsPublic = SearchFilter.getTotalPublicItemsOfCurUser();
+            
             scope.loadMorePost = true;
         }
-        
-        console.log('scope.loadMorePost');
-        console.log(scope.loadMorePost);
         
         scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;
         
@@ -243,6 +246,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
             scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();
             scope.wpTranslation_reset_app_txt           = wpTranslation.getTranslation_reset_app_txt();
             scope.wpTranslation_no_data_lost_txt        = wpTranslation.getTranslation_no_data_lost_txt();
+            scope.wpTranslation_load_more               = wpTranslation.getTranslation_load_more();
 
             
             

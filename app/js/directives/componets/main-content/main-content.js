@@ -37,12 +37,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
 
                     SearchFilter.setIsPageOrPost('post');
 
-                }
-                
-                countRemoveItems = 0;
-
-                scope.loadMorePost = false;
-                
+                }                
 
                 scope.posts = PostsSrvc.queryComplex(data, function (res) {
 
@@ -53,6 +48,10 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                     function (resource) {
 
                         totalPublicItemsOfCurUser = Number(resource.$httpHeaders('X-WP-Total'));
+                        
+                        scope.totatItemsPublic = totalPublicItemsOfCurUser;
+                        
+                        scope.itemsPerPage = SearchFilter.getItemsPerPage();
 
                         SearchFilter.setTotalPublicItemsOfCurUser(totalPublicItemsOfCurUser);
 
@@ -63,16 +62,24 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         console.log(error);
                     });
                 
+                
                 $rootScope.$broadcast('gettingNewData');
                 
                 scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
+                
+                countRemoveItems = 0;
+
+                scope.loadMorePost = false;
+
 
             }
 
 
             // delay to get query data first
             setTimeout(function () {
+                
                 getPosts();
+                
             }, 200);
             
             scope.getPosts = function () {
@@ -125,13 +132,16 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
 
                 }, 2000);
             }
-            
+                        
 
             scope.movePostToTrash = function (post, index) {
 
                 countRemoveItems++;
 
                 if (countRemoveItems > 3) {
+                    
+                    
+                    
                     scope.loadMorePost = true;
                 }
                 
@@ -247,6 +257,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
             scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();
             scope.wpTranslation_reset_app_txt           = wpTranslation.getTranslation_reset_app_txt();
             scope.wpTranslation_no_data_lost_txt        = wpTranslation.getTranslation_no_data_lost_txt();
+            scope.wpTranslation_load_more               = wpTranslation.getTranslation_load_more();
 
 
 

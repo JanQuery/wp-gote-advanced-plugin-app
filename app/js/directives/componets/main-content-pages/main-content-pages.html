@@ -130,3 +130,20 @@
     </tr><!-- ./ ng-repeat="post in posts" -->
 
 </table>
+
+<div static-include="/includes/load-more.html"></div>
+
+<div class="info-box center fadeIn fadeOut" ng-if="posts.length == 0">
+   
+    <h2><b><em>{{::wpTranslation_upps_nothing_found}}</em></b></h2>
+    <p>{{::wpTranslation_maybe_filter_not_match}}</p>
+    <br>
+    <button class="button" ng-click="resetAllSearchFilters()">{{::wpTranslation_reset_filter}}</button>
+    <br>
+    <br>
+    <p>{{::wpTranslation_if_then_reset_app}}</p>
+    <br>
+    <button class="button" onclick="window.location.reload()">{{::wpTranslation_reset_app_txt}}</button>
+    <p>{{::wpTranslation_no_data_lost_txt}}</p>
+    
+</div>

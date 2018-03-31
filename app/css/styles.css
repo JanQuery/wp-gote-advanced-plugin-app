@@ -32,22 +32,13 @@ nav#main-navigation ul li .active {
     background-color: #4CAF50;
 }
 
-span.magnifying-glass {
-    position: absolute;
-    padding: 0px 15px;
-    right: 80px;
-    font-size: 1.5rem;
-    -webkit-transform: rotate(315deg); 
-               -moz-transform: rotate(315deg); 
-                 -o-transform: rotate(315deg);
-                    transform: rotate(315deg);
-}
-
 /* ./ Navigation */
 
 #main-view {
     padding-right: 10px;
 }
+
+/* table style */
 
 table#post-content,
 table#page-content {
@@ -78,13 +69,17 @@ table#post-content th:nth-child(5) {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
 td.featured-media img {
     width: 150px;
     height: auto;
 }
+
 td.post-expert p.link-more {
     display: none;
 }
+
+/* ./ table style */
 
 .pointer {
     cursor: pointer;

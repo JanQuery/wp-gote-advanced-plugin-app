@@ -11,6 +11,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
 
 
             var totalPublicItemsOfCurUser;
+            var countRemoveItems = 0;
 
 
             function getPosts() {
@@ -37,6 +38,11 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                     SearchFilter.setIsPageOrPost('post');
 
                 }
+                
+                countRemoveItems = 0;
+
+                scope.loadMorePost = false;
+                
 
                 scope.posts = PostsSrvc.queryComplex(data, function (res) {
 
@@ -68,13 +74,15 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
             setTimeout(function () {
                 getPosts();
             }, 200);
+            
+            scope.getPosts = function () {
+                
+                getPosts();
+                
+            }
 
 
             scope.$on('tiggerEventGetPostsInMainContent', function () {
-
-                countRemoveItems = 0;
-
-                scope.laodMorePost = false;
 
                 getPosts();
 
@@ -117,8 +125,6 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
 
                 }, 2000);
             }
-
-            var countRemoveItems = 0;
             
 
             scope.movePostToTrash = function (post, index) {
@@ -126,7 +132,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                 countRemoveItems++;
 
                 if (countRemoveItems > 3) {
-                    scope.laodMorePost = true;
+                    scope.loadMorePost = true;
                 }
                 
                 scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;                

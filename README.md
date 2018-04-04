@@ -1,2 +1,2 @@
 # Wordpress Advanced Text Editor Plugin App
-writen in Angularjs
+written in Angularjs

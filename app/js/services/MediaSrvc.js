@@ -3,10 +3,10 @@
  */
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
 
-wp_gote_advanced_plugin_app.app.factory( 'MediaSrvc', function( $resource ){
-    
-    return $resource( wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/media/', { id: '@id'},{
-        'get':{
+wp_gote_advanced_plugin_app.app.factory('MediaSrvc', function ($resource) {
+
+    return $resource(wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/media/', {id: '@id'}, {
+        'get': {
             method: 'GET',
             isArray: false,
             headers: {
@@ -14,11 +14,11 @@ wp_gote_advanced_plugin_app.app.factory( 'MediaSrvc', function( $resource ){
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/media/:id?'
         },
-        'update':{
-            method:'POST',
+        'update': {
+            method: 'POST',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             }
         },
     });
-} )
+})

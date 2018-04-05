@@ -1,17 +1,19 @@
 <nav id="main-navigation">
 
     <ul>
-     
-      <li><a ui-sref="main" ui-sref-active="active">{{::wpTranslation_posts}}</a></li>
-      
-      <li><a ui-sref="pages" ui-sref-active="active">Pages</a></li>
-      
-      <li style="float: right;">
-          <a id="reveal-trigger" class="pointer" reveal-handler reveal-id="reveal" trigger-id="reveal-trigger" ng-click="onRevealOpen()" ng-class="{ active: filtersAreActive }">{{::wpTranslation_filter}}</a>
-      </li>
-      
-      <li style="float: right;"><a class="pointer" ng-click="getPosts()" ng-if="laodMorePost">{{::wpTranslation_load_more}}</a></li>
-      
+
+        <li><a ui-sref="main" ui-sref-active="active">{{::wpTranslation_posts}}</a></li>
+
+        <li><a ui-sref="pages" ui-sref-active="active">Pages</a></li>
+
+        <li style="float: right;">
+            <a id="reveal-trigger" class="pointer" reveal-handler reveal-id="reveal" trigger-id="reveal-trigger"
+               ng-click="onRevealOpen()" ng-class="{ active: filtersAreActive }">{{::wpTranslation_filter}}</a>
+        </li>
+
+        <li style="float: right;"><a class="pointer" ng-click="getPosts()" ng-if="laodMorePost">{{::wpTranslation_load_more}}</a>
+        </li>
+
     </ul>
 
 </nav><!-- ./ #main-navigation -->

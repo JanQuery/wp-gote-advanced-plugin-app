@@ -37,10 +37,10 @@ span.magnifying-glass {
     padding: 0px 15px;
     right: 80px;
     font-size: 1.5rem;
-    -webkit-transform: rotate(315deg); 
-               -moz-transform: rotate(315deg); 
-                 -o-transform: rotate(315deg);
-                    transform: rotate(315deg);
+    -webkit-transform: rotate(315deg);
+    -moz-transform: rotate(315deg);
+    -o-transform: rotate(315deg);
+    transform: rotate(315deg);
 }
 
 /* ./ Navigation */
@@ -78,10 +78,12 @@ table#post-content th:nth-child(5) {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
 td.featured-media img {
     width: 150px;
     height: auto;
 }
+
 td.post-expert p.link-more {
     display: none;
 }
@@ -94,13 +96,15 @@ ul.categories-list {
     list-style: disc;
     padding-left: 15px;
 }
+
 ul.second-lvl {
     list-style: circle;
     padding-left: 20px;
 }
+
 ul.categories-list ul ul.third {
-    list-style: square!important;
-    padding-left: 45px!important;
+    list-style: square !important;
+    padding-left: 45px !important;
 }
 
 div.modal-aside-content span.tag {
@@ -114,7 +118,6 @@ div.modal-aside-content span.tag span.tag-separator {
     display: none;
 }
 
-
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -126,8 +129,8 @@ div.modal-aside-content span.tag span.tag-separator {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -139,7 +142,7 @@ div.modal-aside-content span.tag span.tag-separator {
     border: 1px solid #888;
     width: 90%;
     height: 90%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -154,10 +157,10 @@ div.modal-aside-content span.tag span.tag-separator {
     border: 1px solid #888;
     left: 180px;
     height: 90%;
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .ux-modal-content,
@@ -167,13 +170,25 @@ div.modal-aside-content span.tag span.tag-separator {
 
 /* Add Animation */
 @-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0} 
-    to {top:0; opacity:1}
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
 }
 
 @keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
 }
 
 /* The Close Button */
@@ -208,7 +223,7 @@ div.modal-aside-content span.tag span.tag-separator {
     right: 0;
     max-height: 90%;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch; 
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal-body span.featured-media-wrapper img {
@@ -228,39 +243,42 @@ div.modal-aside-content span.tag span.tag-separator {
     text-align: right;
 }
 
-.modal-footer  button {
-    margin-left: 30px!important;
-    margin-right: 15px!important;
+.modal-footer button {
+    margin-left: 30px !important;
+    margin-right: 15px !important;
 }
 
 .floating-button {
-	position:fixed;
+    position: fixed;
     font-size: 48px;
     line-height: 45px;
     text-decoration: none;
-	width:60px;
-	height:60px;
-	bottom:40px;
-	right:40px;
-	background-color:#4CAF50;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-	box-shadow: 2px 2px 3px #999;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #4CAF50;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
 }
+
 .floating-button:hover {
-    color:#FFF;
+    color: #FFF;
     margin-bottom: 5px;
     box-shadow: 6px 6px 7px #999;
 }
 
 .hide {
-    display: none!important;
-    visibility: collapse!important;
+    display: none !important;
+    visibility: collapse !important;
 }
+
 .edit-hide {
     display: none;
 }
+
 .show {
     display: inline-block;
 }
@@ -274,40 +292,42 @@ div.modal-aside-content span.tag span.tag-separator {
 }
 
 .custom-icon:before {
-	border-style: solid;
-	border-width: 0.25em 0.25em 0 0;
-	content: '';
-	display: inline-block;
-	height: 0.45em;
-	left: 0.05em;
-	position: relative;
-	top: 3px;
-	transform: rotate(-45deg);
-	vertical-align: top;
-	width: 0.45em;
+    border-style: solid;
+    border-width: 0.25em 0.25em 0 0;
+    content: '';
+    display: inline-block;
+    height: 0.45em;
+    left: 0.05em;
+    position: relative;
+    top: 3px;
+    transform: rotate(-45deg);
+    vertical-align: top;
+    width: 0.45em;
 }
+
 .custom-icon.custom-icon-chevron-right:before {
-	transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 .custom-icon.custom-icon-chevron-left:before {
-	transform: rotate(-135deg);
+    transform: rotate(-135deg);
 }
 
 .custom-icon.custom-icon-chevron-down:before {
-	top: 0;
-	transform: rotate(135deg);
+    top: 0;
+    transform: rotate(135deg);
 }
 
 .custom-icon.custom-icon-chevron-up:before {
-	top: 0;
-	transform: rotate(-45deg);
+    top: 0;
+    transform: rotate(-45deg);
 }
 
 /* pagination */
 ul.pagination-list li button span.custom-icon:before {
     top: 6px;
 }
+
 div.pagination {
     width: 100%;
     text-align: center;
@@ -350,7 +370,7 @@ li.pagination-active-item a {
     transform: rotate(135deg);
 }
 
-.rv_button.opened:after{
+.rv_button.opened:after {
     border-style: solid;
     border-width: 0.25em 0.25em 0 0;
     content: '';
@@ -367,9 +387,11 @@ li.pagination-active-item a {
 table#reveal-table {
     width: 100%;
 }
+
 table#reveal-table tr td {
     width: auto;
 }
+
 input#search:focus {
     background-color: antiquewhite;
 }
@@ -393,7 +415,6 @@ input#search:focus {
     padding: 10px;
     border-left: 1px solid #d9d9d9;
 }
-
 
 /* ============================================= */
 /* ======= Categories in angular-ui-tress ====== */
@@ -421,14 +442,13 @@ input#search:focus {
 }
 
 tr.angular-ui-tree-empty {
-    height:100px
+    height: 100px
 }
 
 .group-title {
     background-color: #687074 !important;
     color: #FFF !important;
 }
-
 
 /* --- Tree --- */
 .tree-node {
@@ -444,6 +464,7 @@ tr.angular-ui-tree-empty {
 .tree-node-content {
     margin: 10px;
 }
+
 .tree-handle {
     padding: 10px;
     background: #428bca;
@@ -470,7 +491,7 @@ button.icon-button {
     position: relative;
     top: 10px;
     height: 32px;
-    
+
 }
 
 div.mce-edit-area iframe {
@@ -486,8 +507,8 @@ div#select-tag-wrapper {
 }
 
 button.rv_button:focus {
-    border-color: #ccc!important;
-    box-shadow: 0 1px 0 #ccc!important;
+    border-color: #ccc !important;
+    box-shadow: 0 1px 0 #ccc !important;
 }
 
 .dropdown {
@@ -500,7 +521,7 @@ button.rv_button:focus {
     position: absolute;
     background-color: #f9f9f9;
     min-width: 250px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     padding: 12px 16px;
     z-index: 1;
 }
@@ -508,6 +529,7 @@ button.rv_button:focus {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
 div.mce-branding-powered-by {
     display: none;
 }
@@ -518,29 +540,31 @@ div.mce-branding-powered-by {
 
     ========================================= */
 
-
 .fadeIn.ng-enter {
-  transition:0.5s linear all;
-  opacity:0;
+    transition: 0.5s linear all;
+    opacity: 0;
 }
+
 .fadeIn.ng-enter.ng-enter-active {
-  opacity:1;
+    opacity: 1;
 }
+
 .fadeIn.ng-hide-remove {
-  transition:0.5s linear all;
-  opacity:0;
+    transition: 0.5s linear all;
+    opacity: 0;
 }
+
 .fadeIn.ng-hide-remove-active {
     opacity: 1;
 }
 
-
 .fadeOut.ng-leave {
-  transition:0.5s linear all;
-  opacity:1;
+    transition: 0.5s linear all;
+    opacity: 1;
 }
+
 .fadeOut.ng-leave.ng-leave-active {
-  opacity:0;
+    opacity: 0;
 }
 
 

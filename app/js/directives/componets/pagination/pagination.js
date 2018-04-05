@@ -1,47 +1,46 @@
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, console, setTimeout, jQuery */
-wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchFilter', function ( $rootScope, SearchFilter ) {
+wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFilter', function ($rootScope, SearchFilter) {
     return {
         restrict: "E",
         templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/pagination/pagination.html',
         scope: {},
         replace: true,
-        link: function ( scope ) {
-            
-                     
-            scope.optionsOnItemsPerPage = [ 10, 25, 50 ];
-            
+        link: function (scope) {
+
+
+            scope.optionsOnItemsPerPage = [10, 25, 50];
+
 
             // initional select option
-            if ( SearchFilter.getItemsPerPage() ) {
+            if (SearchFilter.getItemsPerPage()) {
 
                 var itemsPerPage = SearchFilter.getItemsPerPage();
 
-                if ( itemsPerPage == 10 ) {
+                if (itemsPerPage == 10) {
                     scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[0];
                 }
 
-                if ( itemsPerPage == 25 ) {
+                if (itemsPerPage == 25) {
                     scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[1];
                 }
 
-                if ( itemsPerPage == 50 ) {
+                if (itemsPerPage == 50) {
                     scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[2];
                 }
 
             }
             else {
-                
+
                 scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[0];
-                
+
             }
 
 
+            scope.selectedItemsPerPageChanged = function () {
 
-            scope.selectedItemsPerPageChanged = function (){
-                
-                SearchFilter.setCurPage( 1 );
+                SearchFilter.setCurPage(1);
 
-                SearchFilter.setItemsPerPage( scope.selectedItemsPerPage );
+                SearchFilter.setItemsPerPage(scope.selectedItemsPerPage);
 
                 scope.itemsPerPage = scope.selectedItemsPerPage;
 
@@ -52,29 +51,27 @@ wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchF
 
             };
 
-            scope.paginatToPage = function ( page ){       
+            scope.paginatToPage = function (page) {
 
-                if ( page == undefined ) {
+                if (page == undefined) {
                     var page = 1;
                 }
 
-                
-                
-                SearchFilter.setCurPage( page );
-                
-                $rootScope.$broadcast('tiggerEventGetPostsInMainContent');        
+
+                SearchFilter.setCurPage(page);
+
+                $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
 
             };
 
 
+            scope.numberOfPages = function () {
 
-            scope.numberOfPages = function() {
+                if (SearchFilter.getTotalPublicItemsOfCurUser() !== undefined) {
 
-                if ( SearchFilter.getTotalPublicItemsOfCurUser() !== undefined ){
-                    
                     scope.totatItemsPublic = SearchFilter.getTotalPublicItemsOfCurUser();
 
-                    return Math.ceil( ( SearchFilter.getTotalPublicItemsOfCurUser() )  / SearchFilter.getItemsPerPage() );
+                    return Math.ceil((SearchFilter.getTotalPublicItemsOfCurUser()) / SearchFilter.getItemsPerPage());
 
                 } else {
                     return 1;
@@ -83,18 +80,18 @@ wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchF
             };
 
 
-            scope.repeatNumber = function(num) {
-                return new Array(num);   
+            scope.repeatNumber = function (num) {
+                return new Array(num);
             };
-            
-            
+
+
             scope.filtersAreActive = SearchFilter.getFiltersAreActive();
-            
+
             scope.$on('searchFiltersAreActive', function () {
 
-                    scope.filtersAreActive = true;
+                scope.filtersAreActive = true;
 
-                    SearchFilter.setFiltersAreActive( scope.filtersAreActive );
+                SearchFilter.setFiltersAreActive(scope.filtersAreActive);
 
             });
 
@@ -102,31 +99,31 @@ wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchF
 
                 scope.filtersAreActive = false;
 
-                SearchFilter.setFiltersAreActive( scope.filtersAreActive );
+                SearchFilter.setFiltersAreActive(scope.filtersAreActive);
 
             });
-            
+
             scope.gettingNewPostData = true;
-            
+
             scope.$on('gettingNewData', function () {
-               
+
                 scope.gettingNewPostData = true;
-                
-                setTimeout( function () {
-                    
+
+                setTimeout(function () {
+
                     scope.gettingNewPostData = false;
-                    
-                    
+
+
                     jQuery('ul.pagination-list li').removeClass('pagination-active-item');
 
-                    jQuery('ul.pagination-list li.pagination-page-' + SearchFilter.getCurPage() ).addClass('pagination-active-item');
-                    
-                    
+                    jQuery('ul.pagination-list li.pagination-page-' + SearchFilter.getCurPage()).addClass('pagination-active-item');
+
+
                 }, 1000);
-                
-                
+
+
             });
-            
+
         }
     }
 }])

@@ -1,5 +1,5 @@
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, jQuery, console, setTimeout, confirm */
-wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'SearchFilter', '$timeout', 'wpTranslation', function ($rootScope, PostsSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, SearchFilter, $timeout, wpTranslation ) {
+wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'SearchFilter', '$timeout', 'wpTranslation', function ($rootScope, PostsSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, SearchFilter, $timeout, wpTranslation) {
     return {
         restrict: "E",
         templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/main-content/main-content.html',
@@ -56,9 +56,9 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         console.log('failure callback: getPublicPosts');
                         console.log(error);
                     });
-                
+
                 $rootScope.$broadcast('gettingNewData');
-                
+
                 scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
 
             }
@@ -119,7 +119,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
             }
 
             var countRemoveItems = 0;
-            
+
 
             scope.movePostToTrash = function (post, index) {
 
@@ -128,8 +128,8 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                 if (countRemoveItems > 3) {
                     scope.laodMorePost = true;
                 }
-                
-                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;                
+
+                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;
 
                 post.status = 'trash';
 
@@ -140,7 +140,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         // success callback
 
                         scope.posts.splice(index, 1);
-                        
+
 
                         SearchFilter.setTotalPublicItemsOfCurUser(SearchFilter.getTotalPublicItemsOfCurUser() - 1);
 
@@ -152,7 +152,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                         console.log(response);
                     }
                 );
-                
+
             }
 
 
@@ -186,7 +186,6 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
             }
 
 
-
             //fallback on repeatInCategoryListIsDone()
             $timeout(function () {
                 jQuery('.category-preloader').addClass('edit-hide');
@@ -218,30 +217,29 @@ wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSr
                 $rootScope.$broadcast('resetAllSearchFilter');
 
             }
-            
-            
-            // Translateables            
-            scope.wpTranslation_media                   = wpTranslation.getTranslation_media();
-            scope.wpTranslation_featured_media          = wpTranslation.getTranslation_featured_media();
-            scope.wpTranslation_title                   = wpTranslation.getTranslation_title();
-            scope.wpTranslation_categories              = wpTranslation.getTranslation_categories();
-            scope.wpTranslation_no_categories           = wpTranslation.getTranslation_no_categories();
-            scope.wpTranslation_tags                    = wpTranslation.getTranslation_tags();
-            scope.wpTranslation_no_tags                 = wpTranslation.getTranslation_no_tags();
-            scope.wpTranslation_expert                  = wpTranslation.getTranslation_expert();
-            scope.wpTranslation_experts                 = wpTranslation.getTranslation_experts();
-            scope.wpTranslation_edit                    = wpTranslation.getTranslation_edit();
-            scope.wpTranslation_actions                 = wpTranslation.getTranslation_actions();
-            scope.wpTranslation_close                   = wpTranslation.getTranslation_close();
-            scope.wpTranslation_details                 = wpTranslation.getTranslation_details();
-            scope.wpTranslation_post_details            = wpTranslation.getTranslation_post_details();
-            scope.wpTranslation_upps_nothing_found      = wpTranslation.getTranslation_upps_nothing_found();
-            scope.wpTranslation_maybe_filter_not_match  = wpTranslation.getTranslation_maybe_filter_not_match();
-            scope.wpTranslation_if_then_reset_app       = wpTranslation.getTranslation_if_then_reset_app();
-            scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();
-            scope.wpTranslation_reset_app_txt           = wpTranslation.getTranslation_reset_app_txt();
-            scope.wpTranslation_no_data_lost_txt        = wpTranslation.getTranslation_no_data_lost_txt();
 
+
+            // Translateables            
+            scope.wpTranslation_media = wpTranslation.getTranslation_media();
+            scope.wpTranslation_featured_media = wpTranslation.getTranslation_featured_media();
+            scope.wpTranslation_title = wpTranslation.getTranslation_title();
+            scope.wpTranslation_categories = wpTranslation.getTranslation_categories();
+            scope.wpTranslation_no_categories = wpTranslation.getTranslation_no_categories();
+            scope.wpTranslation_tags = wpTranslation.getTranslation_tags();
+            scope.wpTranslation_no_tags = wpTranslation.getTranslation_no_tags();
+            scope.wpTranslation_expert = wpTranslation.getTranslation_expert();
+            scope.wpTranslation_experts = wpTranslation.getTranslation_experts();
+            scope.wpTranslation_edit = wpTranslation.getTranslation_edit();
+            scope.wpTranslation_actions = wpTranslation.getTranslation_actions();
+            scope.wpTranslation_close = wpTranslation.getTranslation_close();
+            scope.wpTranslation_details = wpTranslation.getTranslation_details();
+            scope.wpTranslation_post_details = wpTranslation.getTranslation_post_details();
+            scope.wpTranslation_upps_nothing_found = wpTranslation.getTranslation_upps_nothing_found();
+            scope.wpTranslation_maybe_filter_not_match = wpTranslation.getTranslation_maybe_filter_not_match();
+            scope.wpTranslation_if_then_reset_app = wpTranslation.getTranslation_if_then_reset_app();
+            scope.wpTranslation_reset_filter = wpTranslation.getTranslation_reset_filter();
+            scope.wpTranslation_reset_app_txt = wpTranslation.getTranslation_reset_app_txt();
+            scope.wpTranslation_no_data_lost_txt = wpTranslation.getTranslation_no_data_lost_txt();
 
 
         }

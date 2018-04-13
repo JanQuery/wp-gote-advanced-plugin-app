@@ -6,8 +6,8 @@ wp_gote_advanced_plugin_app.app.directive("author", ['$http', function ($http) {
         scope: {
             authorId: "@?authorId"
         },
-        link: function ( scope ) {
-            
+        link: function (scope) {
+
             getUserName();
 
             function getUserName() {
@@ -37,13 +37,11 @@ wp_gote_advanced_plugin_app.app.directive("author", ['$http', function ($http) {
             }
 
 
-
-
             scope.$watch('authorId', function (newValue, oldValue) {
                 if (newValue !== oldValue) {
 
                     getUserName();
-                    
+
                 }
             }, true);
 

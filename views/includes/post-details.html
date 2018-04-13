@@ -24,5 +24,7 @@
         <span>{{ post.modified | date: 'HH' }}:</span>
         <span>{{ post.modified | date: 'mm' }}</span>
     </p>
-    <p ng-if="post.author">Author: <author author-id="{{post.author}}"></author></p>
+    <p ng-if="post.author">Author:
+        <author author-id="{{post.author}}"></author>
+    </p>
 </div>

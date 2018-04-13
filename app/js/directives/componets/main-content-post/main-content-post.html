@@ -10,49 +10,59 @@
         <th>{{::wpTranslation_actions}}</th>
     </tr>
     <tr ng-repeat="post in posts" class="fadeIn fadeOut">
-       
+
         <td ng-bind="::post.id"></td>
-        
+
         <td class="featured-media">
-           
+
             <featured-media media-id="{{::post.featured_media}}"></featured-media>
-            
+
         </td>
-        
+
         <td ng-bind="::post.title.rendered | removePrivatString"></td>
-        
+
         <td>
 
             <static-post-categories category-list="{{::post.categories}}"></static-post-categories>
-            
+
         </td>
-        
+
         <td>
-           
+
             <post-tags tag-list="{{::post.tags}}"></post-tags>
-            
+
         </td>
-        
+
         <td class="post-expert" ng-bind-html="::post.excerpt.rendered"></td>
-        
+
         <td>
 
             <!-- --/* Trigger/Open the Modal */-- -->
+<<<<<<< HEAD:app/js/directives/componets/main-content-post/main-content-post.html
             <button id="btn-open-modal-{{::$index}}" class="button" ng-click="getModalData( post.categories )">{{::wpTranslation_details}}</button>
             
+=======
+            <button id="btn-open-modal-{{::$index}}" class="button"
+                    ng-click="getPostCategoriesData(post.categories); repeatDoneInModal($index)">
+                {{::wpTranslation_details}}
+            </button>
+
+            <br>
+>>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc:app/js/directives/componets/main-content/main-content.html
+            <br>
+
+            <button class="button" ui-sref="edit({id: post.id})">{{::wpTranslation_edit}}</button>
+            <br>
+
             <br>
             <br>
-            
-            <button class="button" ui-sref="edit({id: post.id})">{{::wpTranslation_edit}}</button><br>
-            
-            <br>
-            <br>
-            
+
             <button class="button" ng-click="movePostToTrash(post, $index)" ng-if="post.status !== 'trash'">
                 <img ng-src="{{::deleteIcon}}" width="24">
             </button>
-            
-            <button class="button" ng-click="deletePostPermanently(post, $index)" ng-if="!hideDeleteParmantenlyButtonWhiltemovingPostToTrash && post.status == 'trash'">
+
+            <button class="button" ng-click="deletePostPermanently(post, $index)"
+                    ng-if="!hideDeleteParmantenlyButtonWhiltemovingPostToTrash && post.status == 'trash'">
                 <img ng-src="{{::deleteForeverIcon}}" width="21">
             </button>
 
@@ -63,17 +73,17 @@
                 <div class="modal-wrapper">
 
                     <div class="modal-header">
-                       
+
                         <span class="close-modal close-modal-{{::$index}}">&times;</span>
 
                         <h3 ng-bind="::post.title.rendered"></h3>
 
                     </div><!-- ./ .modal-header -->
-                    
+
 
                     <div class="modal-body">
 
-                       
+
                         <div class="modal-main-content">
 
                             <h1 ng-bind="::post.title.rendered"></h1>
@@ -81,22 +91,27 @@
                             <p ng-bind-html="post.content.rendered"></p>
 
                         </div><!-- ./ .modal-main-content -->
-                        
+
 
                         <div class="modal-aside-content">
 
 <!--
                             <div id="ux-aside-detail-wrapper-{{::$index}}" class="">
 
-                                   <h3 ng-bind="::uxModalMassageHeader" ng-if="uxModalMassageHeader"></h3>
+                                <h3 ng-bind="::uxModalMassageHeader" ng-if="uxModalMassageHeader"></h3>
 
-                                    <img ng-src="{{::uxModalMassageImage}}" ng-if="uxModalMassageImage">
+                                <img ng-src="{{::uxModalMassageImage}}" ng-if="uxModalMassageImage">
 
-                                    <p ng-bind="::uxModalMassageText" ng-if="uxModalMassageText"></p>     
+                                <p ng-bind="::uxModalMassageText" ng-if="uxModalMassageText"></p>
 
+<<<<<<< HEAD:app/js/directives/componets/main-content-post/main-content-post.html
                             </div> ./ #ux-aside-detail-wrapper-{{::$index}} 
 -->
                             
+=======
+                            </div><!-- ./ #ux-aside-detail-wrapper-{{::$index}} -->
+
+>>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc:app/js/directives/componets/main-content/main-content.html
 
                             <div id="modal-aside-main-content-{{::$index}}">
 
@@ -106,7 +121,7 @@
 
                                
                                 <h3>{{::wpTranslation_featured_media}}</h3>
-                                
+
                                 <span class="featured-media-wrapper">
                                    
                                     <featured-media media-id="{{::post.featured_media}}"></featured-media>
@@ -125,31 +140,40 @@
 
                                         <!-- Nested node template -->
                                         <script type="text/ng-template" id="nodes_renderer.html">
-                                            <div ui-tree-handle style="cursor: default" class="tree-node tree-node-content angular-ui-tree-handle">
-                                                <button data-nodrag ng-click="toggle(this)" ng-if="node.child && node.child.length > 0">
-                                                                <span class="custom-icon custom-icon-chevron-right" ng-class="{
+                                            <div ui-tree-handle style="cursor: default"
+                                                 class="tree-node tree-node-content angular-ui-tree-handle">
+                                                <button data-nodrag ng-click="toggle(this)"
+                                                        ng-if="node.child && node.child.length > 0">
+                                                                <span class="custom-icon custom-icon-chevron-right"
+                                                                      ng-class="{
                                                                       'custom-icon-chevron-right': collapsed,
                                                                       'custom-icon-chevron-down': !collapsed
                                                                     }"></span>
-                                                </button> {{::node.name}}
+                                                </button>
+                                                {{::node.name}}
                                             </div>
                                             <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
-                                                <li ng-repeat="node in node.child  | orderBy : name" ui-tree-node ng-include="'nodes_renderer.html'">
+                                                <li ng-repeat="node in node.child  | orderBy : name" ui-tree-node
+                                                    ng-include="'nodes_renderer.html'">
                                                 </li>
                                             </ol>
                                         </script>
 
-                                        <div ui-tree class="angular-ui-tree" data-max-depth="3" data-drag-enabled="false" ng-if="postCategoriesData.length !== 0">
+                                        <div ui-tree class="angular-ui-tree" data-max-depth="3"
+                                             data-drag-enabled="false" ng-if="postCategoriesData.length !== 0">
                                             <ol ui-tree-nodes="" ng-model="postCategoriesData" id="tree-root">
-                                                <li ng-repeat="node in postCategoriesData | orderBy : name" ui-tree-node ng-include="'nodes_renderer.html'" collapsed="true"></li>
+                                                <li ng-repeat="node in postCategoriesData | orderBy : name" ui-tree-node
+                                                    ng-include="'nodes_renderer.html'" collapsed="true"></li>
                                             </ol>
                                         </div>
 
-                                            <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postCategoriesData.length == 0">
-                                                <ol class="angular-ui-tree-nodes">
-                                                    <li class="angular-ui-tree-node"><em>{{::wpTranslation_no_categories}}</em></li>
-                                                </ol>
-                                            </div>
+                                        <div class="tree-node tree-node-content angular-ui-tree-handle"
+                                             ng-if="postCategoriesData.length == 0">
+                                            <ol class="angular-ui-tree-nodes">
+                                                <li class="angular-ui-tree-node">
+                                                    <em>{{::wpTranslation_no_categories}}</em></li>
+                                            </ol>
+                                        </div>
 
 
                                     </div>
@@ -171,20 +195,20 @@
                             <br>
 
                         </div><!-- ./ .modal-aside-content -->
-                        
+
 
                         <div style="clear:both"></div>
 
 
                     </div><!-- ./ .modal-body -->
-                    
+
 
                     <div class="modal-footer">
 
                         <button class="button btn-close-modal-{{::$index}}">{{::wpTranslation_close}}</button>
                         <button class="button" ui-sref="edit({id: post.id})">{{::wpTranslation_edit}}</button>
-                    </div><!-- ./ .modal-footer --> 
-                    
+                    </div><!-- ./ .modal-footer -->
+
 
                 </div><!-- ./ .modal-wrapper -->
 
@@ -192,7 +216,11 @@
 
         </td>
     </tr><!-- ./ ng-repeat="post in posts" -->
+<<<<<<< HEAD:app/js/directives/componets/main-content-post/main-content-post.html
         
+=======
+
+>>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc:app/js/directives/componets/main-content/main-content.html
 </table>
 
 <div static-include="/includes/load-more.html"></div>
@@ -201,3 +229,20 @@
 
 
 
+<<<<<<< HEAD:app/js/directives/componets/main-content-post/main-content-post.html
+=======
+<div class="info-box center fadeIn fadeOut" ng-if="posts.length == 0">
+
+    <h2><b><em>{{::wpTranslation_upps_nothing_found}}</em></b></h2>
+    <p>{{::wpTranslation_maybe_filter_not_match}}</p>
+    <br>
+    <button class="button" ng-click="resetAllSearchFilters()">{{::wpTranslation_reset_filter}}</button>
+    <br>
+    <br>
+    <p>{{::wpTranslation_if_then_reset_app}}</p>
+    <br>
+    <button class="button" onclick="window.location.reload()">{{::wpTranslation_reset_app_txt}}</button>
+    <p>{{::wpTranslation_no_data_lost_txt}}</p>
+
+</div>
+>>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc:app/js/directives/componets/main-content/main-content.html

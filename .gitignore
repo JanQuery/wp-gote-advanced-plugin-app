@@ -28,3 +28,6 @@ Desktop.ini
 ### Code ###
 # Brackets file
 .brackets.json
+
+### Build ###
+/build

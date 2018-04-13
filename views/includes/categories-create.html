@@ -1,8 +1,8 @@
 <h2>Category</h2>
 <!--      main category preloader -->
-   <div id="main-category-preloader" style="text-align: center;">
-       <img ng-src="{{preloader}}" ng-if="preloader">
-   </div>
+<div id="main-category-preloader" style="text-align: center;">
+    <img ng-src="{{preloader}}" ng-if="preloader">
+</div>
 <!-- ./     main category preloader -->
 
 <script type="text/ng-template" id="category_nodes_renderer.html">
@@ -22,19 +22,22 @@
     </ol>
 </script>
 
-<div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="postCategoriesData.length !== 0">
+<div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3"
+     ng-if="postCategoriesData.length !== 0">
     <ol ui-tree-nodes="" ng-model="postCategoriesData" id="tree-root-categories">
-        <li ng-repeat="node in postCategoriesData" ui-tree-node ng-include="'category_nodes_renderer.html'" repeat-done="repeatInMainCategoryDone()" collapsed="true"></li>
+        <li ng-repeat="node in postCategoriesData" ui-tree-node ng-include="'category_nodes_renderer.html'"
+            repeat-done="repeatInMainCategoryDone()" collapsed="true"></li>
     </ol>
 </div>
 
 <div id="main-category-tree-no-category" class="edit-hide">
 
-     <div  class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postCategoriesData.length == 0" style="cursor: default">
+    <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postCategoriesData.length == 0"
+         style="cursor: default">
         <ol class="angular-ui-tree-nodes">
             <li class="angular-ui-tree-node"><em>No category</em></li>
         </ol>
-    </div>       
+    </div>
 
 </div>
 
@@ -42,44 +45,49 @@
 <!--    select-category-wrapper -->
 <div id="select-category-wrapper" class="edit-hide">
 
-<!--      select category preloader -->
-   <div id="select-category-preloader" style="text-align: center;">
+    <!--      select category preloader -->
+    <div id="select-category-preloader" style="text-align: center;">
         <img ng-src="{{preloader}}">
         <br>
-   </div>
-<!-- ./     select category preloader -->
+    </div>
+    <!-- ./     select category preloader -->
 
     <script type="text/ng-template" id="select_category_nodes_renderer.html">
         <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;">
-           <button data-nodrag ng-click="addSelectedCategory(newPost.categories, node.id)" class="button">&#43;</button>
+            <button data-nodrag ng-click="addSelectedCategory(newPost.categories, node.id)" class="button">&#43;
+            </button>
             &nbsp;{{node.name}}
 
         </div>
         <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
-            <li ng-repeat="node in node.child" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" repeat-done="repeatInSelectCategoryDone()">
+            <li ng-repeat="node in node.child" ui-tree-node data-nodrag
+                ng-include="'select_category_nodes_renderer.html'" repeat-done="repeatInSelectCategoryDone()">
             </li>
         </ol>
     </script>
 
-    <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="categoriesData.length !== 0" style="cursor: default;">
+    <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide"
+         data-max-depth="3" ng-if="categoriesData.length !== 0" style="cursor: default;">
         <ol ui-tree-nodes="" ng-model="categoriesData" id="tree-root-categories">
-            <li ng-repeat="node in categoriesData" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" collapsed="false"></li>
+            <li ng-repeat="node in categoriesData" ui-tree-node data-nodrag
+                ng-include="'select_category_nodes_renderer.html'" collapsed="false"></li>
         </ol>
     </div>
 
     <div id="select-category-tree-no-category" class="edit-hide">
 
-    <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="categoriesData.length == 0" style="cursor: default;">
+        <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="categoriesData.length == 0"
+             style="cursor: default;">
             <ol class="angular-ui-tree-nodes">
                 <li class="angular-ui-tree-node"><em>No category</em></li>
             </ol>
-        </div>          
+        </div>
 
     </div>
 
 
 </div>
-<!--  ./  select-category-wrapper -->   
+<!--  ./  select-category-wrapper -->
 
 <button class="button" ng-click="getCategoryData()">select category</button>
 

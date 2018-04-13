@@ -6,8 +6,8 @@ var gulp = require('gulp'),
 
 var vendorFileList = [
     'bower_components/angular/angular.js',
-    'bower_components/angular-animate/angular-animate.min.js',    
-    'bower_components/angular-resource/angular-resource.js',    
+    'bower_components/angular-animate/angular-animate.min.js',
+    'bower_components/angular-resource/angular-resource.js',
     'bower_components/angular-ui-router/release/angular-ui-router.min.js',
     'bower_components/angular-filter/dist/angular-filter.min.js',
     'bower_components/angular-sanitize/angular-sanitize.min.js',
@@ -59,29 +59,29 @@ var appFileList = [
     'app/js/directives/staticInclude.js'
 ];
 
-gulp.task( 'css', function() {
+gulp.task('css', function () {
     gulp.src(cssFileList)
         .pipe(concat('styles.css'))
         .pipe(gulp.dest('./build/css'));
 });
 
-gulp.task( 'vendor', function(){
+gulp.task('vendor', function () {
     gulp.src(vendorFileList)
         .pipe(concat('vendor-scripts.js'))
         .pipe(gulp.dest('build/js/'));
 });
 
-gulp.task( 'app', function(){
+gulp.task('app', function () {
     gulp.src(appFileList)
         .pipe(concat('wp-gote-advanced-plugin-app.js'))
         .pipe(gulp.dest('build/js/'));
 });
 
 
-gulp.task( 'watch', function(){
-    gulp.watch(cssFileList, ['css'] );
-    gulp.watch(vendorFileList, ['vendor'] );
+gulp.task('watch', function () {
+    gulp.watch(cssFileList, ['css']);
+    gulp.watch(vendorFileList, ['vendor']);
     gulp.watch(appFileList, ['app']);
 })
 
-gulp.task( 'default', ['css', 'vendor', 'app', 'watch'] );
+gulp.task('default', ['css', 'vendor', 'app', 'watch']);

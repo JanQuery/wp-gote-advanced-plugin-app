@@ -1,9 +1,9 @@
 <div class="info-box">
     <p>Status:&nbsp;
-       <span>
-            <select ng-options="key as value for (key, value) in postStatusOptions" 
-                                    ng-model="postStatus"
-                                    ng-change="selectedPostStatus( postStatus )">
+        <span>
+            <select ng-options="key as value for (key, value) in postStatusOptions"
+                    ng-model="postStatus"
+                    ng-change="selectedPostStatus( postStatus )">
             </select>
         </span>
         <br>
@@ -14,19 +14,19 @@
         </span>
     </p>
     <p>Visibility:&nbsp;
-       <span>
-            <select ng-options="key as value for (key, value) in postVisibilityOptions" 
-                                    ng-model="postVisibility"
-                                    ng-change="selectedPostStatus( postVisibility )">
+        <span>
+            <select ng-options="key as value for (key, value) in postVisibilityOptions"
+                    ng-model="postVisibility"
+                    ng-change="selectedPostStatus( postVisibility )">
                             </select>
         </span>
     </p>
     <hr>
     <p>Accept comments&nbsp;
         <span>
-            <select ng-options="key as value for (key, value) in postCommentStatusOptions" 
-                                    ng-model="postCommentStatus"
-                                    ng-change="selectedPostCommentStatus( postCommentStatus )">
+            <select ng-options="key as value for (key, value) in postCommentStatusOptions"
+                    ng-model="postCommentStatus"
+                    ng-change="selectedPostCommentStatus( postCommentStatus )">
             </select>
         </span>
     </p>

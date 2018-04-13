@@ -48,6 +48,7 @@ wp_gote_advanced_plugin_app.app.config(['$stateProvider', '$urlRouterProvider', 
 
     // set white list to allow injection of scripts/ sources
     $sceDelegateProvider.resourceUrlWhitelist([
+        wp_gote_advanced_plugin_app_local.baseURL + '/**',
         'http://127.0.0.1/**',
         'http://localhost/**'
     ]);

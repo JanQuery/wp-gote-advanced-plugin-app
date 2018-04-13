@@ -257,6 +257,9 @@ div.modal-aside-content span.tag span.tag-separator {
 .edit-hide {
     display: none;
 }
+.hidden {
+    display: none;
+}
 .show {
     display: inline-block;
 }

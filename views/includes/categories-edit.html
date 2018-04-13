@@ -1,8 +1,8 @@
     <h2>Category</h2>
     
 <!--      main category preloader -->
-       <div id="main-category-preloader" style="text-align: center;">
-           <img ng-src="{{preloader}}" ng-if="preloader">
+       <div id="main-category-preloader" class="fadeOut" style="text-align: center;">
+           <img ng-src="{{preloader}}" ng-if="preloader && !postCategoriesData">
        </div>
 <!-- ./     main category preloader -->
 
@@ -23,13 +23,13 @@
         </ol>
     </script>
 
-    <div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="postCategoriesData.length !== 0">
+    <div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree fadeIn FadeOut" data-max-depth="3" ng-if="postCategoriesData.length !== 0">
         <ol ui-tree-nodes="" ng-model="postCategoriesData" id="tree-root-categories">
             <li ng-repeat="node in postCategoriesData" ui-tree-node ng-include="'category_nodes_renderer.html'" repeat-done="repeatInMainCategoryDone()" collapsed="true"></li>
         </ol>
     </div>
     
-    <div id="main-category-tree-no-category" class="edit-hide">
+    <div id="main-category-tree-no-category">
         
          <div  class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postCategoriesData.length == 0" style="cursor: default">
             <ol class="angular-ui-tree-nodes">
@@ -41,11 +41,11 @@
         
     
 <!--    select-category-wrapper -->
-    <div id="select-category-wrapper" class="edit-hide">
+    <div id="select-category-wrapper" class="hidden">
       
 <!--      select category preloader -->
        <div id="select-category-preloader" style="text-align: center;">
-            <img ng-src="{{preloader}}" ng-if="preloader">
+            <img ng-src="{{preloader}}" ng-if="preloader && !categoriesData">
             <br>
        </div>
 <!-- ./     select category preloader -->
@@ -62,13 +62,13 @@
             </ol>
         </script>
 
-        <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="categoriesData.length !== 0" style="cursor: default;">
+        <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree" data-max-depth="3" ng-if="categoriesData.length !== 0" style="cursor: default;">
             <ol ui-tree-nodes="" ng-model="categoriesData" id="tree-root-categories">
                 <li ng-repeat="node in categoriesData" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" collapsed="false"></li>
             </ol>
         </div>
         
-        <div id="select-category-tree-no-category" class="edit-hide">
+        <div id="select-category-tree-no-category">
             
             <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="categoriesData.length == 0" style="cursor: default;">
                 <ol class="angular-ui-tree-nodes">
@@ -82,7 +82,7 @@
     </div>
 <!--  ./  select-category-wrapper -->   
    
-    <button class="button" ng-click="getCategoryData()">select category</button>
+    <button class="button" ng-click="jQuery('div#select-category-wrapper').toggle('show'); getCategoryData()">select category</button>
     
     <br>
     
@@ -90,7 +90,7 @@
     
     <br>
         
-    <div id="add-post-category-wrapper" class="edit-hide">
+    <div id="add-post-category-wrapper" class="hidden">
         
         <input id="new-post-category" type="text" ng-model="newCategory" style="width: 100%">
         <br>

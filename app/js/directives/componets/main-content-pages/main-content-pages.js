@@ -241,6 +241,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'P
             scope.wpTranslation_details                 = wpTranslation.getTranslation_details();
             scope.wpTranslation_page_details            = wpTranslation.getTranslation_page_details();
             scope.wpTranslation_upps_nothing_found      = wpTranslation.getTranslation_upps_nothing_found();
+            scope.wpTranslation_did_y_write_some_content= wpTranslation.getTranslation_did_y_write_some_content();
             scope.wpTranslation_maybe_filter_not_match  = wpTranslation.getTranslation_maybe_filter_not_match();
             scope.wpTranslation_if_then_reset_app       = wpTranslation.getTranslation_if_then_reset_app();
             scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();

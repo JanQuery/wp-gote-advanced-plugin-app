@@ -7,7 +7,7 @@
                         ng-change="selectedItemsPerPageChanged()">
                 </select>
                 <br>
-                <label class="active">posts per page</label>
+                <label class="active">{{::wpTranslation_posts_per_page}}</label>
 
             </div>
 
@@ -47,7 +47,7 @@
             
             <div style="clear: both"></div>
             
-            <p style="width:120px; text-align: center; float: right; margin: 0;">Total Items <span ng-if="filtersAreActive">filtered</span></p>
+            <p style="width:120px; text-align: center; float: right; margin: 0;">{{::wpTranslation_total_items}}&nbsp;<span ng-if="filtersAreActive">{{::wpTranslation_filtered}}</span></p>
             
         </div>
         

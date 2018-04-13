@@ -79,10 +79,12 @@ function wp_gote_advanced_plugin_app_admin_scripts( $hook ) {
                 'wpTranslation_page_details'        => __( 'Page details ', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_filter'              => __( 'Filter ', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_load_more'              => __( 'load more ', 'wp-gote-advanced-plugin-app' ),
+                'wpTranslation_status'              => __( 'Status ', 'wp-gote-advanced-plugin-app' ),
                 
                 
                 // Error handling
                 'wpTranslation_upps_nothing_found'      => __( 'Upps! Nothing found. ', 'wp-gote-advanced-plugin-app' ),
+                'wpTranslation_did_y_write_some_content'      => __( 'Did you write some content? ', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_maybe_filter_not_match'  => __( 'Maybe your search filter does not match any post/ page?', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_if_then_reset_app'       => __( 'If nothing helps, reset the GOTE Advanced Plugin App ', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_reset_app_txt'           => __( 'reset GOTE Adv. Plugin App ', 'wp-gote-advanced-plugin-app' ),

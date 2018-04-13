@@ -1,5 +1,5 @@
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, console, setTimeout, jQuery */
-wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchFilter', function ( $rootScope, SearchFilter ) {
+wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchFilter', 'wpTranslation', function ( $rootScope, SearchFilter, wpTranslation ) {
     return {
         restrict: "E",
         templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/pagination/pagination.html',
@@ -127,6 +127,11 @@ wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchF
                 
             });
             
-        }
+             // Translateables            
+            scope.wpTranslation_posts_per_page                     = wpTranslation.getTranslation_posts_per_page();
+            scope.wpTranslation_total_items                        = wpTranslation.getTranslation_total_items();
+            scope.wpTranslation_filtered                           = wpTranslation.getTranslation_filtered();
+            
+        } // ./ link: function () {...}
     }
 }])

@@ -29,10 +29,6 @@
                     // When the user clicks on the button, open the modal 
                     btnOpen.onclick = function() {
                         modalById.style.display = "block";
-                        
-                         jQuery('#ux-aside-detail-wrapper-' + scope.modalId ).removeClass('hide');
-                        
-                        jQuery('#modal-aside-main-content-' + scope.modalId ).addClass('hide');
                     }
 
                     // When the user clicks on <span> (x), close the modal

@@ -82,7 +82,7 @@ function wp_gote_advanced_plugin_app_admin_scripts( $hook ) {
                 
                 
                 // Error handling
-                'wpTranslation_upps_nothing_found'      => __( 'Upps! Nothing found. ', 'wp-gote-advanced-plugin-app' ),
+                'wpTranslation_upps_nothing_found'      => __( 'Upps! No thing found. ', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_maybe_filter_not_match'  => __( 'Maybe your search filter does not match any post/ page?', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_if_then_reset_app'       => __( 'If nothing helps, reset the GOTE Advanced Plugin App ', 'wp-gote-advanced-plugin-app' ),
                 'wpTranslation_reset_app_txt'           => __( 'reset GOTE Adv. Plugin App ', 'wp-gote-advanced-plugin-app' ),

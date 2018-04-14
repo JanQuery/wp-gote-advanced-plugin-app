@@ -3,10 +3,10 @@
  */
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
 
-wp_gote_advanced_plugin_app.app.factory( 'TagsSrvc', [ '$resource', function( $resource ){
-    
-    return $resource( wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/tags/', { id: '@id'},{
-        'get':{
+wp_gote_advanced_plugin_app.app.factory('TagsSrvc', ['$resource', function ($resource) {
+
+    return $resource(wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/tags/', {id: '@id'}, {
+        'get': {
             method: 'GET',
             isArray: false,
             headers: {
@@ -14,12 +14,12 @@ wp_gote_advanced_plugin_app.app.factory( 'TagsSrvc', [ '$resource', function( $r
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/tags/:id?'
         },
-        'query':{
+        'query': {
             method: 'GET',
             isArray: true,
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/tags'
         },
-        'getfiltered':{
+        'getfiltered': {
             method: 'GET',
             isArray: true,
             params: {
@@ -28,18 +28,18 @@ wp_gote_advanced_plugin_app.app.factory( 'TagsSrvc', [ '$resource', function( $r
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/tags?:filterTitle=:searchTerm'
         },
-        'update':{
-            method:'POST',
+        'update': {
+            method: 'POST',
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/tags/:id',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             }
         },
-        'save':{
-            method:'POST',
+        'save': {
+            method: 'POST',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             }
         }
     });
-}] )
+}])

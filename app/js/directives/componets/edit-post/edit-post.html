@@ -5,29 +5,32 @@
 
         <a ui-sref="main">&larr; {{::wpTranslation_back}}</a>
         <br>
-        
-        <h3 style="width: auto; float: left;">{{::wpTranslation_edit_post}}: {{post.title.rendered | removePrivatString}}</h3>
 
-        <button style="margin-left: 20px;" class="icon-button button" onclick="jQuery('input#post_title').toggle('show');">
-           
+        <h3 style="width: auto; float: left;">{{::wpTranslation_edit_post}}: {{post.title.rendered |
+            removePrivatString}}</h3>
+
+        <button style="margin-left: 20px;" class="icon-button button"
+                onclick="jQuery('input#post_title').toggle('show');">
+
             <img ng-src="{{image_directory}}/edit-icon-32x32.png">
-            
+
         </button>
-        
+
         <div style="clear: both;"></div>
-        
-        <br>
-        <br>
-
-        <input id="post_title" class="edit-hide" type="text" ng-model="post.title.rendered" ng-trim="false" remove-privat-string-from-input ng-change="changesInTextarea()" style="width: 100%;" >
-
 
         <br>
         <br>
 
+        <input id="post_title" class="edit-hide" type="text" ng-model="post.title.rendered" ng-trim="false"
+               remove-privat-string-from-input ng-change="changesInTextarea()" style="width: 100%;">
 
 
-        <textarea ui-tinymce="tinymceOptions" type="text" ng-model="post.content.rendered" ng-change="changesInTextarea()" fullscreen-tiny-mce-bug-fix ng-if="tinymceOptions"></textarea>
+        <br>
+        <br>
+
+
+        <textarea ui-tinymce="tinymceOptions" type="text" ng-model="post.content.rendered"
+                  ng-change="changesInTextarea()" fullscreen-tiny-mce-bug-fix ng-if="tinymceOptions"></textarea>
 
     </div><!-- ./ .main-content -->
 
@@ -38,37 +41,23 @@
             <p><b><em>{{::wpTranslation_changes_made}}</em></b></p>
 
             <button class="button" onclick="window.location.reload();">{{::wpTranslation_reset_changes}}</button>
-            <button class="button" ng-disabled="!formChanged" ng-click="updatePost(post)">{{::wpTranslation_update_post}}</button>
+            <button class="button" ng-disabled="!formChanged" ng-click="updatePost(post)">
+                {{::wpTranslation_update_post}}
+            </button>
 
         </div><!-- ./ .info-box -->
 
         <br>
         <h2>{{::wpTranslation_post_details}}</h2>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-        <post-details ctrl="EditPostCtrl"></post-details>
-=======
         <div static-include="/includes/post-details.html"></div>
->>>>>>> parent of d9d6f12... dev
-        
-=======
-        <div static-include="/includes/post-details.html"></div>
-<<<<<<< HEAD
 
->>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
-=======
-        
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
         <h2>{{::wpTranslation_edit_post_details}}</h2>
         <div static-include="/includes/post-details-edit.html"></div>
-
 
 
         <br>
 
         <div static-include="/includes/featured-media-edit.html"></div>
-
 
 
         <div static-include="/includes/categories-edit.html"></div>
@@ -78,5 +67,5 @@
         <div static-include="/includes/tags-edit.html"></div>
 
     </div><!-- ./ .aside-content -->
-    
+
 </form>

@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
-    <!-- Pagination -->
-    <div>
-       <div ng-show="!gettingNewPostData" class="fadeIn">
-            <div ng-show="numberOfPages() > 1 || selectedItemsPerPageSet" class="fadeIn fadeOut" style="width: 20%; float: left">
-                <select ng-options="option for option in optionsOnItemsPerPage" 
-                        ng-model="selectedItemsPerPage"
-                        ng-change="selectedItemsPerPageChanged()">
-                </select>
-                <br>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <label class="active">{{::wpTranslation_posts_per_page}}</label>
-=======
 <!-- Pagination -->
 <div>
     <div ng-show="!gettingNewPostData" class="fadeIn">
@@ -26,70 +9,57 @@
             </select>
             <br>
             <label class="active">posts per page</label>
->>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
-=======
-                <label class="active">posts per page</label>
->>>>>>> parent of d9d6f12... dev
-=======
-                <label class="active">posts per page</label>
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 
-            </div>
+        </div>
 
 
-            <div class="center" ng-if="numberOfPages() > 1" style="width: 60%; float: left;">
+        <div class="center" ng-if="numberOfPages() > 1" style="width: 60%; float: left;">
 
-                <div class="pagination">
-                    <ul class="pagination-list">
-                        <li ng-class="{'disabled': curPage == 1}">
-                            <button type="button" class="button" ng-disabled="curPage == 1" ng-click="paginatToPage(curPage-1)">
-                                    <span class="custom-icon custom-icon custom-icon-chevron-left"></span>
-                                </button>
-                        </li>
+            <div class="pagination">
+                <ul class="pagination-list">
+                    <li ng-class="{'disabled': curPage == 1}">
+                        <button type="button" class="button" ng-disabled="curPage == 1"
+                                ng-click="paginatToPage(curPage-1)">
+                            <span class="custom-icon custom-icon custom-icon-chevron-left"></span>
+                        </button>
+                    </li>
 
-                        <span ng-repeat="pages in repeatNumber(numberOfPages()) track by $index">
+                    <span ng-repeat="pages in repeatNumber(numberOfPages()) track by $index">
                             <li class="pagination-item pagination-page-{{$index+1}}">
                                 <a ng-click="paginatToPage($index+1)">{{$index +1}}</a>
                             </li>
                         </span>
 
-                        <li ng-class="{'disabled': curPage >= numberOfPages()}">
-                            <button type="button" class="button" ng-disabled="curPage >= numberOfPages()" ng-click="paginatToPage(curPage+1)">
-                                    <span class="custom-icon custom-icon custom-icon-chevron-right"></span>
-                            </button>
-                        </li>
-                    </ul>
-
-                </div>
+                    <li ng-class="{'disabled': curPage >= numberOfPages()}">
+                        <button type="button" class="button" ng-disabled="curPage >= numberOfPages()"
+                                ng-click="paginatToPage(curPage+1)">
+                            <span class="custom-icon custom-icon custom-icon-chevron-right"></span>
+                        </button>
+                    </li>
+                </ul>
 
             </div>
+
         </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
-                
-        
-        <div style="position: absolute; right: 19px;">
-           
-            <p class="info-box" style="width:100px; text-align: center; float: right; margin: 0;">{{totatItemsPublic}}</p>
-            
-            <div style="clear: both"></div>
-            
-            <p style="width:120px; text-align: center; float: right; margin: 0;">Total Items <span ng-if="filtersAreActive">filtered</span></p>
-            
-        </div>
-        
-        <br>
-        <br>
-        <br>
-        <div style="clear: both;"></div>
-        
-<<<<<<< HEAD
-=======
->>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
-=======
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
     </div>
 
-    <!-- Pagination ./ -->
+
+    <div style="position: absolute; right: 19px;">
+
+        <p class="info-box" style="width:100px; text-align: center; float: right; margin: 0;">{{totatItemsPublic}}</p>
+
+        <div style="clear: both"></div>
+
+        <p style="width:120px; text-align: center; float: right; margin: 0;">Total Items <span ng-if="filtersAreActive">filtered</span>
+        </p>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <div style="clear: both;"></div>
+
+</div>
+
+<!-- Pagination ./ -->

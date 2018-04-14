@@ -4,13 +4,13 @@
 
 
         <a ui-sref="pages">&larr; {{::wpTranslation_back}}</a>
-        
+
         <h2 ng-if="!post.title || !post.content">{{::wpTranslation_create_new_page}}</h2>
-        
+
         <h3 style="width: auto; float: left;" ng-if="post.title">{{::wpTranslation_title}}: {{post.title}}</h3>
 
         <div style="clear: both;"></div>
-        
+
         <br>
         <br>
 
@@ -19,35 +19,35 @@
         <br>
         <br>
 
-        <textarea ui-tinymce="tinymceOptions" type="text" ng-model="post.content" fullscreen-tiny-mce-bug-fix ng-if="tinymceOptions" required></textarea>
+        <textarea ui-tinymce="tinymceOptions" type="text" ng-model="post.content" fullscreen-tiny-mce-bug-fix
+                  ng-if="tinymceOptions" required></textarea>
 
     </div><!-- ./ .main-content -->
 
     <div class="aside-content">
-      
-            <div class="info-box">
 
-                <p><b><em>{{::wpTranslation_publish_new_page}}</em></b></p>
-                
-                <button class="button" onclick="window.location.reload();">{{::wpTranslation_reset_changes}}</button>
-                
-                <button class="button" ng-disabled="post.$invalid" ng-click="saveNewPost(post)">{{::wpTranslation_publish_new_page}}</button>
+        <div class="info-box">
 
-                <p ng-if="!statusFutureActive && !post.$valid"><em>{{::wpTranslation_title_n_page_content_required}}</em></p>
-                <p ng-if="statusFutureActive && !post.$valid"><em>{{::wpTranslation_on_status_date_n_time_required}}</em></p>
+            <p><b><em>{{::wpTranslation_publish_new_page}}</em></b></p>
 
-            </div><!-- ./ .info-box -->
+            <button class="button" onclick="window.location.reload();">{{::wpTranslation_reset_changes}}</button>
 
-            <div static-include="/includes/post-details-edit.html"></div>
+            <button class="button" ng-disabled="post.$invalid" ng-click="saveNewPost(post)">
+                {{::wpTranslation_publish_new_page}}
+            </button>
 
-            <br>
-            <div static-include="/includes/featured-media-create.html"></div>
+            <p ng-if="!statusFutureActive && !post.$valid"><em>{{::wpTranslation_title_n_page_content_required}}</em>
+            </p>
+            <p ng-if="statusFutureActive && !post.$valid"><em>{{::wpTranslation_on_status_date_n_time_required}}</em>
+            </p>
+
+        </div><!-- ./ .info-box -->
+
+        <div static-include="/includes/post-details-edit.html"></div>
+
+        <br>
+        <div static-include="/includes/featured-media-create.html"></div>
 
     </div><!-- ./ .aside-content -->
-<<<<<<< HEAD
 
 </form><!-- ./ name="post" -->
-=======
-    
-</form><!-- ./ name="post" -->
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master

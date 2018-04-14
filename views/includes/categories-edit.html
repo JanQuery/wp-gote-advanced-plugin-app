@@ -1,211 +1,108 @@
-    <h2>Category</h2>
-    
+<h2>Category</h2>
+
 <!--      main category preloader -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-       <div id="main-category-preloader" class="fadeOut" style="text-align: center;">
-           <img ng-src="{{preloader}}" ng-if="preloader && !postCategoriesData">
-=======
-       <div id="main-category-preloader" style="text-align: center;">
-           <img ng-src="{{preloader}}" ng-if="preloader">
->>>>>>> parent of d9d6f12... dev
-       </div>
-=======
 <div id="main-category-preloader" style="text-align: center;">
     <img ng-src="{{preloader}}" ng-if="preloader">
 </div>
->>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
-=======
-       <div id="main-category-preloader" style="text-align: center;">
-           <img ng-src="{{preloader}}" ng-if="preloader">
-       </div>
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 <!-- ./     main category preloader -->
 
-    <script type="text/ng-template" id="category_nodes_renderer.html">
-        <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle">
-            <button data-nodrag ng-click="toggle(this)" ng-if="node.child && node.child.length > 0">
+<script type="text/ng-template" id="category_nodes_renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle">
+        <button data-nodrag ng-click="toggle(this)" ng-if="node.child && node.child.length > 0">
                                             <span class="custom-icon custom-icon-chevron-right" ng-class="{
                                                   'custom-icon-chevron-right': collapsed,
                                                   'custom-icon-chevron-down': !collapsed
                                                 }"></span>
-            </button>
+        </button>
+        &nbsp;{{node.name}}
+        <button style="float: right;" data-nodrag ng-click="remove(this); treeCustomRemoveCallback(post.categories)"
+                class="button">&times;
+        </button>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
+        <li ng-repeat="node in node.child" ui-tree-node ng-include="'category_nodes_renderer.html'">
+        </li>
+    </ol>
+</script>
+
+<div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3"
+     ng-if="postCategoriesData.length !== 0">
+    <ol ui-tree-nodes="" ng-model="postCategoriesData" id="tree-root-categories">
+        <li ng-repeat="node in postCategoriesData" ui-tree-node ng-include="'category_nodes_renderer.html'"
+            repeat-done="repeatInMainCategoryDone()" collapsed="true"></li>
+    </ol>
+</div>
+
+<div id="main-category-tree-no-category" class="edit-hide">
+
+    <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postCategoriesData.length == 0"
+         style="cursor: default">
+        <ol class="angular-ui-tree-nodes">
+            <li class="angular-ui-tree-node"><em>No category</em></li>
+        </ol>
+    </div>
+
+</div>
+
+
+<!--    select-category-wrapper -->
+<div id="select-category-wrapper" class="edit-hide">
+
+    <!--      select category preloader -->
+    <div id="select-category-preloader" style="text-align: center;">
+        <img ng-src="{{preloader}}" ng-if="preloader">
+        <br>
+    </div>
+    <!-- ./     select category preloader -->
+
+    <script type="text/ng-template" id="select_category_nodes_renderer.html">
+        <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;">
+            <button data-nodrag ng-click="addSelectedCategory(post.categories, node.id)" class="button">&#43;</button>
             &nbsp;{{node.name}}
-            <button style="float: right;" data-nodrag ng-click="remove(this); treeCustomRemoveCallback(post.categories)" class="button">&times;</button>
+
         </div>
         <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
-            <li ng-repeat="node in node.child" ui-tree-node ng-include="'category_nodes_renderer.html'">
+            <li ng-repeat="node in node.child" ui-tree-node data-nodrag
+                ng-include="'select_category_nodes_renderer.html'" repeat-done="repeatInSelectCategoryDone()">
             </li>
         </ol>
     </script>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree fadeIn FadeOut" data-max-depth="3" ng-if="postCategoriesData.length !== 0">
-=======
-    <div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="postCategoriesData.length !== 0">
->>>>>>> parent of d9d6f12... dev
-        <ol ui-tree-nodes="" ng-model="postCategoriesData" id="tree-root-categories">
-            <li ng-repeat="node in postCategoriesData" ui-tree-node ng-include="'category_nodes_renderer.html'" repeat-done="repeatInMainCategoryDone()" collapsed="true"></li>
-        </ol>
-    </div>
-    
-    <div id="main-category-tree-no-category" class="edit-hide">
-        
-         <div  class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postCategoriesData.length == 0" style="cursor: default">
-            <ol class="angular-ui-tree-nodes">
-                <li class="angular-ui-tree-node"><em>No category</em></li>
-            </ol>
-        </div>       
-        
-    </div>
-        
-    
-<!--    select-category-wrapper -->
-    <div id="select-category-wrapper" class="edit-hide">
-      
-<!--      select category preloader -->
-       <div id="select-category-preloader" style="text-align: center;">
-            <img ng-src="{{preloader}}" ng-if="preloader">
-            <br>
-       </div>
-<!-- ./     select category preloader -->
-
-        <script type="text/ng-template" id="select_category_nodes_renderer.html">
-            <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;">
-               <button data-nodrag ng-click="addSelectedCategory(post.categories, node.id)" class="button">&#43;</button>
-                &nbsp;{{node.name}}
-                
-            </div>
-            <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
-                <li ng-repeat="node in node.child" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" repeat-done="repeatInSelectCategoryDone()">
-                </li>
-            </ol>
-        </script>
-
-        <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="categoriesData.length !== 0" style="cursor: default;">
-            <ol ui-tree-nodes="" ng-model="categoriesData" id="tree-root-categories">
-                <li ng-repeat="node in categoriesData" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" collapsed="false"></li>
-            </ol>
-        </div>
-        
-        <div id="select-category-tree-no-category" class="edit-hide">
-            
-            <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="categoriesData.length == 0" style="cursor: default;">
-                <ol class="angular-ui-tree-nodes">
-                    <li class="angular-ui-tree-node"><em>No category</em></li>
-                </ol>
-            </div>          
-            
-        </div>
-    
-        
-    </div>
-<!--  ./  select-category-wrapper -->   
-   
-    <button class="button" ng-click="getCategoryData()">select category</button>
-    
-    <br>
-    
-    <a class="pointer" onclick="jQuery('div#add-post-category-wrapper').toggle('show');">+ create new category</a>
-    
-    <br>
-        
-    <div id="add-post-category-wrapper" class="edit-hide">
-        
-        <input id="new-post-category" type="text" ng-model="newCategory" style="width: 100%">
-        <br>
-        <button class="button" ng-click="addCategory( newCategory )">create new cagtegory</button>
-        
-    </div>
-=======
     <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide"
          data-max-depth="3" ng-if="categoriesData.length !== 0" style="cursor: default;">
         <ol ui-tree-nodes="" ng-model="categoriesData" id="tree-root-categories">
             <li ng-repeat="node in categoriesData" ui-tree-node data-nodrag
                 ng-include="'select_category_nodes_renderer.html'" collapsed="false"></li>
-=======
-    <div id="main-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="postCategoriesData.length !== 0">
-        <ol ui-tree-nodes="" ng-model="postCategoriesData" id="tree-root-categories">
-            <li ng-repeat="node in postCategoriesData" ui-tree-node ng-include="'category_nodes_renderer.html'" repeat-done="repeatInMainCategoryDone()" collapsed="true"></li>
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
         </ol>
     </div>
-    
-    <div id="main-category-tree-no-category" class="edit-hide">
-        
-         <div  class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postCategoriesData.length == 0" style="cursor: default">
+
+    <div id="select-category-tree-no-category" class="edit-hide">
+
+        <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="categoriesData.length == 0"
+             style="cursor: default;">
             <ol class="angular-ui-tree-nodes">
                 <li class="angular-ui-tree-node"><em>No category</em></li>
             </ol>
-        </div>       
-        
-    </div>
-        
-    
-<!--    select-category-wrapper -->
-    <div id="select-category-wrapper" class="edit-hide">
-      
-<!--      select category preloader -->
-       <div id="select-category-preloader" style="text-align: center;">
-            <img ng-src="{{preloader}}" ng-if="preloader">
-            <br>
-       </div>
-<!-- ./     select category preloader -->
-
-        <script type="text/ng-template" id="select_category_nodes_renderer.html">
-            <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;">
-               <button data-nodrag ng-click="addSelectedCategory(post.categories, node.id)" class="button">&#43;</button>
-                &nbsp;{{node.name}}
-                
-            </div>
-            <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
-                <li ng-repeat="node in node.child" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" repeat-done="repeatInSelectCategoryDone()">
-                </li>
-            </ol>
-        </script>
-
-        <div id="select-category-tree" ui-tree="treeOptionsInCategories" class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="categoriesData.length !== 0" style="cursor: default;">
-            <ol ui-tree-nodes="" ng-model="categoriesData" id="tree-root-categories">
-                <li ng-repeat="node in categoriesData" ui-tree-node data-nodrag ng-include="'select_category_nodes_renderer.html'" collapsed="false"></li>
-            </ol>
         </div>
-        
-        <div id="select-category-tree-no-category" class="edit-hide">
-            
-            <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="categoriesData.length == 0" style="cursor: default;">
-                <ol class="angular-ui-tree-nodes">
-                    <li class="angular-ui-tree-node"><em>No category</em></li>
-                </ol>
-            </div>          
-            
-        </div>
-    
-        
+
     </div>
-<!--  ./  select-category-wrapper -->   
-   
-    <button class="button" ng-click="getCategoryData()">select category</button>
-    
+
+
+</div>
+<!--  ./  select-category-wrapper -->
+
+<button class="button" ng-click="getCategoryData()">select category</button>
+
+<br>
+
+<a class="pointer" onclick="jQuery('div#add-post-category-wrapper').toggle('show');">+ create new category</a>
+
+<br>
+
+<div id="add-post-category-wrapper" class="edit-hide">
+
+    <input id="new-post-category" type="text" ng-model="newCategory" style="width: 100%">
     <br>
-<<<<<<< HEAD
     <button class="button" ng-click="addCategory( newCategory )">create new cagtegory</button>
 
 </div>
->>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
-=======
-    
-    <a class="pointer" onclick="jQuery('div#add-post-category-wrapper').toggle('show');">+ create new category</a>
-    
-    <br>
-        
-    <div id="add-post-category-wrapper" class="edit-hide">
-        
-        <input id="new-post-category" type="text" ng-model="newCategory" style="width: 100%">
-        <br>
-        <button class="button" ng-click="addCategory( newCategory )">create new cagtegory</button>
-        
-    </div>
->>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master

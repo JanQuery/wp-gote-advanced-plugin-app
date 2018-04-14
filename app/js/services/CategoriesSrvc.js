@@ -3,15 +3,15 @@
  */
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
 
-wp_gote_advanced_plugin_app.app.factory( 'CategoriesSrvc', function( $resource ){
-    
-    return $resource( wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories/', { id: '@id'},{
-        'query':{
+wp_gote_advanced_plugin_app.app.factory('CategoriesSrvc', function ($resource) {
+
+    return $resource(wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories/', {id: '@id'}, {
+        'query': {
             method: 'GET',
             isArray: true,
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories'
         },
-        'get':{
+        'get': {
             method: 'GET',
             isArray: false,
 //            headers: {
@@ -19,28 +19,28 @@ wp_gote_advanced_plugin_app.app.factory( 'CategoriesSrvc', function( $resource )
 //            },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories/:id'
         },
-        'update':{
-            method:'POST',
+        'update': {
+            method: 'POST',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories/:id'
         },
-        'save':{
-            method:'POST',
+        'save': {
+            method: 'POST',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories'
         },
-        'delete':{
-            method:'DELETE',
+        'delete': {
+            method: 'DELETE',
             headers: {
                 'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories/:id?force=true'
         },
-        'getfiltered':{
+        'getfiltered': {
             method: 'GET',
             isArray: true,
             params: {
@@ -49,7 +49,7 @@ wp_gote_advanced_plugin_app.app.factory( 'CategoriesSrvc', function( $resource )
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/categories?:filterTitle=:searchTerm'
         },
-        'getdoublefiltered':{
+        'getdoublefiltered': {
             method: 'GET',
             isArray: true,
             params: {

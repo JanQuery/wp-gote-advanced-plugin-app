@@ -5,12 +5,16 @@
 wp_gote_advanced_plugin_app.app.factory( 'PostsSrvc', function( $resource ){
     
     return $resource( wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/', { id: '@id'},{
-        'get':{
+        'query':{
             method: 'GET',
-            isArray: false,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
+            isArray: true,
+            interceptor: {
+            response: function(response) {
+                  response.resource.$httpHeaders = response.headers;
+                  return response.resource;
+                }
             },
+<<<<<<< HEAD
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id'
 =======
 wp_gote_advanced_plugin_app.app.factory('PostsSrvc', function ($resource) {
@@ -27,6 +31,9 @@ wp_gote_advanced_plugin_app.app.factory('PostsSrvc', function ($resource) {
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author=' + wp_gote_advanced_plugin_app_local.current_user_id
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id
+>>>>>>> parent of d9d6f12... dev
         },
         'queryComplex': {
             method: 'GET',

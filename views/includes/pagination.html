@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="pagination">
     <ul class="pagination-list">
         <li ng-class="{'disabled': curPage == 1}">
@@ -7,6 +8,17 @@
                 <span class="custom-icon custom-icon custom-icon-chevron-left"></span>
             </button>
         </li>
+=======
+<div class="pagination">    
+       <ul class="pagination-list">
+           <li ng-class="{'disabled': curPage == 1}">
+               <button type="button" class="button"
+                    ng-disabled="curPage == 1"  
+                    ng-click="paginatToPage(curPage-1)">
+                    <span class="custom-icon custom-icon custom-icon-chevron-left"></span>
+                </button>
+            </li>
+>>>>>>> parent of d9d6f12... dev
 
         <span ng-repeat="pages in repeatNumber(numberOfPages()) track by $index">
             <li class="pagination-item pagination-page-{{$index+1}}">
@@ -16,6 +28,7 @@
 
         <li ng-class="{'disabled': curPage >= numberOfPages()}">
             <button type="button" class="button"
+<<<<<<< HEAD
                     ng-disabled="curPage >= numberOfPages()"
                     ng-click="paginatToPage(curPage+1)">
                 <span class="custom-icon custom-icon custom-icon-chevron-right"></span>
@@ -26,16 +39,35 @@
 </div>
 
 
+=======
+                    ng-disabled="curPage >= numberOfPages()" 
+                    ng-click="paginatToPage(curPage+1)">
+                    <span class="custom-icon custom-icon custom-icon-chevron-right"></span>
+            </button>
+        </li>
+    </ul>
+    
+</div>
+
+
+
+>>>>>>> parent of d9d6f12... dev
 <style>
     div.pagination {
         width: 100%;
         text-align: center;
     }
+<<<<<<< HEAD
 
     .pagination ul li {
         display: inline-block;
     }
 
+=======
+    .pagination ul li {
+        display: inline-block;
+    }
+>>>>>>> parent of d9d6f12... dev
     .pagination a {
         color: black;
         padding: 8px 16px;
@@ -49,7 +81,11 @@
         padding: 8px 16px;
     }
 
+<<<<<<< HEAD
     .pagination-item a:hover:not( .pagination-active-item ) {
+=======
+     .pagination-item a:hover:not( .pagination-active-item ) {
+>>>>>>> parent of d9d6f12... dev
         background-color: #ddd;
     }
 </style>

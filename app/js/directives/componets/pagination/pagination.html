@@ -8,6 +8,7 @@
                         ng-change="selectedItemsPerPageChanged()">
                 </select>
                 <br>
+<<<<<<< HEAD
                 <label class="active">{{::wpTranslation_posts_per_page}}</label>
 =======
 <!-- Pagination -->
@@ -22,6 +23,9 @@
             <br>
             <label class="active">posts per page</label>
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+                <label class="active">posts per page</label>
+>>>>>>> parent of d9d6f12... dev
 
         </div>
 
@@ -63,7 +67,7 @@
             
             <div style="clear: both"></div>
             
-            <p style="width:120px; text-align: center; float: right; margin: 0;">{{::wpTranslation_total_items}}&nbsp;<span ng-if="filtersAreActive">{{::wpTranslation_filtered}}</span></p>
+            <p style="width:120px; text-align: center; float: right; margin: 0;">Total Items <span ng-if="filtersAreActive">filtered</span></p>
             
         </div>
         

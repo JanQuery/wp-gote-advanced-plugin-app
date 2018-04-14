@@ -350,12 +350,16 @@ wp_gote_advanced_plugin_app.app.factory('PagesSrvc', function ($resource) {
 wp_gote_advanced_plugin_app.app.factory( 'PostsSrvc', function( $resource ){
     
     return $resource( wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/', { id: '@id'},{
-        'get':{
+        'query':{
             method: 'GET',
-            isArray: false,
-            headers: {
-                'X-WP-Nonce': wp_gote_advanced_plugin_app_local.nonce
+            isArray: true,
+            interceptor: {
+            response: function(response) {
+                  response.resource.$httpHeaders = response.headers;
+                  return response.resource;
+                }
             },
+<<<<<<< HEAD
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts/:id'
 =======
 wp_gote_advanced_plugin_app.app.factory('PostsSrvc', function ($resource) {
@@ -372,6 +376,9 @@ wp_gote_advanced_plugin_app.app.factory('PostsSrvc', function ($resource) {
             },
             url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author=' + wp_gote_advanced_plugin_app_local.current_user_id
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+            url: wp_gote_advanced_plugin_app_local.api_url + 'wp/v2/posts?author='+wp_gote_advanced_plugin_app_local.current_user_id
+>>>>>>> parent of d9d6f12... dev
         },
         'queryComplex': {
             method: 'GET',
@@ -1107,11 +1114,9 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         "page_details":                                 wp_gote_advanced_plugin_app_local.wpTranslation_page_details,
         "filter":                                       wp_gote_advanced_plugin_app_local.wpTranslation_filter,
         "load_more":                                    wp_gote_advanced_plugin_app_local.wpTranslation_load_more,
-        "status":                                       wp_gote_advanced_plugin_app_local.wpTranslation_status,
         
         // Error handlinng
         "upps_nothing_found":                           wp_gote_advanced_plugin_app_local.wpTranslation_upps_nothing_found,
-        "did_y_write_some_content":                 wp_gote_advanced_plugin_app_local.wpTranslation_did_y_write_some_content,
         "maybe_filter_not_match":                     wp_gote_advanced_plugin_app_local.wpTranslation_maybe_filter_not_match,
         "if_then_reset_app":                            wp_gote_advanced_plugin_app_local.wpTranslation_if_then_reset_app,
         "reset_app_txt":                                wp_gote_advanced_plugin_app_local.wpTranslation_reset_app_txt,
@@ -1312,9 +1317,12 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
             return data.load_more;
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         getTranslation_status: function () {
             return data.status;
         },
+=======
+>>>>>>> parent of d9d6f12... dev
         
 =======
 
@@ -1322,9 +1330,6 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
         // Error handling
         getTranslation_upps_nothing_found: function () {
             return data.upps_nothing_found;
-        },
-        getTranslation_did_y_write_some_content: function () {
-            return data.did_y_write_some_content;
         },
         getTranslation_maybe_filter_not_match: function () {
             return data.maybe_filter_not_match;
@@ -1398,750 +1403,627 @@ wp_gote_advanced_plugin_app.app.factory('wpTranslation', function () {
 
     return wpTranslation;
 });
-wp_gote_advanced_plugin_app.app.controller( 'EditPostCtrl', [
-    '$scope', '$state', '$stateParams', '$timeout', 'PostsSrvc', 'CategoriesToJsonSrvc', 'TagsToJsonSrvc', 'CategoriesSrvc', 'TagsSrvc', '$filter', 'wpTranslation',
-     function( $scope, $state, $stateParams, $timeout, PostsSrvc, CategoriesToJsonSrvc, TagsToJsonSrvc, CategoriesSrvc, TagsSrvc, $filter, wpTranslation ){
+wp_gote_advanced_plugin_app.app.filter('removePrivatString', function () {
+    
+     return function (input) {
+         
+         if (input !== undefined ){
+         
+            if (input.indexOf('Privat:') > -1){
 
-        
-        // Helper function
-        function arrayObjectIndexOf(arrayToSearchIn, searchTerm, property) {
-            for (var i = 0; i < arrayToSearchIn.length; i++) {
-                if (arrayToSearchIn[i][property] === searchTerm) return i;
-            }
-            return -1;
-        }
-         
-        // Helper function
-        function IsIdInArray( array, id ) {
-              for (var i = 0; i < array.length; i++) {
-                if (array[i].id === id)
-                  return true;
-              }
-              return false;
-        }
-         
-        function removeDuplicates(arr){
-            var unique_array = []
-            for(var i = 0;i < arr.length; i++){
-                if(unique_array.indexOf(arr[i]) == -1){
-                    unique_array.push(arr[i])
-                }
-            }
-            return unique_array
-        }
-         
-    function getPost () {
-        
-                 PostsSrvc.get({ id: $stateParams.id}).$promise.then(
-             
-                   function(response){
-                     // success callback
-                      
-                        $scope.post = response;
-                       
-                        var removePrivateStringFromTitle    = $scope.post.title.rendered.replace('Privat:', '');
-                        $scope.post.title.rendered          = removePrivateStringFromTitle;
-                       
-                       
-                        $scope.postCategoriesData           = CategoriesToJsonSrvc.getCategoryJson ( $scope.post.categories );
-                        $scope.postTagsData                 = TagsToJsonSrvc.getTagJson( $scope.post.tags );
-                       
-                        if ( $scope.post.status == 'draft' || $scope.post.status == 'pending' || $scope.post.status == 'future' || $scope.post.status == 'trash' ) {
-                            
-                            $scope.postStatus       = $scope.post.status;
-                            $scope.postVisibility   = '';
-                        }
-                        else {
-                            $scope.postVisibility   = $scope.post.status;
-                            $scope.postStatus       = '';
-                        }                     
-                       
-                        $scope.newPost[0].status    = $scope.post.status;
+                return input.replace('Privat:', '');
 
-                        // initial post comment status
-                        $scope.postCommentStatus    = $scope.post.comment_status;
-                       
-                   }, 
-                   function(response){
-                     // failure callback
-                       console.log('failure callback:');
-                       console.log(response);
-                   }
-            );
+            }
+            else {
+                return input;
+            }
+        }
+    };
+    
+});
+/*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
+    wp_gote_advanced_plugin_app.app.directive("searchSection", [ '$rootScope', 'SearchFilter', 'UserSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'wpTranslation', function ( $rootScope, SearchFilter, UserSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, wpTranslation ) {
+    return {
+        restrict: "E",
+        templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/search-section/search-section.html',
+        scope: {},
+        link: function ( scope ) {
+            
+                    
+
+    scope.postStatusOptions  = {
+        "draft":    wpTranslation.getTranslation_draft(),    
+        "pending":  wpTranslation.getTranslation_pending(),
+        "future":   wpTranslation.getTranslation_future(),
+        "publish":  wpTranslation.getTranslation_publish(),
+        "private":  wpTranslation.getTranslation_private(),
+        "trash":    wpTranslation.getTranslation_trash()
+    };
+    
+            
+    scope.users = UserSrvc.query( function ( res ){
+        
+        scope.users = res;
+        
+    }).$promise.then(            
+        function() {}, 
+        function(response){
+         // failure callback
+           console.log('failure callback: UserSrvc.query in searchSection directive');
+           console.log(response);
+    });
+            
+    // if user press keydown enter start search filter in input#search
+    jQuery('input#search').keydown( function( event ) {
+        if ( event.which === 13 ) {
+            
+            jQuery('input#search').blur();
+            
+            searchFx( scope.search );
+            
+            // Disable sending the related form
+            event.preventDefault();
+            
+            return false;
+        }
+    });
+                
+    function searchFx ( filterTerm ) {
+        
+        SearchFilter.setSearch( filterTerm );
+
+        SearchFilter.setCurPage( 1 );
+        SearchFilter.setSearchFilterQuery( 'search=' );
+        SearchFilter.setSearchFilterTerm( SearchFilter.getSearch() + '&' );
+                
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+            
+    }
+    scope.search = SearchFilter.getSearch();
+                
+    scope.resetSearchFilter = function () {
+        
+        
+        SearchFilter.setCurPage( 1 );
+        SearchFilter.setSearch('');
+        SearchFilter.setSearchFilterQuery( '' );
+        SearchFilter.setSearchFilterTerm( '' );
+        
+        scope.search          = '';
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
         
     }
-
-    getPost();
-         
-    $scope.categoriesData = [];
-         
-    function getCategories () {
+    
+    
+    scope.categoryFilterFx = function ( filterTerm, filterName ) {
         
-        jQuery('div#select-category-wrapper').toggle('show');
+        SearchFilter.setCategory( filterTerm );
         
-        if ( $scope.categoriesData.length == 0 ) {
+        SearchFilter.setCurPage( 1 );
+        SearchFilter.setCategoryFilterQuery( 'categories=' );
+        SearchFilter.setCategoryFilterTerm( filterTerm + '&' );
+        
+        // User feedback in view while filtering by category
+        CategoriesSrvc.get( { id: filterTerm } ).$promise.then( 
+            function ( res ) {
+                scope.categoryFilterName = res.name;
+                
+                SearchFilter.setCategoryFilterName( res.name );
+            }, 
+            function( error ){
+             // failure callback
+               console.log('failure callback: get categoryFilterName in categoryFilterFx');
+               console.log( error );
+           }
+        );
+                
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+                
+    }  
+    scope.categoryFilterName = SearchFilter.getCategoryFilterName();
             
+    
+    scope.resetCategoryFilter = function () {
+        SearchFilter.setCurPage( 1 );
+        
+        SearchFilter.setCategory('');
+        
+        scope.categoryFilterName   = '';
+        
+        SearchFilter.setCategoryFilterName( '' );
+        SearchFilter.setCategoryFilterQuery( '' );
+        SearchFilter.setCategoryFilterTerm( '' );
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+        
+    }
+    
+    
+    scope.tagFilterFx = function ( filterTerm, filterName ) {
+        
+        SearchFilter.setCurPage( 1 );
+        
+        SearchFilter.setTag( filterTerm );
+        
+        SearchFilter.setTagFilterQuery( 'tags=' );
+        SearchFilter.setTagFilterTerm( filterTerm + '&' );
+        
+        // User feedback in view while filtering by tag
+        TagsSrvc.get( { id: filterTerm }).$promise.then( 
+            function ( res ) {
+                
+                scope.tagFilterName = res.name;
+                                
+                SearchFilter.setTagFilterName( scope.tagFilterName );
+            }, 
+            function( error ){
+             // failure callback
+               console.log('failure callback: get tagFilterName in tagFilterFx');
+               console.log( error );
+           }
+        );      
+                
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');            
+    }   
+    scope.tagFilterName = SearchFilter.getTagFilterName();
+            
+    
+    scope.resetTagFilter = function () {
+                
+        SearchFilter.setCurPage( 1 );
+        
+        SearchFilter.setCategory('');
+        
+        scope.tagFilterName   = '';
+        
+        SearchFilter.setTagFilterName( '' );
+        SearchFilter.setTagFilterQuery( '' );
+        SearchFilter.setTagFilterTerm( '' );
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+        
+    }
+                                
+         
+    scope.statusFilterFx = function (){
+        
+        SearchFilter.setCurPage( 1 );
+        
+        SearchFilter.setStatus( scope.selectedStatusFilterTerm );
+        
+        scope.selectedStatusName   = scope.postStatusOptions[SearchFilter.getStatus()];
+        
+        SearchFilter.setStatusFilterName( scope.selectedStatusName );
+        
+        SearchFilter.setStatusFilterQuery( 'status=' );
+        SearchFilter.setStatusFilterTerm( scope.selectedStatusFilterTerm + '&' );
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+
+    }
+    scope.selectedStatusName   = scope.postStatusOptions[SearchFilter.getStatus()];
+                
+    scope.resetStatusFilter = function () {
+        
+        SearchFilter.setCurPage( 1 );
+        
+        SearchFilter.setStatus( '' );
+        
+        scope.selectedStatusName        = '';
+        scope.selectedStatusFilterTerm  = '';
+        
+        SearchFilter.setStatusFilterName( '' );
+        SearchFilter.setStatusFilterQuery( '' );
+        SearchFilter.setStatusFilterTerm( '' );
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+        
+    }
+                
+             
+    scope.userFilterFx = function (){
+        
+        SearchFilter.setCurPage( 1 );
+        
+        SearchFilter.setUser( scope.selectedUserFilterTerm.id );
+        
+        scope.selectedUserName = scope.selectedUserFilterTerm.name;
+                
+        SearchFilter.setUserFilterName( scope.selectedUserName );
+        SearchFilter.setAuthorQuery( 'author=' );
+        SearchFilter.setAuthorId( scope.selectedUserFilterTerm.id + '&' );
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+
+    };
+    scope.selectedUserName = SearchFilter.getUserFilterName();
+                
+    scope.resetUserFilter = function () {
+        
+        SearchFilter.setCurPage( 1 );
+        
+        SearchFilter.getUser( '' );
+        
+        scope.selectedUserName   = '';
+        scope.selectedUserFilterTerm = '';
+        
+        SearchFilter.setUserFilterName( '' );
+        SearchFilter.setAuthorQuery( '' );
+        SearchFilter.setAuthorId( '' );
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+    }
+    
+    
+    scope.resetFilter = function () {
+        
+        scope.search                    = '';
+        scope.categoryFilterName        = '';
+        scope.tagFilterName             = '';
+        scope.selectedUserName          = '';
+        scope.selectedUserFilterTerm    = '';
+        scope.selectedStatusName        = '';
+        scope.selectedStatusFilterTerm  = '';
+        
+        SearchFilter.reset();
+        
+        $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
+
+    }
+    
+    scope.$on('resetAllSearchFilter', function () {
+        
+        scope.resetFilter();
+        
+    });
+
+    // ./ Search and filter functions
+    
+    
+    // get category and tag data
+    
+                
+    // category data collector
+    scope.categoriesData = [];
+
+    function getCategories () {
+
+        if ( scope.categoriesData.length == 0 ) {
+
             CategoriesSrvc.query().$promise.then(
+
             function( res ) {
-                
+
                 var wpCategoriesData = res;
-                
+
                 var categoriesIdArray = [];
+
                 for (var i = 0, len = wpCategoriesData.length; i < len; i++) {
                     categoriesIdArray.push( wpCategoriesData[i].id );
                 }
-                
-                $scope.categoriesData = CategoriesToJsonSrvc.getCategoryJson( categoriesIdArray );
-                
+
+                scope.categoriesData = CategoriesToJsonSrvc.getCategoryJson( categoriesIdArray );
+
             }, 
            function(response){
              // failure callback
-               console.log('failure callback: getCategories');
+               console.log('failure callback: getCategories in searchSection directive');
                console.log(response);
-           })
-            
+           });
+
         }      
-        
+
     }
-         
-                  
-    $scope.getCategoryData = function () {
-             
-             getCategories();
-             
-    }
-    
-         
-    $scope.tagsData = [];     
-         
+
+    // category data collector          
+    scope.tagsData = [];
+
     function getTags () {
-        
-        jQuery('div#select-tag-wrapper').toggle('show');
-        
-        if ( $scope.tagsData.length == 0 ) {
-            
+
+        if ( scope.tagsData.length == 0 ) {
+
             TagsSrvc.query().$promise.then(
             function( res ) {
-                
-                $scope.tagsData = res;
-                
+
+                scope.tagsData = res;
+
             }, 
            function(response){
              // failure callback
-               console.log('failure callback: getTags');
+               console.log('failure callback: getTags in searchSection directive');
                console.log(response);
            })
-            
+
         }      
-        
-    }
-
-
-    $scope.getTagData = function () {
-
-                 getTags();
 
     }
+
     
-    
-             $scope.newPost = [
-             {
-                "status": '',
-                "comment_status": '',
-                "categories": [],
-                "tags": []
-            }
-         ];
-                  
-         
-        $scope.postStatusOptions        = {
-            "draft":    wpTranslation.getTranslation_draft(),
-            "pending":  wpTranslation.getTranslation_pending(),
-            "future":   wpTranslation.getTranslation_future()
-        };
-         
-        $scope.postVisibilityOptions    =  {
-            "publish": wpTranslation.getTranslation_publish(),
-            "private": wpTranslation.getTranslation_private()
-        };
-         
-        $scope.postStatus = '';
-         
-        $scope.selectedPostStatus   = function( status ) {
-            
-            if ( status == 'publish' || status == 'private' ) {
-                $scope.postStatus = '';
-            }
-            
-            if ( status == 'draft' || status == 'pending' || status == 'future' || status == 'trash' ) {
-                $scope.postVisibility = '';
-            }
-            
-            if ( status == 'future') {
+    // Eventlistener for $rootScope.$broadcast('tiggerEventInNavbar'); in navbar        
+    scope.$on('tiggerEventInNavbar', function () {
                 
-                if ( !$scope.post.date || !$scope.post.time ) {
-                    
-                    $scope.statusFutureActive = true;                    
+        getCategories();
+        
+        getTags();
+        
+        
+        // fallback on scope.repeatInSelectCategoryDone() & scope.repeatInSelectCategoryDone() 
+        setTimeout( function () {
+            
+            scope.repeatInSelectCategoryDone();
+            
+            scope.repeatInSelectCategoryDone();
+            
+        }, 5000 );
+    });
+    // ./ get category and tag data
+    
+    
+    // UX
+    
+    scope.preloader = wp_gote_advanced_plugin_app_local.app_directory + '/img/preloader.gif';
+    
+        scope.repeatInSelectCategoryDone = function () {
+
+            jQuery('div#select-category-preloader').addClass('edit-hide');
+
+            jQuery('div#select-category-tree').removeClass('edit-hide');
+
+        }
+
+        scope.repeatInSelectTagDone = function () {
+
+             jQuery('div#select-tag-preloader').addClass('edit-hide');
+
+             jQuery('div#select-tag-tree').removeClass('edit-hide');
+
+         }
+        
+        // set filter link in navbar to active if a filter is active
+        scope.$on('tiggerEventGetPostsInMainContent', function () {
+        
+            // delay for filterFx´s to get data
+            setTimeout( function () {
+                
+                if ( scope.search || scope.categoryFilterName || scope.tagFilterName || scope.selectedUserName || scope.selectedStatusName ) {
+
+                    $rootScope.$broadcast('searchFiltersAreActive');
+
                 }
                 else {
-                    
-                    $scope.statusFutureActive = false;
+
+                    $rootScope.$broadcast('searchFiltersAreNotActive');
+
                 }
+                
+            }, 400);
+            
+            scope.ifPostOrPage = SearchFilter.getIsPageOrPost();
+        
+        });
+
+        setTimeout( function () {
+            scope.ifPostOrPage = SearchFilter.getIsPageOrPost();
+        }, 500);
+
+    
+    // ./ UX
+            
+            
+            // Translateables            
+            scope.wpTranslation_type_at_least_txt                   = wpTranslation.getTranslation_type_at_least_txt();
+            scope.wpTranslation_hit_enter_txt                       = wpTranslation.getTranslation_hit_enter_txt();
+            
+            // search filter section
+            scope.wpTranslation_search_by_cat                       = wpTranslation.getTranslation_search_by_cat();
+            scope.wpTranslation_search_by_tag                       = wpTranslation.getTranslation_search_by_tag();
+            scope.wpTranslation_search_by_author                    = wpTranslation.getTranslation_search_by_author();
+            scope.wpTranslation_search_by_status                    = wpTranslation.getTranslation_search_by_status();
+            scope.wpTranslation_no_categories                       = wpTranslation.getTranslation_no_categories();
+            scope.wpTranslation_reset_filter                        = wpTranslation.getTranslation_reset_filter();
+            scope.wpTranslation_no_tags                             = wpTranslation.getTranslation_no_tags();
+    
+
+
+        }
+    }
+}])
+/*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
+wp_gote_advanced_plugin_app.app.directive("navbar", [ '$rootScope', 'SearchFilter', 'wpTranslation', function ( $rootScope, SearchFilter, wpTranslation ) {
+    return {
+        restrict: "E",
+        templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/navbar/navbar.html',
+        scope: {
+            onRevealOpen: '&'
+        },
+        replace: true,
+        link: function ( scope ) {
+
+        // UX
+
+        // ng-click onRevealOpen assign trigger Event on $rootScope
+        scope.onRevealOpen = function () {
+
+            $rootScope.$broadcast('tiggerEventInNavbar');
+                        
+        }
+
+        // ./ UX
+        
+        scope.filtersAreActive = SearchFilter.getFiltersAreActive();
+            
+        scope.$on('searchFiltersAreActive', function () {
+            
+            scope.filtersAreActive = true;
+            
+            SearchFilter.setFiltersAreActive( scope.filtersAreActive );
+            
+        });
+            
+        scope.$on('searchFiltersAreNotActive', function () {
+            
+            scope.filtersAreActive = false;
+            
+            SearchFilter.setFiltersAreActive( scope.filtersAreActive );
+            
+        });
+            
+            
+        // Translatables
+        scope.wpTranslation_posts        = wpTranslation.getTranslation_posts();
+        scope.wpTranslation_pages        = wpTranslation.getTranslation_pages();
+        scope.wpTranslation_filter       = wpTranslation.getTranslation_filter();
+        scope.wpTranslation_load_more    = wpTranslation.getTranslation_load_more();
+            
+        } // :/ link: function () {...}
+    }
+}])
+/*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, console, setTimeout, jQuery */
+wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchFilter', function ( $rootScope, SearchFilter ) {
+    return {
+        restrict: "E",
+        templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/pagination/pagination.html',
+        scope: {},
+        replace: true,
+        link: function ( scope ) {
+            
+                     
+            scope.optionsOnItemsPerPage = [ 10, 25, 50 ];
+            
+
+            // initional select option
+            if ( SearchFilter.getItemsPerPage() ) {
+
+                var itemsPerPage = SearchFilter.getItemsPerPage();
+
+                if ( itemsPerPage == 10 ) {
+                    scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[0];
+                }
+
+                if ( itemsPerPage == 25 ) {
+                    scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[1];
+                }
+
+                if ( itemsPerPage == 50 ) {
+                    scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[2];
+                }
+
             }
             else {
                 
-                $scope.statusFutureActive = false;
+                scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[0];
+                
             }
-            
-            $scope.formValid = true;
-            $scope.newPost[0].status = status;
-            
-            $scope.post.status = status;
-                        
-//            resetDateAndTimeOnStatusFuture();
-            
-            $scope.formChanged = true;
-        }
-        
-        // Time handler if user set post status 'future'
-        
-        var postDate, postTime, futurePublish_date_gmt;
-        
-        function resetDateAndTimeOnStatusFuture () {
-            postDate = '';
-            postTime = '';
-            futurePublish_date_gmt;
-                        
-            // timeout to let angularjs render dom
-            $timeout( function () {
-                $scope.post.time = '';
-                $scope.post.date = '';
-            }, 500);
-        }
-         
-        $scope.selectedDateTime = function ( dateOrTime ) {           
-            
-            
-            var date = $filter('date')(dateOrTime, "yyyy-MM-dd");
-            var time = $filter('date')(dateOrTime, "HH:mm:ss");
-            
-            if ( time == '00:00:00') {
-                postDate = date;
-            }
-            else {
-                postTime = 'T' + time;
-            }
-            
-            if ( postDate && postTime ) {
-                futurePublish_date_gmt = postDate + postTime;
-            }            
 
-        }
-        
-        $scope.postCommentStatusOptions = {
-            "open": wp_gote_advanced_plugin_app_local.wpTranslation_accept,
-            "closed": wp_gote_advanced_plugin_app_local.wpTranslation_refuse
-        };
-         
-        $scope.selectedPostCommentStatus   = function( selection ) {
-                        
-            if ( status == 'publish' || status == 'private' ) {
-                $scope.postStatus = '';
-            }
-            
-            if ( status == 'draft' || status == 'pending' || status == 'future' || status == 'trash' ) {
-                $scope.postVisibility = '';
-            }
-            
-            $scope.newPost[0].comment_status    = selection;
-            $scope.post.comment_status          = selection;
-            
-        }
-         
-        // Helper function
-        function arrayObjectIndexOf(arrayToSearchIn, searchTerm, property) {
-            for (var i = 0; i < arrayToSearchIn.length; i++) {
-                if (arrayToSearchIn[i][property] === searchTerm) return i;
-            }
-            return -1;
-        }
 
-         
-         
-         
-         $scope.preloader = wp_gote_advanced_plugin_app_local.app_directory + '/img/preloader-roller.gif';
-         $scope.noFeaturedMediaPlaceholder = wp_gote_advanced_plugin_app_local.app_directory + '/img/no-image-found.png';
-         
-         
-         //fallback on repeatInCategoryListIsDone()
-//        $timeout(function(){
-//             jQuery('.has-preloader').addClass('edit-hide');
-//
-//             $scope.timeUpFallback = true;
-//         },6000);
-         
-         
-         $scope.addSelectedCategory = function ( postCategories, id ) {
-                          
-             if ( !IsIdInArray( $scope.postCategoriesData, id  ) ) {
-                 
-                $scope.post.categories.push( id );
 
-                $scope.post.categories = removeDuplicates( postCategories )
+            scope.selectedItemsPerPageChanged = function (){
+                
+                SearchFilter.setCurPage( 1 );
 
-                $scope.postCategoriesData = CategoriesToJsonSrvc.getCategoryJson( $scope.post.categories ); 
-                 
-            
-//                jQuery('div#main-category-tree').addClass('edit-hide');
-//
-//                jQuery('div#main-category-tree-no-category').addClass('edit-hide');
-//
-//                jQuery('div#main-category-preloader').removeClass('edit-hide');
+                SearchFilter.setItemsPerPage( scope.selectedItemsPerPage );
 
-                // activate update button
-                $scope.formChanged = true;
-                 
-             }            
-             
-         }
-         
-         
-         $scope.addSelectedTag = function ( postTags, id ) {
+                scope.itemsPerPage = scope.selectedItemsPerPage;
 
-             if ( !IsIdInArray( $scope.postTagsData, id  ) ) {
-                 
-                $scope.post.tags.push( id );
+                $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
 
-                $scope.post.tags = removeDuplicates( postTags )
+                scope.selectedItemsPerPageSet = true;
 
-                $scope.postTagsData = TagsToJsonSrvc.getTagJson( $scope.post.tags );
-                 
-            
-                jQuery('div#main-tag-tree').addClass('edit-hide');
 
-                jQuery('div#main-tag-tree-no-category').addClass('edit-hide');
+            };
 
-                jQuery('div#main-tag-preloader').removeClass('edit-hide');
+            scope.paginatToPage = function ( page ){       
 
-                // activate update button
-                $scope.formChanged = true;
-                 
-             }            
-             
-         }
-         
-         
-         
-         
-//         $scope.repeatInSelectCategoryDone = function () {
-//             
-//             jQuery('div#select-category-preloader').addClass('edit-hide');
-//             
-//             jQuery('div#select-category-tree').removeClass('edit-hide');
-//             
-//         }
-//         
-//         $scope.repeatInSelectTagDone = function () {
-//             
-//             jQuery('div#select-tag-preloader').addClass('edit-hide');
-//             
-//             jQuery('div#select-tag-tree').removeClass('edit-hide');
-//             
-//         }
-         
-        
+                if ( page == undefined ) {
+                    var page = 1;
+                }
 
-        $scope.image_directory = wp_gote_advanced_plugin_app_local.app_directory + '/img';
-         
-        // set base path to tinyMCE source
-        tinyMCE.baseURL = wp_gote_advanced_plugin_app_local.baseURL+'/wp-includes/js/tinymce/';
-        
-  
-        $scope.tinymceOptions = {
-             skin: 'lightgray',
-             theme: 'modern',
-             height: '400px',
-             plugins: 'lists tabfocus paste media image fullscreen wordpress wpgallery link wpdialogs',
-             menubar: 'edit insert format',
-             toolbar: 'undo redo | formatselect | bold italic underline strikethrough | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | fullscreen'
-        };    
+                
+                
+                SearchFilter.setCurPage( page );
+                
+                $rootScope.$broadcast('tiggerEventGetPostsInMainContent');        
+
+            };
+
+
+
+            scope.numberOfPages = function() {
+
+                if ( SearchFilter.getTotalPublicItemsOfCurUser() !== undefined ){
+                    
+                    scope.totatItemsPublic = SearchFilter.getTotalPublicItemsOfCurUser();
+
+                    return Math.ceil( ( SearchFilter.getTotalPublicItemsOfCurUser() )  / SearchFilter.getItemsPerPage() );
+
+                } else {
+                    return 1;
+                }
+
+            };
+
+
+            scope.repeatNumber = function(num) {
+                return new Array(num);   
+            };
             
             
-        $scope.changesInTextarea = function () {
+            scope.filtersAreActive = SearchFilter.getFiltersAreActive();
             
-            $scope.formChanged = true;
-        }
-    
-         
-             var custom_uploader;
-             
-             $scope.uploadImage = function () {
-                 //If the uploader object has already been created, reopen the dialog
-                 if (custom_uploader) {
-                     custom_uploader.open();
-                     return;
-                 }
+            scope.$on('searchFiltersAreActive', function () {
 
-                 //Extend the wp.media object
-                 custom_uploader = wp.media.frames.file_frame = wp.media({
-                     title: 'Choose Image',
-                     button: {
-                         text: 'Choose Image'
-                     },
-                     multiple: false
-                 });
+                    scope.filtersAreActive = true;
 
-                 //When a file is selected, grab the URL and set it as the text field's value
-                 custom_uploader.on('select', function () {
-                     attachment = custom_uploader.state().get('selection').first().toJSON();
-                     
-                     $scope.post.featured_media = attachment.id;
-                     
-                     // activate update button
-                     $scope.formChanged = true;
-                     
-                     jQuery('#no-media-placeholder').addClass('edit-hide');
-                     
-                     $scope.$apply();
-                 });
+                    SearchFilter.setFiltersAreActive( scope.filtersAreActive );
 
-                 //Open the uploader dialog
-                 custom_uploader.open();
-             }
-         
-         
-         // Update post handler
-         $scope.updatePost = function ( post ) {
-             
-             
-            // prepare data to fit in WP-Rest
-            var content                         = post.content.rendered;
-            post.content                        = content;
+            });
 
-            var title                           = post.title.rendered;
-            post.title                          = title;
+            scope.$on('searchFiltersAreNotActive', function () {
 
-            var excerpt                         = post.excerpt.rendered;
-            post.excerpt                        = excerpt;
-             
-            var featured_media                  = post.featured_media;
-            post.featured_media                 = featured_media;
-             
-            var meta                            = post.meta;
-            post.meta                           = meta;
-             
-            var status                          = $scope.newPost[0].status;
-            post.status                         = $scope.newPost[0].status;
-             
-            if ( status == 'future' ) {
-                var date                        = futurePublish_date_gmt;
-                post.date                       = date;
-            }
-             else {
-                var curDate = $filter('date')(new Date(), "yyyy-MM-dd");
-                var curTime = $filter('date')(new Date(), "HH:mm:ss");
-                 
-                var date                        = curDate + 'T' + curTime;
-                post.date                       = date;
-             }
-             
-                          
-            delete post.$promise;
-            delete post.$resolved;
-             
-            // reconvert data from angular-ui-tree array "postTagsData" to fit in WP-Rest post.tags array.
-            // The WP-Rest post.tags array is acually an id collector of related tags
-             
-            post.tags       = TagsToJsonSrvc.reconvertTags( $scope.postTagsData );
-             
-            post.categories = CategoriesToJsonSrvc.reconvertCategories( $scope.postCategoriesData );
-             
-             
-             if ( status == 'trash' ) {
-                                  
-                 setTimeout( function () {
-                     PostsSrvc.delete( { id: post.id }, post ).$promise.then(
-                           function(response){
-                             // success callback
+                scope.filtersAreActive = false;
 
-                               $scope.post = response;
+                SearchFilter.setFiltersAreActive( scope.filtersAreActive );
 
-                           }, 
-                           function(response){
-
-                             // failure callback
-                               console.log('failure callback while deleting post');
-                               console.log(response);
-                           }
-                    );
-                 }, 800);
-                 
-             }
-             else {
+            });
+            
+            scope.gettingNewPostData = true;
+            
+            scope.$on('gettingNewData', function () {
+               
+                scope.gettingNewPostData = true;
+                
                 setTimeout( function () {
                     
+                    scope.gettingNewPostData = false;
                     
-                     PostsSrvc.update( post ).$promise.then(
-                           function(response){
-                             // success callback
+                    
+                    jQuery('ul.pagination-list li').removeClass('pagination-active-item');
 
-                               $scope.post = response;
-                               
-                               $scope.formChanged = false;
-
-                           }, 
-                           function(response){
-
-                             // failure callback
-                               console.log('failure callback while updating post');
-                               console.log(response);
-                           }
-                    );
-                 }, 500);
-             }
-
-
-         }
-          
-         
-         // add new category handler
-         $scope.addCategory = function( newCategory ){
-             
-             var categoryToAdd;
-             var checkIfCategoryExists= newCategory.toLowerCase().replace(' ', '-');
-             
-             CategoriesSrvc.getfiltered({ filterTitle: 'slug', searchTerm:  checkIfCategoryExists }).$promise.then(  
-                function ( res ) {            
+                    jQuery('ul.pagination-list li.pagination-page-' + SearchFilter.getCurPage() ).addClass('pagination-active-item');
                     
-                    categoryToAdd = res[0];
                     
-                        console.log( 'categoryToAdd' );
-                        console.log( categoryToAdd );
-                    
-                    if (categoryToAdd) {
-                        
-                        var filterOutExisting = arrayObjectIndexOf( $scope.postCategoriesData, categoryToAdd.slug, 'slug'  );
-                        
-                        if ( filterOutExisting < 0 ) {
-                            $scope.postCategoriesData.push(categoryToAdd);
-                        }
-                        
-                        // activate update button
-                        $scope.formChanged = true;
-                    }
-            
-                },
-                function(err){
-                                  // error callback
-                                  console.log('error while getting filtered category!');
-                                  console.log(err.data.message);
-                                  console.log(err);
-                }
-        );
-             
-             // reset add new category input field
-             jQuery('#new-post-category').val(function() {
-                return this.defaultValue;
-            });
-         }
-         
-         
-        // add new tag handler
-         $scope.addTag = function( newTag ){
-                          
-             var tagToAdd;
-             var checkIfTagExists = newTag.toLowerCase().replace(' ', '-');
-             
-             TagsSrvc.getfiltered({ filterTitle: 'slug', searchTerm:  checkIfTagExists }).$promise.then(  
-                function ( res ) {            
-                    
-                    tagToAdd = res[0];
-                    
-                    if (tagToAdd) {
-  
-                        var filterOutExisting = arrayObjectIndexOf( $scope.postTagsData, tagToAdd.slug, 'slug'  );
-                        
-                        if ( filterOutExisting < 0 ) {
-                            $scope.postTagsData.push(tagToAdd);
-                            
-                            // activate update button
-                            $scope.formChanged = true;
-                        }
-                        
-                    } else {
-                        
-                        TagsSrvc.save( { "name": newTag } ).$promise.then(
-                                function ( res ) {
-                                    
-                                    delete res.$promise;
-                                    delete res.$resolved;
-                                    
-                                    $scope.postTagsData.push(res);
-                                    
-                                    // activate update button
-                                    $scope.formChanged = true;
-                                    
-                                },
-                                    function(err){
-                                          // error callback
-                                          console.log('error while saving new added Tag!');
-                                          console.log(err.data.message);
-                                          console.log(err);
-                                    });
-                        
-                    }
-            
-                },
-                function(err){
-                                  // error callback
-                                  console.log('error while getting filtered Tag!');
-                                  console.log(err.data.message);
-                                  console.log(err);
-                }
-        );
-             
-             
-             // reset add new category input field
-             jQuery('#new-post-tag').val(function() {
-                return this.defaultValue;
-            });
-         }
-         
-         
-         
-         // callback handler on angular-ui-tree directiv
-         // This build in callback is called "removed". It seems buggy because it trigger on every event in this directiv
-         // But it´s exactly what is needed. On changes in this directive show update button.
-         
-         
-         function updateCategories ( categoryId, parentId ) {
-             
-                    CategoriesSrvc.update({id: categoryId}, { "parent": parentId }).$promise.then(
-                    
-                        function(){
-                            
-                        }, 
-                       function(response){
-
-                         // failure callback
-                           console.log('failure callback: updateCategories');
-                           console.log(response);
-                    });            
-             
-         }
-         
-         
-         
-         var categoryId, parentId;
-         
-         $scope.treeOptionsInCategories = {
-                dragStart: function ( e ) {
-                    // activate update button if modifications on tree take place
-                     $scope.formChanged = true;
-                    
-                    // id of draged category object
-                    categoryId = e.source.node$scope.$modelValue.id;
-                        
-                    updateCategories( categoryId, 0 );
-
-                },
-                dragStop : function ( e ) {
-                    
-                    parentId = e.dest.nodes$scope.$node$scope.$modelValue.id;                    
-                        
-                        updateCategories ( categoryId, parentId );
-                    
-                }
-        }
-         
-         $scope.treeCustomRemoveCallback = function ( wpCategoryData ) {
-             
-             // activate update button if modifications on tree take place
-            $scope.formChanged = true;
-             
-             console.log( 'wpCategoryData' );
-             console.log( wpCategoryData );
-             
-         }
-         
-         
-         $scope.treeOptionsInTags = {
-                removed: function ($scope, modelData, sourceIndex) {
-                    // activate update button if modifications on tree take place
-                     $scope.formChanged = true;
-
-                }
-        }
-         
-         
-        $scope.repeatInMainCategoryDone = function (){
-            
-            $timeout( function ( ) {
+                }, 1000);
                 
-                jQuery('div#main-category-preloader').addClass('edit-hide');
-            
-                jQuery('div#main-category-tree').removeClass('edit-hide');
-
-                jQuery('div#main-category-tree-no-category').removeClass('edit-hide');
                 
-            }, 1000);
+            });
             
-         
         }
-        
-        $scope.repeatInMainTagDone = function (){
-            
-            jQuery('div#main-tag-preloader').addClass('edit-hide');
-            
-            jQuery('div#main-tag-tree').removeClass('edit-hide');
-            
-            jQuery('div#main-tag-tree-no-tag').removeClass('edit-hide');
-            
-         
-        }
-        
-        // fallback if repeatDone directive will not trigger
-        // Happens if no category nor tag is set
-        
-        $timeout( function () {
-            
-            $scope.repeatInMainCategoryDone();
-            
-            $scope.repeatInMainTagDone();
-            
-        }, 3000);
-          
-         
-         
-    // Translateables
-    $scope.wpTranslation_back                            = wpTranslation.getTranslation_back();
-    $scope.wpTranslation_edit_post                       = wpTranslation.getTranslation_edit_post();
-    $scope.wpTranslation_edit_post_details               = wpTranslation.getTranslation_edit_post_details();
-    $scope.wpTranslation_media                           = wpTranslation.getTranslation_media();
-    $scope.wpTranslation_featured_media                  = wpTranslation.getTranslation_featured_media();
-    $scope.wpTranslation_title                           = wpTranslation.getTranslation_title();
-    $scope.wpTranslation_categories                      = wpTranslation.getTranslation_categories();
-    $scope.wpTranslation_no_categories                   = wpTranslation.getTranslation_no_categories();
-    $scope.wpTranslation_tags                            = wpTranslation.getTranslation_tags();
-    $scope.wpTranslation_no_tags                         = wpTranslation.getTranslation_no_tags();
-    $scope.wpTranslation_changes_made                    = wpTranslation.getTranslation_changes_made();
-    $scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
-    $scope.wpTranslation_update_post                     = wpTranslation.getTranslation_update_post();
-    $scope.wpTranslation_post_details                    = wpTranslation.getTranslation_post_details();
-    $scope.wpTranslation_title_n_post_content_required   = wpTranslation.getTranslation_title_n_post_content_required();
-    $scope.wpTranslation_on_status_date_n_time_required  = wpTranslation.getTranslation_on_status_date_n_time_required();
-            
-    // post-details directive translationables
-    $scope.wpTranslation_status        = wpTranslation.getTranslation_status();
-         
-         
-     }
-]);
-wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
-    '$scope', '$rootScope', 'PostsSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'SearchFilter', '$timeout', 'wpTranslation',
-     function( $scope, $rootScope, PostsSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, SearchFilter, $timeout, wpTranslation ){
+    }
+}])
+/*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, jQuery, console, setTimeout, confirm */
+wp_gote_advanced_plugin_app.app.directive("mainContent", ['$rootScope', 'PostsSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'SearchFilter', '$timeout', 'wpTranslation', function ($rootScope, PostsSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, SearchFilter, $timeout, wpTranslation ) {
+    return {
+        restrict: "E",
+        templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/main-content/main-content.html',
+        scope: {
+            sharedFunction: "&"
+        },
+        replace: false,
+        link: function (scope) {
 
-          var totalPublicItemsOfCurUser;
+
+            var totalPublicItemsOfCurUser;
             var countRemoveItems = 0;
 
 
@@ -2170,9 +2052,9 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
 
                 }                
 
-                $scope.posts = PostsSrvc.queryComplex(data, function (res) {
+                scope.posts = PostsSrvc.queryComplex(data, function (res) {
 
-                    $scope.posts = res;
+                    scope.posts = res;
 
 
                 }).$promise.then(
@@ -2180,9 +2062,9 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
 
                         totalPublicItemsOfCurUser = Number(resource.$httpHeaders('X-WP-Total'));
                         
-                        $scope.totatItemsPublic = totalPublicItemsOfCurUser;
+                        scope.totatItemsPublic = totalPublicItemsOfCurUser;
                         
-                        $scope.itemsPerPage = SearchFilter.getItemsPerPage();
+                        scope.itemsPerPage = SearchFilter.getItemsPerPage();
 
                         SearchFilter.setTotalPublicItemsOfCurUser(totalPublicItemsOfCurUser);
 
@@ -2196,11 +2078,11 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
                 
                 $rootScope.$broadcast('gettingNewData');
                 
-                $scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
+                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
                 
                 countRemoveItems = 0;
 
-                $scope.loadMorePost = false;
+                scope.loadMorePost = false;
 
 
             }
@@ -2213,14 +2095,14 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
                 
             }, 200);
             
-            $scope.getPosts = function () {
+            scope.getPosts = function () {
                 
                 getPosts();
                 
             }
 
 
-            $scope.$on('tiggerEventGetPostsInMainContent', function () {
+            scope.$on('tiggerEventGetPostsInMainContent', function () {
 
                 getPosts();
 
@@ -2228,32 +2110,32 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
 
 
             // get the category data from selected post within the modal
-            $scope.getModalData = function ( categoryArray ) {                
+            scope.getPostCategoriesData = function (categoryArray) {
 
-                $scope.postCategoriesData = CategoriesToJsonSrvc.getCategoryJson(categoryArray);
+                scope.postCategoriesData = CategoriesToJsonSrvc.getCategoryJson(categoryArray);
 
             };
 
 
             // UX detail modal handler
-//            $scope.repeatDoneInModal = function (index) {
-//
-//                $timeout(function () {
-//
-//                    jQuery('#ux-aside-detail-wrapper-' + index).addClass('hide');
-//
-//                    jQuery('#modal-aside-main-content-' + index).removeClass('hide');
-//
-//                }, 2000);
-//
-//            }
+            scope.repeatDoneInModal = function (index) {
+
+                $timeout(function () {
+
+                    jQuery('#ux-aside-detail-wrapper-' + index).addClass('hide');
+
+                    jQuery('#modal-aside-main-content-' + index).removeClass('hide');
+
+                }, 2000);
+
+            }
 
 
-            $scope.categoryPreloader = wp_gote_advanced_plugin_app_local.app_directory + '/img/preloader.gif';
-            $scope.deleteIcon = wp_gote_advanced_plugin_app_local.app_directory + '/img/trash-bin-64px.png';
-            $scope.deleteForeverIcon = wp_gote_advanced_plugin_app_local.app_directory + '/img/trash-bin-empty-67px.png';
+            scope.categoryPreloader = wp_gote_advanced_plugin_app_local.app_directory + '/img/preloader.gif';
+            scope.deleteIcon = wp_gote_advanced_plugin_app_local.app_directory + '/img/trash-bin-64px.png';
+            scope.deleteForeverIcon = wp_gote_advanced_plugin_app_local.app_directory + '/img/trash-bin-empty-67px.png';
 
-            $scope.repeatInCategoryListIsDone = function (index) {
+            scope.repeatInCategoryListIsDone = function (index) {
 
                 $timeout(function () {
 
@@ -2265,7 +2147,7 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
             }
                         
 
-            $scope.movePostToTrash = function (post, index) {
+            scope.movePostToTrash = function (post, index) {
 
                 countRemoveItems++;
 
@@ -2273,10 +2155,10 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
                     
                     
                     
-                    $scope.loadMorePost = true;
+                    scope.loadMorePost = true;
                 }
                 
-                $scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;                
+                scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;                
 
                 post.status = 'trash';
 
@@ -2286,7 +2168,7 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
                     function () {
                         // success callback
 
-                        $scope.posts.splice(index, 1);
+                        scope.posts.splice(index, 1);
                         
 
                         SearchFilter.setTotalPublicItemsOfCurUser(SearchFilter.getTotalPublicItemsOfCurUser() - 1);
@@ -2303,7 +2185,7 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
             }
 
 
-            $scope.deletePostPermanently = function (post, index) {
+            scope.deletePostPermanently = function (post, index) {
 
                 var deleteMessage = confirm("Are you sure you want to delete this post permanently?\n\nPost title:\n" + '"' + post.title.rendered + '"');
 
@@ -2315,7 +2197,7 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
                         function () {
                             // success callback
 
-                            $scope.posts.splice(index, 1);
+                            scope.posts.splice(index, 1);
 
                             SearchFilter.setTotalPublicItemsOfCurUser(SearchFilter.getTotalPublicItemsOfCurUser() - 1);
 
@@ -2342,25 +2224,25 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
             }, 10000);
 
 
-            $scope.filtersAreActive = SearchFilter.getFiltersAreActive();
+            scope.filtersAreActive = SearchFilter.getFiltersAreActive();
 
-            $scope.$on('searchFiltersAreActive', function () {
+            scope.$on('searchFiltersAreActive', function () {
 
-                $scope.filtersAreActive = true;
+                scope.filtersAreActive = true;
 
-                SearchFilter.setFiltersAreActive($scope.filtersAreActive);
-
-            });
-
-            $scope.$on('searchFiltersAreNotActive', function () {
-
-                $scope.filtersAreActive = false;
-
-                SearchFilter.setFiltersAreActive($scope.filtersAreActive);
+                SearchFilter.setFiltersAreActive(scope.filtersAreActive);
 
             });
 
-            $scope.resetAllSearchFilters = function () {
+            scope.$on('searchFiltersAreNotActive', function () {
+
+                scope.filtersAreActive = false;
+
+                SearchFilter.setFiltersAreActive(scope.filtersAreActive);
+
+            });
+
+            scope.resetAllSearchFilters = function () {
 
                 $rootScope.$broadcast('resetAllSearchFilter');
 
@@ -2368,6 +2250,7 @@ wp_gote_advanced_plugin_app.app.controller( 'MainCtrl', [
             
             
             // Translateables            
+<<<<<<< HEAD
             $scope.wpTranslation_media                   = wpTranslation.getTranslation_media();
             $scope.wpTranslation_featured_media          = wpTranslation.getTranslation_featured_media();
             $scope.wpTranslation_title                   = wpTranslation.getTranslation_title();
@@ -2403,14 +2286,34 @@ wp_gote_advanced_plugin_app.app.filter('removePrivatString', function () {
         if (input !== undefined) {
 
             if (input.indexOf('Privat:') > -1) {
+=======
+            scope.wpTranslation_media                   = wpTranslation.getTranslation_media();
+            scope.wpTranslation_featured_media          = wpTranslation.getTranslation_featured_media();
+            scope.wpTranslation_title                   = wpTranslation.getTranslation_title();
+            scope.wpTranslation_categories              = wpTranslation.getTranslation_categories();
+            scope.wpTranslation_no_categories           = wpTranslation.getTranslation_no_categories();
+            scope.wpTranslation_tags                    = wpTranslation.getTranslation_tags();
+            scope.wpTranslation_no_tags                 = wpTranslation.getTranslation_no_tags();
+            scope.wpTranslation_expert                  = wpTranslation.getTranslation_expert();
+            scope.wpTranslation_experts                 = wpTranslation.getTranslation_experts();
+            scope.wpTranslation_edit                    = wpTranslation.getTranslation_edit();
+            scope.wpTranslation_actions                 = wpTranslation.getTranslation_actions();
+            scope.wpTranslation_close                   = wpTranslation.getTranslation_close();
+            scope.wpTranslation_details                 = wpTranslation.getTranslation_details();
+            scope.wpTranslation_post_details            = wpTranslation.getTranslation_post_details();
+            scope.wpTranslation_upps_nothing_found      = wpTranslation.getTranslation_upps_nothing_found();
+            scope.wpTranslation_maybe_filter_not_match  = wpTranslation.getTranslation_maybe_filter_not_match();
+            scope.wpTranslation_if_then_reset_app       = wpTranslation.getTranslation_if_then_reset_app();
+            scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();
+            scope.wpTranslation_reset_app_txt           = wpTranslation.getTranslation_reset_app_txt();
+            scope.wpTranslation_no_data_lost_txt        = wpTranslation.getTranslation_no_data_lost_txt();
+            scope.wpTranslation_load_more               = wpTranslation.getTranslation_load_more();
 
-                return input.replace('Privat:', '');
+>>>>>>> parent of d9d6f12... dev
 
-            }
-            else {
-                return input;
-            }
+
         }
+<<<<<<< HEAD
     };
 
 });
@@ -2890,9 +2793,559 @@ wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFi
 
             // initional select option
             if (SearchFilter.getItemsPerPage()) {
+=======
+    }
+}])
+/*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, jQuery, console, setTimeout, confirm */
+wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'PagesSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'SearchFilter', '$timeout', 'wpTranslation', function ( $rootScope, PagesSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, SearchFilter, $timeout, wpTranslation ) {
+    return {
+        restrict: "E",
+        templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/main-content-pages/main-content-pages.html',
+        scope: {
+            sharedFunction: "&"
+        },
+        replace: false,
+        link: function ( scope ) {
+            
+            
+            var totalPublicItemsOfCurUser;
+            var countRemoveItems = 0
 
-                var itemsPerPage = SearchFilter.getItemsPerPage();
+                
+    function getPosts () {    
+        
+        var data = {
+                authorQuery:            SearchFilter.getAuthorQuery(),
+                authorId:               SearchFilter.getAuthorId(),
+                statusFilterQuery:      SearchFilter.getStatusFilterQuery(),
+                statusFilterTerm:       SearchFilter.getStatusFilterTerm(),
+                searchFilterQuery:      SearchFilter.getSearchFilterQuery(),
+                searchFilterTerm:       SearchFilter.getSearchFilterTerm(),
+                categoryFilterQuery:    SearchFilter.getCategoryFilterQuery(),
+                categoryFilterTerm:     SearchFilter.getCategoryFilterTerm(),
+                tagFilterQuery:         SearchFilter.getTagFilterQuery(),
+                tagFilterTerm:          SearchFilter.getTagFilterTerm(),
+                itemsPerPageQuery:      SearchFilter.getItemsPerPageQuery(),
+                itemsPerPage:           SearchFilter.getItemsPerPage(),
+                curPageQuery:           SearchFilter.getCurPageQuery(),
+                curPage:                SearchFilter.getCurPage()
+        }
+        
+        if ( SearchFilter.getIsPageOrPost() !== 'page' ) {
+            
+            SearchFilter.setIsPageOrPost( 'page');
+            
+        }
+                
+        scope.posts = PagesSrvc.queryComplex( data, function(res){
+            
+            scope.posts = res;
 
+                
+            }).$promise.then(            
+            function(resource) {
+
+                totalPublicItemsOfCurUser = Number(resource.$httpHeaders('X-WP-Total'));
+                
+                scope.totatItemsPublic = totalPublicItemsOfCurUser;
+                
+                scope.itemsPerPage = SearchFilter.getItemsPerPage();
+            
+                SearchFilter.setTotalPublicItemsOfCurUser( totalPublicItemsOfCurUser );
+
+
+            }, 
+            function( error ){
+             // failure callback
+               console.log('failure callback: getPublicPosts');
+               console.log( error );
+           });   
+        
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
+       
+        $rootScope.$broadcast('gettingNewData');
+        
+        countRemoveItems = 0;
+
+        scope.loadMorePost = false;
+        
+        
+    }
+                
+     
+    // delay to get query data first
+    setTimeout( function() {
+        getPosts();
+    }, 200);   
+            
+    scope.getPosts = function () {
+
+        getPosts();
+
+    }
+                   
+    
+    scope.$on('tiggerEventGetPostsInMainContent', function () {
+        
+        countRemoveItems = 0;
+        
+        scope.loadMorePost = false;
+        
+        getPosts();
+        
+    });
+
+                
+                
+    // UX detail modal handler
+    scope.repeatDoneInModal = function ( index ) {
+        
+        $timeout(function(){
+            
+            jQuery('#ux-aside-detail-wrapper-' + index ).addClass('hide');
+            
+            jQuery('#modal-aside-main-content-' + index ).removeClass('hide');
+            
+        },1000);
+        
+    }
+       
+    
+    scope.categoryPreloader = wp_gote_advanced_plugin_app_local.app_directory + '/img/preloader.gif';
+    scope.deleteIcon = wp_gote_advanced_plugin_app_local.app_directory + '/img/trash-bin-64px.png';
+    scope.deleteForeverIcon = wp_gote_advanced_plugin_app_local.app_directory + '/img/trash-bin-empty-67px.png';
+                
+    scope.repeatInCategoryListIsDone = function ( index ){
+
+         $timeout(function(){
+             
+             jQuery('div#category-list-preloader-' + index ).addClass('edit-hide');
+             
+             jQuery('div#category-list-' + index ).removeClass('edit-hide');
+             
+         },2000);
+    }
+    
+    scope.movePostToTrash = function ( post, index ) {
+        
+        countRemoveItems ++;
+        
+        if ( countRemoveItems > 3 ) {
+            
+            scope.totatItemsPublic = SearchFilter.getTotalPublicItemsOfCurUser();
+            
+            scope.loadMorePost = true;
+        }
+        
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;
+        
+        post.status = 'trash';
+        
+        PagesSrvc.delete( { id: post.id }, post ).$promise.then(
+               function(response){
+                 // success callback
+                   
+                   scope.posts.splice(index, 1);
+                   
+                   SearchFilter.setTotalPublicItemsOfCurUser( SearchFilter.getTotalPublicItemsOfCurUser() - 1 );
+//                   scope.totalPublicItemsOfCurUserToScope = scope.totalPublicItemsOfCurUserToScope - 1;
+                   
+               }, 
+               function(response){
+
+                 // failure callback
+                   console.log('failure callback while deleting post');
+                   console.log(response);
+               }
+        );
+        
+    }
+    
+    
+    scope.deletePostPermanently = function ( post, index ) {
+
+    var deleteMessage = confirm("Are you sure you want to delete this page permanently?\n\nPage title:\n"  + '"' + post.title.rendered + '"' );
+
+    if ( deleteMessage ) {
+
+        PagesSrvc.deleteParmantenly( { id: post.id }, post ).$promise.then(
+               function(response){
+                 // success callback
+
+                   scope.posts.splice(index, 1);
+
+                   SearchFilter.setTotalPublicItemsOfCurUser( SearchFilter.getTotalPublicItemsOfCurUser() - 1 );
+
+               }, 
+               function(response){
+
+                 // failure callback
+                   console.log('failure callback while deleting post');
+                   console.log(response);
+               }
+            );
+
+        }
+
+    }
+    
+    //fallback on repeatInCategoryListIsDone()
+    $timeout(function(){
+         jQuery('.category-preloader').addClass('edit-hide');
+        
+         jQuery('.category-list').removeClass('edit-hide');
+     },10000);
+            
+            
+            
+            scope.filtersAreActive = SearchFilter.getFiltersAreActive();
+            
+    scope.$on('searchFiltersAreActive', function () {
+            
+            scope.filtersAreActive = true;
+            
+            SearchFilter.setFiltersAreActive( scope.filtersAreActive );
+            
+    });
+
+    scope.$on('searchFiltersAreNotActive', function () {
+
+        scope.filtersAreActive = false;
+
+        SearchFilter.setFiltersAreActive( scope.filtersAreActive );
+
+    });
+            
+    scope.resetAllSearchFilters = function () {
+        
+        $rootScope.$broadcast('resetAllSearchFilter');
+        
+    }
+    
+    
+     // Translateables            
+            scope.wpTranslation_media                   = wpTranslation.getTranslation_media();
+            scope.wpTranslation_featured_media          = wpTranslation.getTranslation_featured_media();
+            scope.wpTranslation_title                   = wpTranslation.getTranslation_title();
+            scope.wpTranslation_categories              = wpTranslation.getTranslation_categories();
+            scope.wpTranslation_no_categories           = wpTranslation.getTranslation_no_categories();
+            scope.wpTranslation_tags                    = wpTranslation.getTranslation_tags();
+            scope.wpTranslation_no_tags                 = wpTranslation.getTranslation_no_tags();
+            scope.wpTranslation_expert                  = wpTranslation.getTranslation_expert();
+            scope.wpTranslation_experts                 = wpTranslation.getTranslation_experts();
+            scope.wpTranslation_edit                    = wpTranslation.getTranslation_edit();
+            scope.wpTranslation_actions                 = wpTranslation.getTranslation_actions();
+            scope.wpTranslation_close                   = wpTranslation.getTranslation_close();
+            scope.wpTranslation_details                 = wpTranslation.getTranslation_details();
+            scope.wpTranslation_page_details            = wpTranslation.getTranslation_page_details();
+            scope.wpTranslation_upps_nothing_found      = wpTranslation.getTranslation_upps_nothing_found();
+            scope.wpTranslation_maybe_filter_not_match  = wpTranslation.getTranslation_maybe_filter_not_match();
+            scope.wpTranslation_if_then_reset_app       = wpTranslation.getTranslation_if_then_reset_app();
+            scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();
+            scope.wpTranslation_reset_app_txt           = wpTranslation.getTranslation_reset_app_txt();
+            scope.wpTranslation_no_data_lost_txt        = wpTranslation.getTranslation_no_data_lost_txt();
+            scope.wpTranslation_load_more               = wpTranslation.getTranslation_load_more();
+
+            
+            
+        }
+    }
+}])
+/*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
+wp_gote_advanced_plugin_app.app.directive("editPost", [ '$state', '$stateParams', '$timeout', 'PostsSrvc', 'CategoriesToJsonSrvc', 'TagsToJsonSrvc', 'CategoriesSrvc', 'TagsSrvc', '$filter', 'wpTranslation', function ( $state, $stateParams, $timeout, PostsSrvc, CategoriesToJsonSrvc, TagsToJsonSrvc, CategoriesSrvc, TagsSrvc, $filter, wpTranslation ) {
+    return {
+        restrict: "E",
+        templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/edit-post/edit-post.html',
+        scope: {},
+        replace: false,
+        link: function ( scope ) {
+
+        // Helper function
+        function arrayObjectIndexOf(arrayToSearchIn, searchTerm, property) {
+            for (var i = 0; i < arrayToSearchIn.length; i++) {
+                if (arrayToSearchIn[i][property] === searchTerm) return i;
+            }
+            return -1;
+        }
+         
+        // Helper function
+        function IsIdInArray( array, id ) {
+              for (var i = 0; i < array.length; i++) {
+                if (array[i].id === id)
+                  return true;
+              }
+              return false;
+        }
+         
+        function removeDuplicates(arr){
+            var unique_array = []
+            for(var i = 0;i < arr.length; i++){
+                if(unique_array.indexOf(arr[i]) == -1){
+                    unique_array.push(arr[i])
+                }
+            }
+            return unique_array
+        }
+         
+    function getPost () {
+        
+                 PostsSrvc.get({ id: $stateParams.id}).$promise.then(
+             
+                   function(response){
+                     // success callback
+                      
+                        scope.post = response;
+                       
+                        var removePrivateStringFromTitle    = scope.post.title.rendered.replace('Privat:', '');
+                        scope.post.title.rendered          = removePrivateStringFromTitle;
+                       
+                       
+                        scope.postCategoriesData           = CategoriesToJsonSrvc.getCategoryJson ( scope.post.categories );
+                        scope.postTagsData                 = TagsToJsonSrvc.getTagJson( scope.post.tags );
+                       
+                        if ( scope.post.status == 'draft' || scope.post.status == 'pending' || scope.post.status == 'future' || scope.post.status == 'trash' ) {
+                            
+                            scope.postStatus       = scope.post.status;
+                            scope.postVisibility   = '';
+                        }
+                        else {
+                            scope.postVisibility   = scope.post.status;
+                            scope.postStatus       = '';
+                        }                     
+                       
+                        scope.newPost[0].status    = scope.post.status;
+
+                        // initial post comment status
+                        scope.postCommentStatus    = scope.post.comment_status;
+                       
+                   }, 
+                   function(response){
+                     // failure callback
+                       console.log('failure callback:');
+                       console.log(response);
+                   }
+            );
+        
+    }
+
+    getPost();
+         
+    scope.categoriesData = [];
+         
+    function getCategories () {
+        
+        jQuery('div#select-category-wrapper').toggle('show');
+        
+        if ( scope.categoriesData.length == 0 ) {
+            
+            CategoriesSrvc.query().$promise.then(
+            function( res ) {
+                
+                var wpCategoriesData = res;
+                
+                var categoriesIdArray = [];
+                for (var i = 0, len = wpCategoriesData.length; i < len; i++) {
+                    categoriesIdArray.push( wpCategoriesData[i].id );
+                }
+                
+                scope.categoriesData = CategoriesToJsonSrvc.getCategoryJson( categoriesIdArray );
+                
+            }, 
+           function(response){
+             // failure callback
+               console.log('failure callback: getCategories');
+               console.log(response);
+           })
+            
+        }      
+        
+    }
+         
+                  
+    scope.getCategoryData = function () {
+             
+             getCategories();
+             
+         }
+    
+         
+    scope.tagsData = [];     
+         
+    function getTags () {
+        
+        jQuery('div#select-tag-wrapper').toggle('show');
+        
+        if ( scope.tagsData.length == 0 ) {
+            
+            TagsSrvc.query().$promise.then(
+            function( res ) {
+                
+                scope.tagsData = res;
+                
+            }, 
+           function(response){
+             // failure callback
+               console.log('failure callback: getTags');
+               console.log(response);
+           })
+            
+        }      
+        
+    }
+
+
+    scope.getTagData = function () {
+
+                 getTags();
+
+    }
+    
+    
+             scope.newPost = [
+             {
+                "status": '',
+                "comment_status": '',
+                "categories": [],
+                "tags": []
+            }
+         ];
+                  
+         
+        scope.postStatusOptions        = {
+            "draft":    wpTranslation.getTranslation_draft(),
+            "pending":  wpTranslation.getTranslation_pending(),
+            "future":   wpTranslation.getTranslation_future()
+        };
+         
+        scope.postVisibilityOptions    =  {
+            "publish": wpTranslation.getTranslation_publish(),
+            "private": wpTranslation.getTranslation_private()
+        };
+         
+        scope.postStatus = '';
+         
+        scope.selectedPostStatus   = function( status ) {
+            
+            if ( status == 'publish' || status == 'private' ) {
+                scope.postStatus = '';
+            }
+            
+            if ( status == 'draft' || status == 'pending' || status == 'future' || status == 'trash' ) {
+                scope.postVisibility = '';
+            }
+            
+            if ( status == 'future') {
+                
+                if ( !scope.post.date || !scope.post.time ) {
+                    
+                    scope.statusFutureActive = true;                    
+                }
+                else {
+                    
+                    scope.statusFutureActive = false;
+                }
+            }
+            else {
+                
+                scope.statusFutureActive = false;
+            }
+            
+            scope.formValid = true;
+            scope.newPost[0].status = status;
+            
+            scope.post.status = status;
+                        
+//            resetDateAndTimeOnStatusFuture();
+            
+            scope.formChanged = true;
+        }
+        
+        // Time handler if user set post status 'future'
+        
+        var postDate, postTime, futurePublish_date_gmt;
+        
+        function resetDateAndTimeOnStatusFuture () {
+            postDate = '';
+            postTime = '';
+            futurePublish_date_gmt;
+                        
+            // timeout to let angularjs render dom
+            $timeout( function () {
+                scope.post.time = '';
+                scope.post.date = '';
+            }, 500);
+        }
+         
+        scope.selectedDateTime = function ( dateOrTime ) {           
+            
+            
+            var date = $filter('date')(dateOrTime, "yyyy-MM-dd");
+            var time = $filter('date')(dateOrTime, "HH:mm:ss");
+            
+            if ( time == '00:00:00') {
+                postDate = date;
+            }
+            else {
+                postTime = 'T' + time;
+            }
+            
+            if ( postDate && postTime ) {
+                futurePublish_date_gmt = postDate + postTime;
+            }            
+
+        }
+        
+        scope.postCommentStatusOptions = {
+            "open": wp_gote_advanced_plugin_app_local.wpTranslation_accept,
+            "closed": wp_gote_advanced_plugin_app_local.wpTranslation_refuse
+        };
+         
+        scope.selectedPostCommentStatus   = function( selection ) {
+                        
+            if ( status == 'publish' || status == 'private' ) {
+                scope.postStatus = '';
+            }
+            
+            if ( status == 'draft' || status == 'pending' || status == 'future' || status == 'trash' ) {
+                scope.postVisibility = '';
+            }
+            
+            scope.newPost[0].comment_status    = selection;
+            scope.post.comment_status          = selection;
+            
+        }
+         
+        // Helper function
+        function arrayObjectIndexOf(arrayToSearchIn, searchTerm, property) {
+            for (var i = 0; i < arrayToSearchIn.length; i++) {
+                if (arrayToSearchIn[i][property] === searchTerm) return i;
+            }
+            return -1;
+        }
+
+         
+         
+         
+         scope.preloader = wp_gote_advanced_plugin_app_local.app_directory + '/img/preloader-roller.gif';
+         scope.noFeaturedMediaPlaceholder = wp_gote_advanced_plugin_app_local.app_directory + '/img/no-image-found.png';
+         
+         
+         //fallback on repeatInCategoryListIsDone()
+        $timeout(function(){
+             jQuery('.has-preloader').addClass('edit-hide');
+>>>>>>> parent of d9d6f12... dev
+
+             scope.timeUpFallback = true;
+         },6000);
+         
+         
+         scope.addSelectedCategory = function ( postCategories, id ) {
+                          
+             if ( !IsIdInArray( scope.postCategoriesData, id  ) ) {
+                 
+                scope.post.categories.push( id );
+
+<<<<<<< HEAD
                 if (itemsPerPage == 10) {
                     scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[0];
                 }
@@ -2911,16 +3364,51 @@ wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFi
                 scope.selectedItemsPerPage = scope.optionsOnItemsPerPage[0];
 
             }
+=======
+                scope.post.categories = removeDuplicates( postCategories )
 
+                scope.postCategoriesData = CategoriesToJsonSrvc.getCategoryJson( scope.post.categories ); 
+                 
+            
+                jQuery('div#main-category-tree').addClass('edit-hide');
 
+                jQuery('div#main-category-tree-no-category').addClass('edit-hide');
+
+                jQuery('div#main-category-preloader').removeClass('edit-hide');
+>>>>>>> parent of d9d6f12... dev
+
+                // activate update button
+                scope.formChanged = true;
+                 
+             }            
+             
+         }
+         
+         
+         scope.addSelectedTag = function ( postTags, id ) {
+
+<<<<<<< HEAD
             scope.selectedItemsPerPageChanged = function () {
 
                 SearchFilter.setCurPage(1);
 
                 SearchFilter.setItemsPerPage(scope.selectedItemsPerPage);
+=======
+             if ( !IsIdInArray( scope.postTagsData, id  ) ) {
+                 
+                scope.post.tags.push( id );
 
-                scope.itemsPerPage = scope.selectedItemsPerPage;
+                scope.post.tags = removeDuplicates( postTags )
 
+                scope.postTagsData = TagsToJsonSrvc.getTagJson( scope.post.tags );
+                 
+            
+                jQuery('div#main-tag-tree').addClass('edit-hide');
+>>>>>>> parent of d9d6f12... dev
+
+                jQuery('div#main-tag-tree-no-category').addClass('edit-hide');
+
+<<<<<<< HEAD
                 $rootScope.$broadcast('tiggerEventGetPostsInMainContent');
 
                 scope.selectedItemsPerPageSet = true;
@@ -2955,8 +3443,41 @@ wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFi
                 }
 
             };
+=======
+                jQuery('div#main-tag-preloader').removeClass('edit-hide');
+>>>>>>> parent of d9d6f12... dev
 
+                // activate update button
+                scope.formChanged = true;
+                 
+             }            
+             
+         }
+         
+         
+         
+         
+         scope.repeatInSelectCategoryDone = function () {
+             
+             console.log( 'repeatInSelectCategoryDone' );
+             
+             jQuery('div#select-category-preloader').addClass('edit-hide');
+             
+             jQuery('div#select-category-tree').removeClass('edit-hide');
+             
+         }
+         
+         scope.repeatInSelectTagDone = function () {
+             
+             jQuery('div#select-tag-preloader').addClass('edit-hide');
+             
+             jQuery('div#select-tag-tree').removeClass('edit-hide');
+             
+         }
+         
+        
 
+<<<<<<< HEAD
             scope.repeatNumber = function (num) {
                 return new Array(num);
             };
@@ -2969,13 +3490,122 @@ wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFi
                 scope.filtersAreActive = true;
 
                 SearchFilter.setFiltersAreActive(scope.filtersAreActive);
+=======
+        scope.image_directory = wp_gote_advanced_plugin_app_local.app_directory + '/img';
+         
+        // set base path to tinyMCE source
+        tinyMCE.baseURL = wp_gote_advanced_plugin_app_local.baseURL+'/wp-includes/js/tinymce/';
+        
+  
+        scope.tinymceOptions = {
+             skin: 'lightgray',
+             theme: 'modern',
+             height: '400px',
+             plugins: 'lists tabfocus paste media image fullscreen wordpress wpgallery link wpdialogs',
+             menubar: 'edit insert format',
+             toolbar: 'undo redo | formatselect | bold italic underline strikethrough | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | fullscreen'
+        };    
+            
+            
+        scope.changesInTextarea = function () {
+            
+            scope.formChanged = true;
+        }
+    
+         
+             var custom_uploader;
+             
+             scope.uploadImage = function () {
+                 //If the uploader object has already been created, reopen the dialog
+                 if (custom_uploader) {
+                     custom_uploader.open();
+                     return;
+                 }
 
-            });
+                 //Extend the wp.media object
+                 custom_uploader = wp.media.frames.file_frame = wp.media({
+                     title: 'Choose Image',
+                     button: {
+                         text: 'Choose Image'
+                     },
+                     multiple: false
+                 });
 
-            scope.$on('searchFiltersAreNotActive', function () {
+                 //When a file is selected, grab the URL and set it as the text field's value
+                 custom_uploader.on('select', function () {
+                     attachment = custom_uploader.state().get('selection').first().toJSON();
+                     
+                     scope.post.featured_media = attachment.id;
+                     
+                     // activate update button
+                     scope.formChanged = true;
+                     
+                     jQuery('#no-media-placeholder').addClass('edit-hide');
+                     
+                     scope.$apply();
+                 });
+>>>>>>> parent of d9d6f12... dev
 
-                scope.filtersAreActive = false;
+                 //Open the uploader dialog
+                 custom_uploader.open();
+             }
+         
+         
+         // Update post handler
+         scope.updatePost = function ( post ) {
+             
+             
+            // prepare data to fit in WP-Rest
+            var content                         = post.content.rendered;
+            post.content                        = content;
 
+            var title                           = post.title.rendered;
+            post.title                          = title;
+
+            var excerpt                         = post.excerpt.rendered;
+            post.excerpt                        = excerpt;
+             
+            var featured_media                  = post.featured_media;
+            post.featured_media                 = featured_media;
+             
+            var meta                            = post.meta;
+            post.meta                           = meta;
+             
+            var status                          = scope.newPost[0].status;
+            post.status                         = scope.newPost[0].status;
+             
+            if ( status == 'future' ) {
+                var date                        = futurePublish_date_gmt;
+                post.date                       = date;
+            }
+             else {
+                var curDate = $filter('date')(new Date(), "yyyy-MM-dd");
+                var curTime = $filter('date')(new Date(), "HH:mm:ss");
+                 
+                var date                        = curDate + 'T' + curTime;
+                post.date                       = date;
+             }
+             
+                          
+            delete post.$promise;
+            delete post.$resolved;
+             
+            // reconvert data from angular-ui-tree array "postTagsData" to fit in WP-Rest post.tags array.
+            // The WP-Rest post.tags array is acually an id collector of related tags
+             
+            post.tags       = TagsToJsonSrvc.reconvertTags( scope.postTagsData );
+             
+            post.categories = CategoriesToJsonSrvc.reconvertCategories( scope.postCategoriesData );
+             
+             
+             if ( status == 'trash' ) {
+                                  
+                 setTimeout( function () {
+                     PostsSrvc.delete( { id: post.id }, post ).$promise.then(
+                           function(response){
+                             // success callback
+
+<<<<<<< HEAD
                 SearchFilter.setFiltersAreActive(scope.filtersAreActive);
 
             });
@@ -3405,20 +4035,133 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
          $timeout(function(){
              
              jQuery('div#category-list-preloader-' + index ).addClass('edit-hide');
+=======
+                               scope.post = response;
+
+                           }, 
+                           function(response){
+
+                             // failure callback
+                               console.log('failure callback while deleting post');
+                               console.log(response);
+                           }
+                    );
+                 }, 800);
+                 
+             }
+             else {
+                setTimeout( function () {
+                    
+                    
+                     PostsSrvc.update( post ).$promise.then(
+                           function(response){
+                             // success callback
+
+                               scope.post = response;
+                               
+                               scope.formChanged = false;
+
+                           }, 
+                           function(response){
+
+                             // failure callback
+                               console.log('failure callback while updating post');
+                               console.log(response);
+                           }
+                    );
+                 }, 500);
+             }
+
+
+         }
+          
+         
+         // add new category handler
+         scope.addCategory = function( newCategory ){
              
-             jQuery('div#category-list-' + index ).removeClass('edit-hide');
+             var categegoryToAdd;
+             var checkIfCategoryExists= newCategory.toLowerCase().replace(' ', '-');
              
-         },2000);
-    }
-    
-    scope.movePostToTrash = function ( post, index ) {
-        
-        countRemoveItems ++;
-        
-        if ( countRemoveItems > 3 ) {
+             CategoriesSrvc.getfiltered({ filterTitle: 'slug', searchTerm:  checkIfCategoryExists }).$promise.then(  
+                function ( res ) {            
+                    
+                    categegoryToAdd = res[0];
+                    
+                    if (categegoryToAdd) {
+                        
+                        var filterOutExisting = arrayObjectIndexOf( scope.postCategoriesData, categegoryToAdd.slug, 'slug'  );
+                        
+                        if ( filterOutExisting < 0 ) {
+                            scope.postCategoriesData.push(categegoryToAdd);
+                        }
+                        
+                        // activate update button
+                        scope.formChanged = true;
+                    }
             
-            scope.totatItemsPublic = SearchFilter.getTotalPublicItemsOfCurUser();
+                },
+                function(err){
+                                  // error callback
+                                  console.log('error while getting filtered category!');
+                                  console.log(err.data.message);
+                                  console.log(err);
+                }
+        );
+>>>>>>> parent of d9d6f12... dev
+             
+             // reset add new category input field
+             jQuery('#new-post-category').val(function() {
+                return this.defaultValue;
+            });
+         }
+         
+         
+        // add new tag handler
+         scope.addTag = function( newTag ){
+                          
+             var tagToAdd;
+             var checkIfTagExists = newTag.toLowerCase().replace(' ', '-');
+             
+             TagsSrvc.getfiltered({ filterTitle: 'slug', searchTerm:  checkIfTagExists }).$promise.then(  
+                function ( res ) {            
+                    
+                    tagToAdd = res[0];
+                    
+                    if (tagToAdd) {
+  
+                        var filterOutExisting = arrayObjectIndexOf( scope.postTagsData, tagToAdd.slug, 'slug'  );
+                        
+                        if ( filterOutExisting < 0 ) {
+                            scope.postTagsData.push(tagToAdd);
+                            
+                            // activate update button
+                            scope.formChanged = true;
+                        }
+                        
+                    } else {
+                        
+                        TagsSrvc.save( { "name": newTag } ).$promise.then(
+                                function ( res ) {
+                                    
+                                    delete res.$promise;
+                                    delete res.$resolved;
+                                    
+                                    scope.postTagsData.push(res);
+                                    
+                                    // activate update button
+                                    scope.formChanged = true;
+                                    
+                                },
+                                    function(err){
+                                          // error callback
+                                          console.log('error while saving new added Tag!');
+                                          console.log(err.data.message);
+                                          console.log(err);
+                                    });
+                        
+                    }
             
+<<<<<<< HEAD
             scope.loadMorePost = true;
         }
         
@@ -3605,56 +4348,125 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
 
             scope.filtersAreActive = SearchFilter.getFiltersAreActive();
 <<<<<<< HEAD
-            
-    scope.$on('searchFiltersAreActive', function () {
-            
-            scope.filtersAreActive = true;
-            
-            SearchFilter.setFiltersAreActive( scope.filtersAreActive );
-            
-    });
+=======
+                },
+                function(err){
+                                  // error callback
+                                  console.log('error while getting filtered Tag!');
+                                  console.log(err.data.message);
+                                  console.log(err);
+                }
+        );
+             
+             
+             // reset add new category input field
+             jQuery('#new-post-tag').val(function() {
+                return this.defaultValue;
+            });
+         }
+         
+         
+         
+         // callback handler on angular-ui-tree directiv
+         // This build in callback is called "removed". It seems buggy because it trigger on every event in this directiv
+         // But it´s exactly what is needed. On changes in this directive show update button.
+         
+         
+         function updateCategories ( categoryId, parentId ) {
+             
+                    CategoriesSrvc.update({id: categoryId}, { "parent": parentId }).$promise.then(
+                    
+                        function(){
+                            
+                        }, 
+                       function(response){
 
-    scope.$on('searchFiltersAreNotActive', function () {
+                         // failure callback
+                           console.log('failure callback: updateCategories');
+                           console.log(response);
+                    });            
+             
+         }
+         
+         
+         
+         var categoryId, parentId;
+         
+         scope.treeOptionsInCategories = {
+                dragStart: function ( e ) {
+                    // activate update button if modifications on tree take place
+                     scope.formChanged = true;
+                    
+                    // id of draged category object
+                    categoryId = e.source.nodeScope.$modelValue.id;
+                        
+                    updateCategories( categoryId, 0 );
 
-        scope.filtersAreActive = false;
+                },
+                dragStop : function ( e ) {
+                    
+                    parentId = e.dest.nodesScope.$nodeScope.$modelValue.id;                    
+                        
+                        updateCategories ( categoryId, parentId );
+                    
+                }
+        }
+         
+         scope.treeCustomRemoveCallback = function ( wpCategoryData ) {
+             
+             // activate update button if modifications on tree take place
+            scope.formChanged = true;
+             
+             console.log( 'wpCategoryData' );
+             console.log( wpCategoryData );
+             
+         }
+         
+         
+         scope.treeOptionsInTags = {
+                removed: function (scope, modelData, sourceIndex) {
+                    // activate update button if modifications on tree take place
+                     scope.formChanged = true;
 
-        SearchFilter.setFiltersAreActive( scope.filtersAreActive );
-
-    });
+                }
+        }
+         
+         
+        scope.repeatInMainCategoryDone = function (){
             
-    scope.resetAllSearchFilters = function () {
+            $timeout( function ( ) {
+                
+                jQuery('div#main-category-preloader').addClass('edit-hide');
+            
+                jQuery('div#main-category-tree').removeClass('edit-hide');
+
+                jQuery('div#main-category-tree-no-category').removeClass('edit-hide');
+                
+            }, 1000);
+>>>>>>> parent of d9d6f12... dev
+            
+         
+        }
         
-        $rootScope.$broadcast('resetAllSearchFilter');
+        scope.repeatInMainTagDone = function (){
+            
+            jQuery('div#main-tag-preloader').addClass('edit-hide');
+            
+            jQuery('div#main-tag-tree').removeClass('edit-hide');
+            
+            jQuery('div#main-tag-tree-no-tag').removeClass('edit-hide');
+            
+         
+        }
         
-    }
-    
-    
-     // Translateables            
-            scope.wpTranslation_media                   = wpTranslation.getTranslation_media();
-            scope.wpTranslation_featured_media          = wpTranslation.getTranslation_featured_media();
-            scope.wpTranslation_title                   = wpTranslation.getTranslation_title();
-            scope.wpTranslation_categories              = wpTranslation.getTranslation_categories();
-            scope.wpTranslation_no_categories           = wpTranslation.getTranslation_no_categories();
-            scope.wpTranslation_tags                    = wpTranslation.getTranslation_tags();
-            scope.wpTranslation_no_tags                 = wpTranslation.getTranslation_no_tags();
-            scope.wpTranslation_expert                  = wpTranslation.getTranslation_expert();
-            scope.wpTranslation_experts                 = wpTranslation.getTranslation_experts();
-            scope.wpTranslation_edit                    = wpTranslation.getTranslation_edit();
-            scope.wpTranslation_actions                 = wpTranslation.getTranslation_actions();
-            scope.wpTranslation_close                   = wpTranslation.getTranslation_close();
-            scope.wpTranslation_details                 = wpTranslation.getTranslation_details();
-            scope.wpTranslation_page_details            = wpTranslation.getTranslation_page_details();
-            scope.wpTranslation_upps_nothing_found      = wpTranslation.getTranslation_upps_nothing_found();
-            scope.wpTranslation_did_y_write_some_content= wpTranslation.getTranslation_did_y_write_some_content();
-            scope.wpTranslation_maybe_filter_not_match  = wpTranslation.getTranslation_maybe_filter_not_match();
-            scope.wpTranslation_if_then_reset_app       = wpTranslation.getTranslation_if_then_reset_app();
-            scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();
-            scope.wpTranslation_reset_app_txt           = wpTranslation.getTranslation_reset_app_txt();
-            scope.wpTranslation_no_data_lost_txt        = wpTranslation.getTranslation_no_data_lost_txt();
-            scope.wpTranslation_load_more               = wpTranslation.getTranslation_load_more();
-
+        // fallback if repeatDone directive will not trigger
+        // Happens if no category nor tag is set
+        
+        $timeout( function () {
             
+            scope.repeatInMainCategoryDone();
             
+<<<<<<< HEAD
 =======
 
             scope.$on('searchFiltersAreActive', function () {
@@ -3720,747 +4532,52 @@ wp_gote_advanced_plugin_app.app.directive("editPost", ['$state', '$stateParams',
         replace: false,
 <<<<<<< HEAD
         controller: 'EditPostCtrl'
+=======
+            scope.repeatInMainTagDone();
+            
+        }, 3000);
+          
+         
+         
+    // Translateables
+    scope.wpTranslation_back                            = wpTranslation.getTranslation_back();
+    scope.wpTranslation_edit_post                       = wpTranslation.getTranslation_edit_post();
+    scope.wpTranslation_edit_post_details               = wpTranslation.getTranslation_edit_post_details();
+    scope.wpTranslation_media                           = wpTranslation.getTranslation_media();
+    scope.wpTranslation_featured_media                  = wpTranslation.getTranslation_featured_media();
+    scope.wpTranslation_title                           = wpTranslation.getTranslation_title();
+    scope.wpTranslation_categories                      = wpTranslation.getTranslation_categories();
+    scope.wpTranslation_no_categories                   = wpTranslation.getTranslation_no_categories();
+    scope.wpTranslation_tags                            = wpTranslation.getTranslation_tags();
+    scope.wpTranslation_no_tags                         = wpTranslation.getTranslation_no_tags();
+    scope.wpTranslation_changes_made                    = wpTranslation.getTranslation_changes_made();
+    scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
+    scope.wpTranslation_update_post                     = wpTranslation.getTranslation_update_post();
+    scope.wpTranslation_post_details                    = wpTranslation.getTranslation_post_details();
+    scope.wpTranslation_title_n_post_content_required   = wpTranslation.getTranslation_title_n_post_content_required();
+    scope.wpTranslation_on_status_date_n_time_required  = wpTranslation.getTranslation_on_status_date_n_time_required();
+
+   
+>>>>>>> parent of d9d6f12... dev
         
-//        link: function ( $scope ) {
-//
-//        // Helper function
-//        function arrayObjectIndexOf(arrayToSearchIn, searchTerm, property) {
-//            for (var i = 0; i < arrayToSearchIn.length; i++) {
-//                if (arrayToSearchIn[i][property] === searchTerm) return i;
-//            }
-//            return -1;
-//        }
-//         
-//        // Helper function
-//        function IsIdInArray( array, id ) {
-//              for (var i = 0; i < array.length; i++) {
-//                if (array[i].id === id)
-//                  return true;
-//              }
-//              return false;
-//        }
-//         
-//        function removeDuplicates(arr){
-//            var unique_array = []
-//            for(var i = 0;i < arr.length; i++){
-//                if(unique_array.indexOf(arr[i]) == -1){
-//                    unique_array.push(arr[i])
-//                }
-//            }
-//            return unique_array
-//        }
-//         
-//    function getPost () {
-//        
-//                 PostsSrvc.get({ id: $stateParams.id}).$promise.then(
-//             
-//                   function(response){
-//                     // success callback
-//                      
-//                        $scope.post = response;
-//                       
-//                        var removePrivateStringFromTitle    = $scope.post.title.rendered.replace('Privat:', '');
-//                        $scope.post.title.rendered          = removePrivateStringFromTitle;
-//                       
-//                       
-//                        $scope.postCategoriesData           = CategoriesToJsonSrvc.getCategoryJson ( $scope.post.categories );
-//                        $scope.postTagsData                 = TagsToJsonSrvc.getTagJson( $scope.post.tags );
-//                       
-//                        if ( $scope.post.status == 'draft' || $scope.post.status == 'pending' || $scope.post.status == 'future' || $scope.post.status == 'trash' ) {
-//                            
-//                            $scope.postStatus       = $scope.post.status;
-//                            $scope.postVisibility   = '';
-//                        }
-//                        else {
-//                            $scope.postVisibility   = $scope.post.status;
-//                            $scope.postStatus       = '';
-//                        }                     
-//                       
-//                        $scope.newPost[0].status    = $scope.post.status;
-//
-//                        // initial post comment status
-//                        $scope.postCommentStatus    = $scope.post.comment_status;
-//                       
-//                   }, 
-//                   function(response){
-//                     // failure callback
-//                       console.log('failure callback:');
-//                       console.log(response);
-//                   }
-//            );
-//        
-//    }
-//
-//    getPost();
-//         
-//    $scope.categoriesData = [];
-//         
-//    function getCategories () {
-//        
-//        jQuery('div#select-category-wrapper').toggle('show');
-//        
-//        if ( $scope.categoriesData.length == 0 ) {
-//            
-//            CategoriesSrvc.query().$promise.then(
-//            function( res ) {
-//                
-//                var wpCategoriesData = res;
-//                
-//                var categoriesIdArray = [];
-//                for (var i = 0, len = wpCategoriesData.length; i < len; i++) {
-//                    categoriesIdArray.push( wpCategoriesData[i].id );
-//                }
-//                
-//                $scope.categoriesData = CategoriesToJsonSrvc.getCategoryJson( categoriesIdArray );
-//                
-//            }, 
-//           function(response){
-//             // failure callback
-//               console.log('failure callback: getCategories');
-//               console.log(response);
-//           })
-//            
-//        }      
-//        
-//    }
-//         
-//                  
-//    $scope.getCategoryData = function () {
-//             
-//             getCategories();
-//             
-//         }
-//    
-//         
-//    $scope.tagsData = [];     
-//         
-//    function getTags () {
-//        
-//        jQuery('div#select-tag-wrapper').toggle('show');
-//        
-//        if ( $scope.tagsData.length == 0 ) {
-//            
-//            TagsSrvc.query().$promise.then(
-//            function( res ) {
-//                
-//                $scope.tagsData = res;
-//                
-//            }, 
-//           function(response){
-//             // failure callback
-//               console.log('failure callback: getTags');
-//               console.log(response);
-//           })
-//            
-//        }      
-//        
-//    }
-//
-//
-//    $scope.getTagData = function () {
-//
-//                 getTags();
-//
-//    }
-//    
-//    
-//             $scope.newPost = [
-//             {
-//                "status": '',
-//                "comment_status": '',
-//                "categories": [],
-//                "tags": []
-//            }
-//         ];
-//                  
-//         
-//        $scope.postStatusOptions        = {
-//            "draft":    wpTranslation.getTranslation_draft(),
-//            "pending":  wpTranslation.getTranslation_pending(),
-//            "future":   wpTranslation.getTranslation_future()
-//        };
-//         
-//        $scope.postVisibilityOptions    =  {
-//            "publish": wpTranslation.getTranslation_publish(),
-//            "private": wpTranslation.getTranslation_private()
-//        };
-//         
-//        $scope.postStatus = '';
-//         
-//        $scope.selectedPostStatus   = function( status ) {
-//            
-//            if ( status == 'publish' || status == 'private' ) {
-//                $scope.postStatus = '';
-//            }
-//            
-//            if ( status == 'draft' || status == 'pending' || status == 'future' || status == 'trash' ) {
-//                $scope.postVisibility = '';
-//            }
-//            
-//            if ( status == 'future') {
-//                
-//                if ( !$scope.post.date || !$scope.post.time ) {
-//                    
-//                    $scope.statusFutureActive = true;                    
-//                }
-//                else {
-//                    
-//                    $scope.statusFutureActive = false;
-//                }
-//            }
-//            else {
-//                
-//                $scope.statusFutureActive = false;
-//            }
-//            
-//            $scope.formValid = true;
-//            $scope.newPost[0].status = status;
-//            
-//            $scope.post.status = status;
-//                        
-////            resetDateAndTimeOnStatusFuture();
-//            
-//            $scope.formChanged = true;
-//        }
-//        
-//        // Time handler if user set post status 'future'
-//        
-//        var postDate, postTime, futurePublish_date_gmt;
-//        
-//        function resetDateAndTimeOnStatusFuture () {
-//            postDate = '';
-//            postTime = '';
-//            futurePublish_date_gmt;
-//                        
-//            // timeout to let angularjs render dom
-//            $timeout( function () {
-//                $scope.post.time = '';
-//                $scope.post.date = '';
-//            }, 500);
-//        }
-//         
-//        $scope.selectedDateTime = function ( dateOrTime ) {           
-//            
-//            
-//            var date = $filter('date')(dateOrTime, "yyyy-MM-dd");
-//            var time = $filter('date')(dateOrTime, "HH:mm:ss");
-//            
-//            if ( time == '00:00:00') {
-//                postDate = date;
-//            }
-//            else {
-//                postTime = 'T' + time;
-//            }
-//            
-//            if ( postDate && postTime ) {
-//                futurePublish_date_gmt = postDate + postTime;
-//            }            
-//
-//        }
-//        
-//        $scope.postCommentStatusOptions = {
-//            "open": wp_gote_advanced_plugin_app_local.wpTranslation_accept,
-//            "closed": wp_gote_advanced_plugin_app_local.wpTranslation_refuse
-//        };
-//         
-//        $scope.selectedPostCommentStatus   = function( selection ) {
-//                        
-//            if ( status == 'publish' || status == 'private' ) {
-//                $scope.postStatus = '';
-//            }
-//            
-//            if ( status == 'draft' || status == 'pending' || status == 'future' || status == 'trash' ) {
-//                $scope.postVisibility = '';
-//            }
-//            
-//            $scope.newPost[0].comment_status    = selection;
-//            $scope.post.comment_status          = selection;
-//            
-//        }
-//         
-//        // Helper function
-//        function arrayObjectIndexOf(arrayToSearchIn, searchTerm, property) {
-//            for (var i = 0; i < arrayToSearchIn.length; i++) {
-//                if (arrayToSearchIn[i][property] === searchTerm) return i;
-//            }
-//            return -1;
-//        }
-//
-//         
-//         
-//         
-//         $scope.preloader = wp_gote_advanced_plugin_app_local.app_directory + '/img/preloader-roller.gif';
-//         $scope.noFeaturedMediaPlaceholder = wp_gote_advanced_plugin_app_local.app_directory + '/img/no-image-found.png';
-//         
-//         
-//         //fallback on repeatInCategoryListIsDone()
-//        $timeout(function(){
-//             jQuery('.has-preloader').addClass('edit-hide');
-//
-//             $scope.timeUpFallback = true;
-//         },6000);
-//         
-//         
-//         $scope.addSelectedCategory = function ( postCategories, id ) {
-//                          
-//             if ( !IsIdInArray( $scope.postCategoriesData, id  ) ) {
-//                 
-//                $scope.post.categories.push( id );
-//
-//                $scope.post.categories = removeDuplicates( postCategories )
-//
-//                $scope.postCategoriesData = CategoriesToJsonSrvc.getCategoryJson( $scope.post.categories ); 
-//                 
-//            
-//                jQuery('div#main-category-tree').addClass('edit-hide');
-//
-//                jQuery('div#main-category-tree-no-category').addClass('edit-hide');
-//
-//                jQuery('div#main-category-preloader').removeClass('edit-hide');
-//
-//                // activate update button
-//                $scope.formChanged = true;
-//                 
-//             }            
-//             
-//         }
-//         
-//         
-//         $scope.addSelectedTag = function ( postTags, id ) {
-//
-//             if ( !IsIdInArray( $scope.postTagsData, id  ) ) {
-//                 
-//                $scope.post.tags.push( id );
-//
-//                $scope.post.tags = removeDuplicates( postTags )
-//
-//                $scope.postTagsData = TagsToJsonSrvc.getTagJson( $scope.post.tags );
-//                 
-//            
-//                jQuery('div#main-tag-tree').addClass('edit-hide');
-//
-//                jQuery('div#main-tag-tree-no-category').addClass('edit-hide');
-//
-//                jQuery('div#main-tag-preloader').removeClass('edit-hide');
-//
-//                // activate update button
-//                $scope.formChanged = true;
-//                 
-//             }            
-//             
-//         }
-//         
-//         
-//         
-//         
-//         $scope.repeatInSelectCategoryDone = function () {
-//             
-//             console.log( 'repeatInSelectCategoryDone' );
-//             
-//             jQuery('div#select-category-preloader').addClass('edit-hide');
-//             
-//             jQuery('div#select-category-tree').removeClass('edit-hide');
-//             
-//         }
-//         
-//         $scope.repeatInSelectTagDone = function () {
-//             
-//             jQuery('div#select-tag-preloader').addClass('edit-hide');
-//             
-//             jQuery('div#select-tag-tree').removeClass('edit-hide');
-//             
-//         }
-//         
-//        
-//
-//        $scope.image_directory = wp_gote_advanced_plugin_app_local.app_directory + '/img';
-//         
-//        // set base path to tinyMCE source
-//        tinyMCE.baseURL = wp_gote_advanced_plugin_app_local.baseURL+'/wp-includes/js/tinymce/';
-//        
-//  
-//        $scope.tinymceOptions = {
-//             skin: 'lightgray',
-//             theme: 'modern',
-//             height: '400px',
-//             plugins: 'lists tabfocus paste media image fullscreen wordpress wpgallery link wpdialogs',
-//             menubar: 'edit insert format',
-//             toolbar: 'undo redo | formatselect | bold italic underline strikethrough | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | fullscreen'
-//        };    
-//            
-//            
-//        $scope.changesInTextarea = function () {
-//            
-//            $scope.formChanged = true;
-//        }
-//    
-//         
-//             var custom_uploader;
-//             
-//             $scope.uploadImage = function () {
-//                 //If the uploader object has already been created, reopen the dialog
-//                 if (custom_uploader) {
-//                     custom_uploader.open();
-//                     return;
-//                 }
-//
-//                 //Extend the wp.media object
-//                 custom_uploader = wp.media.frames.file_frame = wp.media({
-//                     title: 'Choose Image',
-//                     button: {
-//                         text: 'Choose Image'
-//                     },
-//                     multiple: false
-//                 });
-//
-//                 //When a file is selected, grab the URL and set it as the text field's value
-//                 custom_uploader.on('select', function () {
-//                     attachment = custom_uploader.state().get('selection').first().toJSON();
-//                     
-//                     $scope.post.featured_media = attachment.id;
-//                     
-//                     // activate update button
-//                     $scope.formChanged = true;
-//                     
-//                     jQuery('#no-media-placeholder').addClass('edit-hide');
-//                     
-//                     $scope.$apply();
-//                 });
-//
-//                 //Open the uploader dialog
-//                 custom_uploader.open();
-//             }
-//         
-//         
-//         // Update post handler
-//         $scope.updatePost = function ( post ) {
-//             
-//             
-//            // prepare data to fit in WP-Rest
-//            var content                         = post.content.rendered;
-//            post.content                        = content;
-//
-//            var title                           = post.title.rendered;
-//            post.title                          = title;
-//
-//            var excerpt                         = post.excerpt.rendered;
-//            post.excerpt                        = excerpt;
-//             
-//            var featured_media                  = post.featured_media;
-//            post.featured_media                 = featured_media;
-//             
-//            var meta                            = post.meta;
-//            post.meta                           = meta;
-//             
-//            var status                          = $scope.newPost[0].status;
-//            post.status                         = $scope.newPost[0].status;
-//             
-//            if ( status == 'future' ) {
-//                var date                        = futurePublish_date_gmt;
-//                post.date                       = date;
-//            }
-//             else {
-//                var curDate = $filter('date')(new Date(), "yyyy-MM-dd");
-//                var curTime = $filter('date')(new Date(), "HH:mm:ss");
-//                 
-//                var date                        = curDate + 'T' + curTime;
-//                post.date                       = date;
-//             }
-//             
-//                          
-//            delete post.$promise;
-//            delete post.$resolved;
-//             
-//            // reconvert data from angular-ui-tree array "postTagsData" to fit in WP-Rest post.tags array.
-//            // The WP-Rest post.tags array is acually an id collector of related tags
-//             
-//            post.tags       = TagsToJsonSrvc.reconvertTags( $scope.postTagsData );
-//             
-//            post.categories = CategoriesToJsonSrvc.reconvertCategories( $scope.postCategoriesData );
-//             
-//             
-//             if ( status == 'trash' ) {
-//                                  
-//                 setTimeout( function () {
-//                     PostsSrvc.delete( { id: post.id }, post ).$promise.then(
-//                           function(response){
-//                             // success callback
-//
-//                               $scope.post = response;
-//
-//                           }, 
-//                           function(response){
-//
-//                             // failure callback
-//                               console.log('failure callback while deleting post');
-//                               console.log(response);
-//                           }
-//                    );
-//                 }, 800);
-//                 
-//             }
-//             else {
-//                setTimeout( function () {
-//                    
-//                    
-//                     PostsSrvc.update( post ).$promise.then(
-//                           function(response){
-//                             // success callback
-//
-//                               $scope.post = response;
-//                               
-//                               $scope.formChanged = false;
-//
-//                           }, 
-//                           function(response){
-//
-//                             // failure callback
-//                               console.log('failure callback while updating post');
-//                               console.log(response);
-//                           }
-//                    );
-//                 }, 500);
-//             }
-//
-//
-//         }
-//          
-//         
-//         // add new category handler
-//         $scope.addCategory = function( newCategory ){
-//             
-//             var categegoryToAdd;
-//             var checkIfCategoryExists= newCategory.toLowerCase().replace(' ', '-');
-//             
-//             CategoriesSrvc.getfiltered({ filterTitle: 'slug', searchTerm:  checkIfCategoryExists }).$promise.then(  
-//                function ( res ) {            
-//                    
-//                    categegoryToAdd = res[0];
-//                    
-//                    if (categegoryToAdd) {
-//                        
-//                        var filterOutExisting = arrayObjectIndexOf( $scope.postCategoriesData, categegoryToAdd.slug, 'slug'  );
-//                        
-//                        if ( filterOutExisting < 0 ) {
-//                            $scope.postCategoriesData.push(categegoryToAdd);
-//                        }
-//                        
-//                        // activate update button
-//                        $scope.formChanged = true;
-//                    }
-//            
-//                },
-//                function(err){
-//                                  // error callback
-//                                  console.log('error while getting filtered category!');
-//                                  console.log(err.data.message);
-//                                  console.log(err);
-//                }
-//        );
-//             
-//             // reset add new category input field
-//             jQuery('#new-post-category').val(function() {
-//                return this.defaultValue;
-//            });
-//         }
-//         
-//         
-//        // add new tag handler
-//         $scope.addTag = function( newTag ){
-//                          
-//             var tagToAdd;
-//             var checkIfTagExists = newTag.toLowerCase().replace(' ', '-');
-//             
-//             TagsSrvc.getfiltered({ filterTitle: 'slug', searchTerm:  checkIfTagExists }).$promise.then(  
-//                function ( res ) {            
-//                    
-//                    tagToAdd = res[0];
-//                    
-//                    if (tagToAdd) {
-//  
-//                        var filterOutExisting = arrayObjectIndexOf( $scope.postTagsData, tagToAdd.slug, 'slug'  );
-//                        
-//                        if ( filterOutExisting < 0 ) {
-//                            $scope.postTagsData.push(tagToAdd);
-//                            
-//                            // activate update button
-//                            $scope.formChanged = true;
-//                        }
-//                        
-//                    } else {
-//                        
-//                        TagsSrvc.save( { "name": newTag } ).$promise.then(
-//                                function ( res ) {
-//                                    
-//                                    delete res.$promise;
-//                                    delete res.$resolved;
-//                                    
-//                                    $scope.postTagsData.push(res);
-//                                    
-//                                    // activate update button
-//                                    $scope.formChanged = true;
-//                                    
-//                                },
-//                                    function(err){
-//                                          // error callback
-//                                          console.log('error while saving new added Tag!');
-//                                          console.log(err.data.message);
-//                                          console.log(err);
-//                                    });
-//                        
-//                    }
-//            
-//                },
-//                function(err){
-//                                  // error callback
-//                                  console.log('error while getting filtered Tag!');
-//                                  console.log(err.data.message);
-//                                  console.log(err);
-//                }
-//        );
-//             
-//             
-//             // reset add new category input field
-//             jQuery('#new-post-tag').val(function() {
-//                return this.defaultValue;
-//            });
-//         }
-//         
-//         
-//         
-//         // callback handler on angular-ui-tree directiv
-//         // This build in callback is called "removed". It seems buggy because it trigger on every event in this directiv
-//         // But it´s exactly what is needed. On changes in this directive show update button.
-//         
-//         
-//         function updateCategories ( categoryId, parentId ) {
-//             
-//                    CategoriesSrvc.update({id: categoryId}, { "parent": parentId }).$promise.then(
-//                    
-//                        function(){
-//                            
-//                        }, 
-//                       function(response){
-//
-//                         // failure callback
-//                           console.log('failure callback: updateCategories');
-//                           console.log(response);
-//                    });            
-//             
-//         }
-//         
-//         
-//         
-//         var categoryId, parentId;
-//         
-//         $scope.treeOptionsInCategories = {
-//                dragStart: function ( e ) {
-//                    // activate update button if modifications on tree take place
-//                     $scope.formChanged = true;
-//                    
-//                    // id of draged category object
-//                    categoryId = e.source.node$scope.$modelValue.id;
-//                        
-//                    updateCategories( categoryId, 0 );
-//
-//                },
-//                dragStop : function ( e ) {
-//                    
-//                    parentId = e.dest.nodes$scope.$node$scope.$modelValue.id;                    
-//                        
-//                        updateCategories ( categoryId, parentId );
-//                    
-//                }
-//        }
-//         
-//         $scope.treeCustomRemoveCallback = function ( wpCategoryData ) {
-//             
-//             // activate update button if modifications on tree take place
-//            $scope.formChanged = true;
-//             
-//             console.log( 'wpCategoryData' );
-//             console.log( wpCategoryData );
-//             
-//         }
-//         
-//         
-//         $scope.treeOptionsInTags = {
-//                removed: function ($scope, modelData, sourceIndex) {
-//                    // activate update button if modifications on tree take place
-//                     $scope.formChanged = true;
-//
-//                }
-//        }
-//         
-//         
-//        $scope.repeatInMainCategoryDone = function (){
-//            
-//            $timeout( function ( ) {
-//                
-//                jQuery('div#main-category-preloader').addClass('edit-hide');
-//            
-//                jQuery('div#main-category-tree').removeClass('edit-hide');
-//
-//                jQuery('div#main-category-tree-no-category').removeClass('edit-hide');
-//                
-//            }, 1000);
-//            
-//         
-//        }
-//        
-//        $scope.repeatInMainTagDone = function (){
-//            
-//            jQuery('div#main-tag-preloader').addClass('edit-hide');
-//            
-//            jQuery('div#main-tag-tree').removeClass('edit-hide');
-//            
-//            jQuery('div#main-tag-tree-no-tag').removeClass('edit-hide');
-//            
-//         
-//        }
-//        
-//        // fallback if repeatDone directive will not trigger
-//        // Happens if no category nor tag is set
-//        
-//        $timeout( function () {
-//            
-//            $scope.repeatInMainCategoryDone();
-//            
-//            $scope.repeatInMainTagDone();
-//            
-//        }, 3000);
-//          
-//         
-//         
-//    // Translateables
-//    $scope.wpTranslation_back                            = wpTranslation.getTranslation_back();
-//    $scope.wpTranslation_edit_post                       = wpTranslation.getTranslation_edit_post();
-//    $scope.wpTranslation_edit_post_details               = wpTranslation.getTranslation_edit_post_details();
-//    $scope.wpTranslation_media                           = wpTranslation.getTranslation_media();
-//    $scope.wpTranslation_featured_media                  = wpTranslation.getTranslation_featured_media();
-//    $scope.wpTranslation_title                           = wpTranslation.getTranslation_title();
-//    $scope.wpTranslation_categories                      = wpTranslation.getTranslation_categories();
-//    $scope.wpTranslation_no_categories                   = wpTranslation.getTranslation_no_categories();
-//    $scope.wpTranslation_tags                            = wpTranslation.getTranslation_tags();
-//    $scope.wpTranslation_no_tags                         = wpTranslation.getTranslation_no_tags();
-//    $scope.wpTranslation_changes_made                    = wpTranslation.getTranslation_changes_made();
-//    $scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
-//    $scope.wpTranslation_update_post                     = wpTranslation.getTranslation_update_post();
-//    $scope.wpTranslation_post_details                    = wpTranslation.getTranslation_post_details();
-//    $scope.wpTranslation_title_n_post_content_required   = wpTranslation.getTranslation_title_n_post_content_required();
-//    $scope.wpTranslation_on_status_date_n_time_required  = wpTranslation.getTranslation_on_status_date_n_time_required();
-//            
-//    // post-details directive translationables
-//    $scope.wpTranslation_status        = wpTranslation.getTranslation_status();
-//
-//   
-//        
-//     } // ./ link: function () {...}
+     } // ./ link: function () {...}
             
         }
+<<<<<<< HEAD
 })
 =======
         link: function (scope) {
+=======
+}])
+/*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app */
+wp_gote_advanced_plugin_app.app.directive("editPage", [ '$state', '$stateParams', '$timeout', 'PagesSrvc', '$filter', 'wpTranslation', function ( $state, $stateParams, $timeout, PagesSrvc, $filter, wpTranslation ) {
+    return {
+        restrict: "E",
+        templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/edit-page/edit-page.html',
+        scope: {},
+        replace: false,
+        link: function ( scope ) {
+>>>>>>> parent of d9d6f12... dev
 
             // Helper function
             function arrayObjectIndexOf(arrayToSearchIn, searchTerm, property) {
@@ -5504,7 +5621,6 @@ wp_gote_advanced_plugin_app.app.directive("editPage", ['$state', '$stateParams',
     scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
     scope.wpTranslation_update_page                     = wpTranslation.getTranslation_update_page();
     scope.wpTranslation_page_details                    = wpTranslation.getTranslation_page_details();
-    
    
         
      } // ./ link: function () {...}
@@ -6668,6 +6784,7 @@ wp_gote_advanced_plugin_app.app.directive("createPage", ['$state', '$timeout', '
         }
     }
 }])
+<<<<<<< HEAD
 /*
  * This directive dependenced on a parent directive with given controller or a view with given controller.
  * To make sure that this direcitve recieves post data from a controller instance it is set as required dependency.
@@ -6697,6 +6814,12 @@ wp_gote_advanced_plugin_app.app.directive('removePrivatStringFromInput', functio
     return {
         require: 'ngModel',
         link: function (scope, element, attrs, modelCtrl) {
+=======
+wp_gote_advanced_plugin_app.app.directive('removePrivatStringFromInput', function(){
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+>>>>>>> parent of d9d6f12... dev
 
             modelCtrl.$parsers.push(function (inputValue) {
 
@@ -6938,12 +7061,19 @@ wp_gote_advanced_plugin_app.app.directive("modalHandler", ['$timeout', function 
                     btnOpen.onclick = function () {
                         modalById.style.display = "block";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
                         jQuery('#ux-aside-detail-wrapper-' + scope.modalId).removeClass('hide');
 
                         jQuery('#modal-aside-main-content-' + scope.modalId).addClass('hide');
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+                        
+                         jQuery('#ux-aside-detail-wrapper-' + scope.modalId ).removeClass('hide');
+                        
+                        jQuery('#modal-aside-main-content-' + scope.modalId ).addClass('hide');
+>>>>>>> parent of d9d6f12... dev
                     }
 
                     // When the user clicks on <span> (x), close the modal

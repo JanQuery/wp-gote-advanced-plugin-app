@@ -30,12 +30,19 @@ wp_gote_advanced_plugin_app.app.directive("modalHandler", ['$timeout', function 
                     btnOpen.onclick = function () {
                         modalById.style.display = "block";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
                         jQuery('#ux-aside-detail-wrapper-' + scope.modalId).removeClass('hide');
 
                         jQuery('#modal-aside-main-content-' + scope.modalId).addClass('hide');
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+                        
+                         jQuery('#ux-aside-detail-wrapper-' + scope.modalId ).removeClass('hide');
+                        
+                        jQuery('#modal-aside-main-content-' + scope.modalId ).addClass('hide');
+>>>>>>> parent of d9d6f12... dev
                     }
 
                     // When the user clicks on <span> (x), close the modal

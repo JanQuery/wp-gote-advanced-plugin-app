@@ -316,7 +316,6 @@ wp_gote_advanced_plugin_app.app.directive("editPage", ['$state', '$stateParams',
     scope.wpTranslation_reset_changes                   = wpTranslation.getTranslation_reset_changes();
     scope.wpTranslation_update_page                     = wpTranslation.getTranslation_update_page();
     scope.wpTranslation_page_details                    = wpTranslation.getTranslation_page_details();
-    
    
         
      } // ./ link: function () {...}

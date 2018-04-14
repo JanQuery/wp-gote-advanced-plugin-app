@@ -1,9 +1,13 @@
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, console, setTimeout, jQuery */
 <<<<<<< HEAD
+<<<<<<< HEAD
 wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchFilter', 'wpTranslation', function ( $rootScope, SearchFilter, wpTranslation ) {
 =======
 wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFilter', function ($rootScope, SearchFilter) {
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+wp_gote_advanced_plugin_app.app.directive("pagination", [ '$rootScope', 'SearchFilter', function ( $rootScope, SearchFilter ) {
+>>>>>>> parent of d9d6f12... dev
     return {
         restrict: "E",
         templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/pagination/pagination.html',
@@ -129,6 +133,7 @@ wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFi
             });
 <<<<<<< HEAD
             
+<<<<<<< HEAD
              // Translateables            
             scope.wpTranslation_posts_per_page                     = wpTranslation.getTranslation_posts_per_page();
             scope.wpTranslation_total_items                        = wpTranslation.getTranslation_total_items();
@@ -139,5 +144,8 @@ wp_gote_advanced_plugin_app.app.directive("pagination", ['$rootScope', 'SearchFi
 
         }
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+        }
+>>>>>>> parent of d9d6f12... dev
     }
 }])

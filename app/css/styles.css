@@ -286,12 +286,15 @@ div.modal-aside-content span.tag span.tag-separator {
     display: none;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 .hidden {
     display: none;
 }
 =======
 
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+>>>>>>> parent of d9d6f12... dev
 .show {
     display: inline-block;
 }

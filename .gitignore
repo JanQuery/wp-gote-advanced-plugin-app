@@ -30,4 +30,4 @@ Desktop.ini
 .brackets.json
 
 ### Build ###
-/build
+# /build

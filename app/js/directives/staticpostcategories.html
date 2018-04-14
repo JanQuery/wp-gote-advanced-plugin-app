@@ -2,27 +2,26 @@
     <img ng-src="{{preloader}}" class="preloader" ng-if="postCategories">
     <br>
 </div>
+      
 
-
-<ul class="categories-list"
-    ng-repeat="category in postCategories | orderBy : &#39name&#39"
-    ng-if="postCategories">
+<ul    class="categories-list" 
+       ng-repeat="category in postCategories | orderBy : &#39name&#39"
+       ng-if="postCategories">
     <li>{{category.name}}</li>
-
+    
     <ul class="second-lvl" ng-repeat="childcategory in category.child" ng-if="category.child.length !== 0">
         <li>{{childcategory.name}}</li>
     </ul>
-
-    <ul class="third-lvl" style="list-style: square;  padding-left: 45px;"
-        ng-repeat="childchildcategory in category.child[0].child" ng-if="category.child[0].child.length !== 0">
+    
+    <ul class="third-lvl" style="list-style: square;  padding-left: 45px;" ng-repeat="childchildcategory in category.child[0].child" ng-if="category.child[0].child.length !== 0">
         <li>{{childchildcategory.name}}</li>
     </ul>
-
+    
 </ul>
 
 
-<div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="!postCategories"
-     style="cursor: pointer; background: rgba(0, 0, 0, 0.0);">
+                
+<div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="!postCategories" style="cursor: pointer; background: rgba(0, 0, 0, 0.0);">
     <ol class="angular-ui-tree-nodes">
         <li class="angular-ui-tree-node" style="font-size: 0.7rem;"><em>No category</em></li>
     </ol>

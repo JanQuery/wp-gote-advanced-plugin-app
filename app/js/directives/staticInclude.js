@@ -1,27 +1,27 @@
 /*
  * directive to include html templates without creating a new scope
  */
-wp_gote_advanced_plugin_app.app.directive('staticInclude', function ($templateRequest, $compile) {
-
-    return {
+wp_gote_advanced_plugin_app.app.directive('staticInclude', function( $templateRequest, $compile ) {
+    
+      return {
         restrict: 'A',
         transclude: true,
         replace: true,
         scope: false,
-        link: function ($scope, element, attrs, ctrl, transclude) {
-
+        link: function($scope, element, attrs, ctrl, transclude) {
+            
             var WPpluginViewsURL = wp_gote_advanced_plugin_app_local.template_directory;
             var templatePath = WPpluginViewsURL + attrs.staticInclude;
 
-            $templateRequest(templatePath).then(function (response) {
+            $templateRequest(templatePath).then(function(response) {
 
                 var contents = element.html(response).contents();
                 $compile(contents)($scope.$new(false, $scope.$parent));
 
             });
         }
-    };
-
+      };
+    
 });
 
 //The MIT License (MIT)

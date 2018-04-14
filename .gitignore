@@ -27,7 +27,11 @@ Desktop.ini
 
 ### Code ###
 # Brackets file
+<<<<<<< HEAD
 .brackets.json
 
 ### Build ###
 # /build
+=======
+.brackets.json
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master

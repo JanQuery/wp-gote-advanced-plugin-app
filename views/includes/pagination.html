@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div class="pagination">
     <ul class="pagination-list">
         <li ng-class="{'disabled': curPage == 1}">
@@ -19,6 +20,17 @@
                 </button>
             </li>
 >>>>>>> parent of d9d6f12... dev
+=======
+<div class="pagination">    
+       <ul class="pagination-list">
+           <li ng-class="{'disabled': curPage == 1}">
+               <button type="button" class="button"
+                    ng-disabled="curPage == 1"  
+                    ng-click="paginatToPage(curPage-1)">
+                    <span class="custom-icon custom-icon custom-icon-chevron-left"></span>
+                </button>
+            </li>
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 
         <span ng-repeat="pages in repeatNumber(numberOfPages()) track by $index">
             <li class="pagination-item pagination-page-{{$index+1}}">
@@ -29,16 +41,21 @@
         <li ng-class="{'disabled': curPage >= numberOfPages()}">
             <button type="button" class="button"
 <<<<<<< HEAD
+<<<<<<< HEAD
                     ng-disabled="curPage >= numberOfPages()"
+=======
+                    ng-disabled="curPage >= numberOfPages()" 
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
                     ng-click="paginatToPage(curPage+1)">
-                <span class="custom-icon custom-icon custom-icon-chevron-right"></span>
+                    <span class="custom-icon custom-icon custom-icon-chevron-right"></span>
             </button>
         </li>
     </ul>
-
+    
 </div>
 
 
+<<<<<<< HEAD
 =======
                     ng-disabled="curPage >= numberOfPages()" 
                     ng-click="paginatToPage(curPage+1)">
@@ -52,11 +69,15 @@
 
 
 >>>>>>> parent of d9d6f12... dev
+=======
+
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 <style>
     div.pagination {
         width: 100%;
         text-align: center;
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     .pagination ul li {
@@ -68,6 +89,11 @@
         display: inline-block;
     }
 >>>>>>> parent of d9d6f12... dev
+=======
+    .pagination ul li {
+        display: inline-block;
+    }
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
     .pagination a {
         color: black;
         padding: 8px 16px;
@@ -82,10 +108,14 @@
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     .pagination-item a:hover:not( .pagination-active-item ) {
 =======
      .pagination-item a:hover:not( .pagination-active-item ) {
 >>>>>>> parent of d9d6f12... dev
+=======
+     .pagination-item a:hover:not( .pagination-active-item ) {
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
         background-color: #ddd;
     }
 </style>

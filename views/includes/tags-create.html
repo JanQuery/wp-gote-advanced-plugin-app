@@ -2,103 +2,98 @@
 
 
 <div id="main-tag-preloader" style="text-align: center;">
-
-    <img ng-src="{{preloader}}" ng-if="preloader">
-
+  
+   <img ng-src="{{preloader}}" ng-if="preloader">
+   
 </div><!-- ./     main tag preloader -->
 
 <script type="text/ng-template" id="tag_nodes_renderer.html">
-
+   
     <div class="tree-node tree-node-content" data-nodrag style="padding: 10px; border-radius: 50px;">
         &nbsp;{{node.name}}
         <button data-nodrag ng-click="remove(this)">&times;</button>
     </div>
-
+    
     <ol ui-tree-nodes="" ng-model="node.child" ng-class="{hide: collapsed}">
         <li ng-repeat="node in node.child  | orderBy : name" ui-tree-node ng-include="'tag_nodes_renderer.html'">
         </li>
     </ol>
-
+    
 </script>
 
 
-<div id="main-tag-tree" ui-tree class="angular-ui-tree edit-hide" data-max-depth="1" ng-if="postTagsData.length !== 0"
-     data-nodrag style="width: max-content">
-
+<div id="main-tag-tree" ui-tree class="angular-ui-tree edit-hide" data-max-depth="1" ng-if="postTagsData.length !== 0" data-nodrag style="width: max-content">
+   
     <ol ui-tree-nodes="" ng-model="postTagsData" id="tree-root-tags">
-        <li ng-repeat="node in postTagsData | orderBy : name" ui-tree-node ng-include="'tag_nodes_renderer.html'"
-            repeat-done="repeatInMainTagDone()"></li>
+        <li ng-repeat="node in postTagsData | orderBy : name" ui-tree-node ng-include="'tag_nodes_renderer.html'" repeat-done="repeatInMainTagDone()"></li>
     </ol>
-
+    
 </div>
 
 <div id="main-tag-tree-no-tag" class="edit-hide">
 
-    <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postTagsData.length == 0"
-         style="cursor: default;">
-
-        <ol class="angular-ui-tree-nodes">
-
+    <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="postTagsData.length == 0" style="cursor: default;">
+ 
+       <ol class="angular-ui-tree-nodes">
+           
             <li class="angular-ui-tree-node"><em>No tag</em></li>
-
+            
         </ol>
-
-    </div>
+        
+    </div>      
 
 </div>
 
 
+
 <div id="select-tag-wrapper" class="edit-hide">
 
-    <div id="select-tag-preloader" style="text-align: center;">
-
+   <div id="select-tag-preloader" style="text-align: center;">
+       
         <img ng-src="{{preloader}}" ng-if="preloader">
-
+        
         <br>
-
-    </div><!-- ./     select tag preloader -->
+        
+   </div><!-- ./     select tag preloader -->
 
     <script type="text/ng-template" id="select_tag_nodes_renderer.html">
-
+       
         <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" style="cursor: default;">
-
-            <button data-nodrag ng-click="addSelectedTag(newPost.tags, node.id)" class="button">&#43;</button>
-
+          
+           <button data-nodrag ng-click="addSelectedTag(newPost.tags, node.id)" class="button">&#43;</button>
+           
             &nbsp;{{node.name}}
 
         </div>
-
+        
     </script>
 
-    <div id="select-tag-tree" ui-tree class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="tagsData.length !== 0"
-         style="cursor: default;">
-
+    <div id="select-tag-tree" ui-tree class="angular-ui-tree edit-hide" data-max-depth="3" ng-if="tagsData.length !== 0" style="cursor: default;">
+       
         <ol ui-tree-nodes="" ng-model="tagsData" id="tree-root-categories">
-
-            <li ng-repeat="node in tagsData" repeat-done="repeatInSelectTagDone()" ui-tree-node data-nodrag
-                ng-include="'select_tag_nodes_renderer.html'" collapsed="false"></li>
-
+           
+            <li ng-repeat="node in tagsData" repeat-done="repeatInSelectTagDone()" ui-tree-node data-nodrag ng-include="'select_tag_nodes_renderer.html'" collapsed="false"></li>
+            
         </ol>
-
+        
     </div><!-- ./ #select-tag-tree -->
 
     <div id="select-tag-tree-no-category" class="edit-hide">
 
-        <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="tagsData.length == 0"
-             style="cursor: default;">
-
+        <div class="tree-node tree-node-content angular-ui-tree-handle" ng-if="tagsData.length == 0" style="cursor: default;">
+           
             <ol class="angular-ui-tree-nodes">
-
+               
                 <li class="angular-ui-tree-node"><em>No tag</em></li>
-
+                
             </ol>
-
-        </div>
+            
+        </div>          
 
     </div><!-- ./ #select-tag-tree-no-category -->
 
 
-</div><!--  ./  select-tag-wrapper -->
+</div><!--  ./  select-tag-wrapper -->   
 
 <!-- /* -- on click get tags data -- */ -->
 <button class="button" ng-click="getTagData()">select tag</button>
@@ -106,14 +101,15 @@
 <br>
 
 
+
 <a class="pointer" onclick="jQuery('div#add-post-tag-wrapper').toggle('show');">+ create new tag</a>
 
 <div id="add-post-tag-wrapper" class="edit-hide">
 
     <input id="new-post-tag" type="text" ng-model="newTag" style="width: 100%">
-
+    
     <br>
-
+    
     <button class="button" ng-click="addTag( newTag )">create new tag</button>
 
 </div><!-- ./ #add-post-tag-wrapper -->

@@ -33,14 +33,31 @@ nav#main-navigation ul li .active {
     background-color: #4CAF50;
 }
 
+<<<<<<< HEAD
+=======
+span.magnifying-glass {
+    position: absolute;
+    padding: 0px 15px;
+    right: 80px;
+    font-size: 1.5rem;
+    -webkit-transform: rotate(315deg); 
+               -moz-transform: rotate(315deg); 
+                 -o-transform: rotate(315deg);
+                    transform: rotate(315deg);
+}
+
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 /* ./ Navigation */
 
 #main-view {
     padding-right: 10px;
 }
 
+<<<<<<< HEAD
 /* table style */
 
+=======
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 table#post-content,
 table#page-content {
     font-family: arial, sans-serif;
@@ -70,18 +87,27 @@ table#post-content th:nth-child(5) {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 td.featured-media img {
     width: 150px;
     height: auto;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 td.post-expert p.link-more {
     display: none;
 }
 
+<<<<<<< HEAD
 /* ./ table style */
 
+=======
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 .pointer {
     cursor: pointer;
 }

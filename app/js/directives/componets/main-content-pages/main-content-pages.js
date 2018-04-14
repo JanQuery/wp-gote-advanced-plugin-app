@@ -1,5 +1,5 @@
 /*global wp_gote_advanced_plugin_app_local, wp_gote_advanced_plugin_app, jQuery, console, setTimeout, confirm */
-wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'PagesSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'SearchFilter', '$timeout', 'wpTranslation', function ($rootScope, PagesSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, SearchFilter, $timeout, wpTranslation) {
+wp_gote_advanced_plugin_app.app.directive("mainContentPages", [ '$rootScope', 'PagesSrvc', 'CategoriesSrvc', 'TagsSrvc', 'CategoriesToJsonSrvc', 'SearchFilter', '$timeout', 'wpTranslation', function ( $rootScope, PagesSrvc, CategoriesSrvc, TagsSrvc, CategoriesToJsonSrvc, SearchFilter, $timeout, wpTranslation ) {
     return {
         restrict: "E",
         templateUrl: wp_gote_advanced_plugin_app_local.app_directory + '/js/directives/componets/main-content-pages/main-content-pages.html',
@@ -7,9 +7,9 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
             sharedFunction: "&"
         },
         replace: false,
-        link: function (scope) {
-
-
+        link: function ( scope ) {
+            
+            
             var totalPublicItemsOfCurUser;
             var countRemoveItems = 0
 
@@ -83,16 +83,79 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
             
     scope.getPosts = function () {
 
+<<<<<<< HEAD
         getPosts();
 
     }
+=======
+                
+    function getPosts () {    
+        
+        var data = {
+                authorQuery:            SearchFilter.getAuthorQuery(),
+                authorId:               SearchFilter.getAuthorId(),
+                statusFilterQuery:      SearchFilter.getStatusFilterQuery(),
+                statusFilterTerm:       SearchFilter.getStatusFilterTerm(),
+                searchFilterQuery:      SearchFilter.getSearchFilterQuery(),
+                searchFilterTerm:       SearchFilter.getSearchFilterTerm(),
+                categoryFilterQuery:    SearchFilter.getCategoryFilterQuery(),
+                categoryFilterTerm:     SearchFilter.getCategoryFilterTerm(),
+                tagFilterQuery:         SearchFilter.getTagFilterQuery(),
+                tagFilterTerm:          SearchFilter.getTagFilterTerm(),
+                itemsPerPageQuery:      SearchFilter.getItemsPerPageQuery(),
+                itemsPerPage:           SearchFilter.getItemsPerPage(),
+                curPageQuery:           SearchFilter.getCurPageQuery(),
+                curPage:                SearchFilter.getCurPage()
+        }
+        
+        if ( SearchFilter.getIsPageOrPost() !== 'page' ) {
+            
+            SearchFilter.setIsPageOrPost( 'page');
+            
+        }
+                
+        scope.posts = PagesSrvc.queryComplex( data, function(res){
+            
+            scope.posts = res;
+
+                
+            }).$promise.then(            
+            function(resource) {
+
+                totalPublicItemsOfCurUser = Number(resource.$httpHeaders('X-WP-Total'));
+            
+                SearchFilter.setTotalPublicItemsOfCurUser( totalPublicItemsOfCurUser );
+
+
+            }, 
+            function( error ){
+             // failure callback
+               console.log('failure callback: getPublicPosts');
+               console.log( error );
+           });   
+        
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = false;
+       
+        $rootScope.$broadcast('gettingNewData');
+    }
+                
+     
+    // delay to get query data first
+    setTimeout( function() {
+        getPosts();
+    }, 200);   
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
                    
     
     scope.$on('tiggerEventGetPostsInMainContent', function () {
         
         countRemoveItems = 0;
         
+<<<<<<< HEAD
         scope.loadMorePost = false;
+=======
+        scope.laodMorePost = false;
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
         
         getPosts();
         
@@ -128,6 +191,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
              
          },2000);
     }
+<<<<<<< HEAD
     
     scope.movePostToTrash = function ( post, index ) {
         
@@ -272,57 +336,85 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
 
                         SearchFilter.setTotalPublicItemsOfCurUser(SearchFilter.getTotalPublicItemsOfCurUser() - 1);
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+
+    var countRemoveItems = 0;
+    
+    scope.movePostToTrash = function ( post, index ) {
+        
+        countRemoveItems ++;
+        
+        if ( countRemoveItems > 3 ) {
+            scope.laodMorePost = true;
+        }
+        
+        scope.hideDeleteParmantenlyButtonWhiltemovingPostToTrash = true;
+        
+        post.status = 'trash';
+        
+        PagesSrvc.delete( { id: post.id }, post ).$promise.then(
+               function(response){
+                 // success callback
+                   
+                   scope.posts.splice(index, 1);
+                   
+                   SearchFilter.setTotalPublicItemsOfCurUser( SearchFilter.getTotalPublicItemsOfCurUser() - 1 );
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
 //                   scope.totalPublicItemsOfCurUserToScope = scope.totalPublicItemsOfCurUserToScope - 1;
+                   
+               }, 
+               function(response){
 
-                    },
-                    function (response) {
+                 // failure callback
+                   console.log('failure callback while deleting post');
+                   console.log(response);
+               }
+        );
+        
+    }
+    
+    
+    scope.deletePostPermanently = function ( post, index ) {
 
-                        // failure callback
-                        console.log('failure callback while deleting post');
-                        console.log(response);
-                    }
-                );
+    var deleteMessage = confirm("Are you sure you want to delete this page permanently?\n\nPage title:\n"  + '"' + post.title.rendered + '"' );
 
-            }
+    if ( deleteMessage ) {
 
+        PagesSrvc.deleteParmantenly( { id: post.id }, post ).$promise.then(
+               function(response){
+                 // success callback
 
-            scope.deletePostPermanently = function (post, index) {
+                   scope.posts.splice(index, 1);
 
-                var deleteMessage = confirm("Are you sure you want to delete this page permanently?\n\nPage title:\n" + '"' + post.title.rendered + '"');
+                   SearchFilter.setTotalPublicItemsOfCurUser( SearchFilter.getTotalPublicItemsOfCurUser() - 1 );
 
-                if (deleteMessage) {
+               }, 
+               function(response){
 
-                    PagesSrvc.deleteParmantenly({id: post.id}, post).$promise.then(
-                        function (response) {
-                            // success callback
+                 // failure callback
+                   console.log('failure callback while deleting post');
+                   console.log(response);
+               }
+            );
 
-                            scope.posts.splice(index, 1);
+        }
 
-                            SearchFilter.setTotalPublicItemsOfCurUser(SearchFilter.getTotalPublicItemsOfCurUser() - 1);
-
-                        },
-                        function (response) {
-
-                            // failure callback
-                            console.log('failure callback while deleting post');
-                            console.log(response);
-                        }
-                    );
-
-                }
-
-            }
-
-            //fallback on repeatInCategoryListIsDone()
-            $timeout(function () {
-                jQuery('.category-preloader').addClass('edit-hide');
-
-                jQuery('.category-list').removeClass('edit-hide');
-            }, 10000);
-
-
+    }
+    
+    //fallback on repeatInCategoryListIsDone()
+    $timeout(function(){
+         jQuery('.category-preloader').addClass('edit-hide');
+        
+         jQuery('.category-list').removeClass('edit-hide');
+     },10000);
+            
+            
+            
             scope.filtersAreActive = SearchFilter.getFiltersAreActive();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
             
     scope.$on('searchFiltersAreActive', function () {
             
@@ -368,6 +460,7 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
             scope.wpTranslation_reset_filter            = wpTranslation.getTranslation_reset_filter();
             scope.wpTranslation_reset_app_txt           = wpTranslation.getTranslation_reset_app_txt();
             scope.wpTranslation_no_data_lost_txt        = wpTranslation.getTranslation_no_data_lost_txt();
+<<<<<<< HEAD
             scope.wpTranslation_load_more               = wpTranslation.getTranslation_load_more();
 
             
@@ -421,6 +514,11 @@ wp_gote_advanced_plugin_app.app.directive("mainContentPages", ['$rootScope', 'Pa
 
 
 >>>>>>> 74c6171a9cac5697cd29bd8560581d2cfaca6bfc
+=======
+
+            
+            
+>>>>>>> parent of 74c6171... Merge pull request #1 from linuxluigi/master
         }
     }
 }])
